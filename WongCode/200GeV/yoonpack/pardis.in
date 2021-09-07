@@ -1,0 +1,5 @@
+  0.5  0.5  1.0  0.14  ! T_initparton, aa, amden, amparent
+ 200. 0.14  1.0        ! ppsqrts, pion mass, aNi needed in dNdy, 
+  1  1  1  0             ! plot dndy, dF(pt)_fixy, dF(y)_fixpt, plot3d 
+ 88  20  8               ! iptmx, iptplt,ipt3dplt
+  54  10  5              ! iyymx, iyyplt,iyy3dplt

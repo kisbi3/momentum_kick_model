@@ -1,0 +1,14 @@
+a,4
+T,0.8
+q,1.6
+pion mass,0.13957
+beam mass,0.13957
+m_d,3
+sqrtSnn,7000
+A_Ridge,0.0917163
+k,0.4,f_R<N_k>=k*exp(-pt/sqrt(md*md+pt*pt))
+N_jet,0.75
+f_j,0.632
+T_jet,0.55
+sigma_phizero,0.5
+m_a,1.1

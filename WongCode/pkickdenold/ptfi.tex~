@@ -1,0 +1,211 @@
+%\Documentclass[preprint,showpacs,aps]{revtex4}
+%\documentclass[twocolumn,showpacs,aps]{revtex4}
+\documentclass[showpacs,preprintnumbers,amsmath,amssymb,floatfix]{revtex4}
+%\documentclass[preprint,showpacs,preprintnumbers,amsmath,amssymb,floatfix]{revtex4}
+%\documentclass[showpacs,preprintnumbers,amsmath,amssymb]{revtex4}
+
+\headheight=2.0cm
+
+\usepackage{color}   %option added by cyw eg \pagecolor{blue} \color{red}
+\usepackage{graphicx}% Include figure files
+\usepackage{dcolumn}% Align table columns on decimal point
+\usepackage{bm}% bold math
+
+\begin{document}
+\def\bbox#1{\hbox{\boldmath${#1}$}}
+\def\blambda{{\hbox{\boldmath $\lambda$}}}
+\def\eeta{{\hbox{\boldmath $\eta$}}}
+\def\bxi{{\hbox{\boldmath $\xi$}}}
+\def\bzeta{{\hbox{\boldmath $\zeta$}}}
+
+\title{ 
+Ridge Structure and the Momentum Kick Model
+}
+
+
+\author{Cheuk-Yin Wong}
+\date{\today}
+
+\maketitle
+
+\section{Introduction}
+
+In order to get some estimates on the forward rapidity ridge
+structure, we need to rely on associated particles with low $p_t$, for
+which the number of counts can be large enough for meaningful
+measurements.  The difficulty with high $p_t$ and large $\eta$ arises
+because the counting rate for large $p_t$ and large rapidity is not
+high enough to minimize statistical errors.  
+
+The region of low $p_t$ is also interesting on theoretical grounds as
+any extension of the momentum kick model to other kinematic regions of
+azimuthal angles will need a good understanding of the interplay
+between different contributions in the low $p_t$ region.
+
+We therefore need a reasonable description of the associated particles
+with low transverse momenta.  One wishes to ask whether the momentum
+kick model can be applied to the region of low $p_t$, and what kind of
+corrections are expected when we apply the momentum kick model to the
+region of low $p_t$.
+
+We consider a jet-parton collsiion in which the jet imparts a total
+momentum kick ${\bf q}_{tot}$ onto a parton of initial momentum ${\bf
+p}_i$.  Then parton subsequently appears as a hadron in the detector
+after the parton udnergoes a parton-hadron transition, which for
+convenince can be generally call a parton-hadron duality transition.
+
+In the 'hadronization' process of parton-hadron duality transition,
+the parton is expected to lose ${\bf q}_h$ amount of momentum.  The
+final parton (hadron) momentum as it emerges from the emdium, ${\bf p}_f$, is
+related to the initial parton momentum ${\bf p}_i$ by
+\begin{eqnarray}
+{\bf p}_f= {\bf p}_i+{\bf q}_{tot}-{\bf q}_h.
+\end{eqnarray}
+We expect the total momentum kick ${\bf q}_{tot}$ to be in the form of
+a cone along the jet direction and can be approximately represented as
+along the jet direction with a magnitude $q_{tot}$,
+\begin{eqnarray}
+{\bf q}_{tot}\sim q_{tot} {\bf e}_{jet}
+\end{eqnarray}
+ We expect the hadronization is likely to drag the parton, in a
+direction opposite the direction of parton momeion.  It is reasonable
+to assume that on the average the momentum loss to parton-hadron
+duality transition will also be likely to be opposite to the jet
+direction and 
+\begin{eqnarray}
+{\bf q}_h \sim q_h {\bf e}_jet.  
+\end{eqnarray}
+As a consquence, the
+final parton momentum as it emerges from the emdium is ${\bf p}_f$
+related to the initial parton momentum ${\bf p}_i$ by
+\begin{eqnarray}
+{\bf p}_f)&=& {\bf p}_i+{\bf q}_{tot}-{\bf q}_h\nonumber\\
+          &=& {\bf p}_i+ ({q}_{tot}-{q}_h) {\bf e}_{jet}\nonumber\\
+          &=& {\bf p}_i+ q {\bf e}_{jet}.
+\end{eqnarray}
+Thus, the effective magnitude of momentum kick $q$ comprises of the
+difference the total momentum kick minus the momentum needed for the
+parton-hadron duality transition,
+\begin{eqnarray}
+q= q_{tot}-q_h. 
+\end{eqnarray}
+Thus, as the momentum loss due to the the effects of the momentum drag
+in the parton-hadron duality transition has be included, the momentum
+kick model can be use also up to regions of low transverse momentum,
+for simple estimate of the yields in  that region.
+
+\section{Transverse Momentum Distribution}
+
+In the near-side jet region which arises from a jet emerging near the
+surface, the partons arises essntially as renmants from the jet
+trigger and as partons that has collided one time wiht the jet.  For
+brevity, we can abrrviatingly called the first the jet and the latter
+the ridge components.  The distribution of the transverse momentum
+distribution of these two components have differeent behaviours.  the
+similarity of the transverse momentum distributions of $pp$ and
+peripheerical collisions allows us to make the simplifying assumption
+that the jet component associated with the near-side jet in a
+nucleus-nucleus collision should be nearly the same as those in $pp$
+collisions.  While total yields from the jet and the ridge compoents
+can be separated for high-$p_t$ particles, such a separation is not
+yet carried out for low-$p_t$ particles.  We shall attempt to see how
+they may be separated.
+
+One expects that as the magnitude of the final tarnsverse parton
+momentum is greater than the initial momentum by the amount $q$, the
+ridge yield of final partons, $dN/p_t dp_t$, should have a peak around
+$p_t\sim q$, which corresponds to $p_t\sim 1 $ GeV.  The data of the
+total transverse yield indicates that the initial parton distribution
+of the form given by $\exp\{ -\sqrt(m^2+p_t^2)/T \}/\sqrt{m^2+p_t^2}$
+will lead to a ridge peak that is much higher than the observed
+transverse yield. We find it necessary to modfiy the the initial
+parton transverse momentum distirbution at low $p_t$ that preserves
+the good shape of the distribution at large $p_t$.  The simplest
+modification that can lead to agreement with experimnetal data can be achived by using an initial  transverse momentum distribution of the form
+\begin{eqnarray}
+\frac { dN_i} {p_t dp_t d\phi}= N_i A
+\frac{\exp\{-\sqrt{m^2+p_t^2}/T\}} {\sqrt{m_h^2+p_t^2}}
+\end{eqnarray}
+where $A$ is the normalization consiatnt defined by
+\begin{eqnarray}
+\int d \phi p_t dp_t \frac { dN_i} {p_t dp_t d\phi}= N_i. 
+\end{eqnarray}
+
+
+\begin{figure} [h]
+\includegraphics[angle=0,scale=0.50]{ pkdendndfitheo.eps}
+\vspace*{0.0cm}
+\caption{ Caption 
+}
+\end{figure}
+
+
+To determine the values of $N_i$, $T$ and $m_h$ for our case of
+$AU$-$Au$ collision, we use the data of $pp$ collisons to fix the jet
+yeidl component. 
+The jet ($pp$) 
+compnent can be parameterized as
+\begin{eqnarray}
+\frac{N_i({\rm jet})}{s\eta_{\rm jet}}
+=N_i(jet) \frac{1}{\sqrt{2\pi}sigma_{\rm jet}}.
+\end{eqnarray}
+Speciofically, for $pp$ collisions with associated particles within
+$|\eta_{associated}|<1$ and $0.15 < p_t < 4$ GeV, the jet distribution
+parameters are
+\begin{eqnarray}
+N_i(jet)=1.2, ~~~ \sigma_{jet}=0.55 {\rm ~ GeV},
+\end{eqnarray}
+and for  $2 < p_t < 4$ GeV, the jet component can be parameterized with
+\begin{eqnarray}
+N_i(jet)=0.7122, ~~~ \sigma_{jet}=0.35 {\rm ~GeV},
+\end{eqnarray}
+They are shown as the dashed curves in Fig.\ 1(a) and (b).
+
+For our case with $\sigma_y$ taken to be 5.5, we find that $T=0.50$
+GeV, and $m_b=0.77$ GeV gives a good description of the transverse
+data and the azumthal data, as shown in Fig.\ xx.
+
+
+\begin{figure} [h]
+\includegraphics[angle=0,scale=0.50]{ pkdendnptdpt.eps}
+\vspace*{0.0cm}
+\caption{ Caption 
+}
+\end{figure}
+
+
+\begin{figure} [h]
+\includegraphics[angle=0,scale=0.50]{ dndfiPRLfig1.eps}
+\vspace*{0.0cm}
+\caption{ Caption 
+}
+\end{figure}
+
+
+\begin{figure} [h]
+\includegraphics[angle=0,scale=0.50]{ dndfiwfq2739.eps}
+\vspace*{0.0cm}
+\caption{ Caption 
+}
+\end{figure}
+
+
+
+\vspace*{-0.3cm}
+\begin{thebibliography}{99}
+
+\bibitem{Ada05}
+J. Adams $et~al.$ for the STAR Collaboration, 
+Phys. Rev. Lett. {\bf 95}, 152301 (2005). 
+
+
+\bibitem{Wanf07} 
+F. Wang for the STAR Collaboration, Invited talk at the XIth
+International Workshop on Correlation and Fluctuation in Multiparticle
+Production, Hangzhou, China, November 2007, arXiv:0707.0815.
+
+
+\end{thebibliography} 
+
+
+\end{document}

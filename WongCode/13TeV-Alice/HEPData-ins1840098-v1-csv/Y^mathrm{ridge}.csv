@@ -1,0 +1,18 @@
+#: table_doi: 10.17182/hepdata.105588.v1/t2
+#: name: $Y^\mathrm{ridge}$
+#: description: Ridge yield as a function of $p_\mathrm{T,trig(assoc)}$ in high-multiplicity events.
+
+#: data_file: Table2.yaml
+#: keyword reactions: PROTON PROTON --> CHARGED X
+#: keyword observables: Ridge Yield
+#: keyword cmenergies: 13000.0
+#: FORWARD MULTIPLICITY CLASS [PCT],,,0-0.1
+#: stat,,,Statistical Uncertainty
+#: sys,,,Systematic Uncertainty
+"$p_\mathrm{T,trig(assoc)}$","$p_\mathrm{T,trig(assoc)}$ LOW","$p_\mathrm{T,trig(assoc)}$ HIGH",$Y^{\mathrm{ridge}}$,stat +,stat -,sys +,sys -
+1.25,1.0,1.5,0.0102593,0.000392834,-0.000392834,0.000364,-0.002682
+1.75,1.5,2.0,0.00886591,0.000406248,-0.000406248,0.000482,-0.001735
+2.25,2.0,2.5,0.0056408,0.000418456,-0.000418456,0.000523,-0.000523
+2.75,2.5,3.0,0.00249482,0.000428612,-0.000428612,0.000292,-0.000292
+3.5,3.0,4.0,0.00333291,0.00044076,-0.00044076,0.000384,-0.000384
+

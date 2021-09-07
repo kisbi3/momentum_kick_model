@@ -1,0 +1,20 @@
+#: table_doi: 10.17182/hepdata.105588.v1/t5
+#: name: $Y^\mathrm{ridge,LP}$
+#: description: Ridge yield as a function of $p_\mathrm{T,min}^\mathrm{LP}$ in high-multiplicity events. The systematic uncertainty from jet contamination is not included.
+
+#: data_file: Table4.yaml
+#: keyword reactions: PROTON PROTON --> CHARGED X
+#: keyword observables: Biased Ridge Yield
+#: keyword cmenergies: 13000.0
+#: FORWARD MULTIPLICITY CLASS [PCT],0-0.1
+#: stat,Statistical Uncertainty
+#: sys,Systematic Uncertainty
+"$p_\mathrm{T,min}^\mathrm{LP}$ (GeV/$c$)","$Y^{\mathrm{ridge,LP}}$",stat +,stat -,sys +,sys -
+0,0.00957482,0.000199344,-0.000199344,0.00033972,-0.00033972
+3,0.00968685,0.000283874,-0.000283874,0.000330428,-0.000330428
+5,0.00894134,0.000599621,-0.000599621,0.000296953,-0.000296953
+7,0.0106337,0.00100475,-0.00100475,0.000357236,-0.000357236
+9,0.0139646,0.00158548,-0.00158548,0.000590876,-0.000590876
+13,0.0146478,0.00310746,-0.00310746,0.000743482,-0.000743482
+20,0.0177393,0.00755283,-0.00755283,0.000947093,-0.000947093
+

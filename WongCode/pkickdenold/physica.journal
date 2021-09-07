@@ -1,0 +1,23 @@
+********************************************************************************
+***                                                                          ***
+*** PHYSICA                      VERSION # 2.90               September 2007 ***
+*** Copyright (C) 1992,...,2007                              Joseph L. Chuma ***
+***                           All rights reserved                            ***
+***                                                                          ***
+***  Enter NEWS to get the latest information on new commands and features   ***
+***  Latest news added on September 26, 2007                                 ***
+***  Journal file: physica.journal                                           ***
+***                                                                          ***
+***            UNAUTHORIZED COMMERCIAL USE IS STRICTLY PROHIBITED            ***
+***                                                                          ***
+*** Physica 3.0 for the Windows environment has been released under the name ***
+*** Extrema. See www.extremasoftware.com                                     ***
+***                                                                          ***
+********************************************************************************
+User: wong   Date: 18-Nov-2007 18:00:09
+ Default graphics hardcopy device: PostScript: colour, paper size A
+ PHYSICA: open  dNdfi2739pt020200.png
+     invalid command
+ PHYSICA: png open  dNdfi2739pt020200.png
+ PHYSICA: digitize xy
+ PHYSICA: quit

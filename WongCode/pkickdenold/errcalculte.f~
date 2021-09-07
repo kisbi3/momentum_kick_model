@@ -1,0 +1,20 @@
+      real*8 (a-h,o-z)
+
+        open ( 6,file='pkickden.xn',status='unknown') 
+	open ( 7,file='tm.dat',   status='unknown')  !data
+	open ( 8,file='tmerr.dat',status='unknown')  !upper data
+
+        do i=1,100
+           read (7,end=20) x(i), y(i)
+        enddo
+
+ 20     imx=i-1
+
+        do i=1,100
+           read (7,end=30) xrr(i), yup(i)
+           err(i)=yup(i)-y(i)
+           write(6,*) x(i), y(i), err(i)
+        enddo
+
+ 30      stop
+         end

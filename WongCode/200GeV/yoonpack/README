@@ -1,0 +1,27 @@
+
+This is the program to run the parton distribution.
+
+I normalize my distribution to 1, if we think of pi0,pi+,pi-, then I
+should normalize to 3.  So, there is a porssible factor of 3 depending
+on the convention of normalization.  In this program, I input the
+normlization constant aNi, to allow for different identified particles
+with different normalization constant
+
+pardis.f is the fortran  program
+pardis.x    executable file
+
+pardis.in is the input cards, here I calcualte for pion
+
+pardis.xn is the print output numbers, mostly a copy of the input 
+
+pardis.07  output for  plotting  dN/dy after integrating pT
+
+pardis.08  output for  dN/dyptdpt(y,pT) 
+
+pardis.agr   is xmgrace plotting
+
+pardis.eps   is eps file for the plots
+
+---------------------------------
+
+

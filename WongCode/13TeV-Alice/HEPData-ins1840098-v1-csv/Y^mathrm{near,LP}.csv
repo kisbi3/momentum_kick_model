@@ -1,0 +1,20 @@
+#: table_doi: 10.17182/hepdata.105588.v1/t7
+#: name: $Y^\mathrm{near,LP}$
+#: description: Near-side yield as a function of $p_\mathrm{T,min}^\mathrm{LP}$ in high-multiplicity events.
+
+#: data_file: Table6.yaml
+#: keyword reactions: PROTON PROTON --> CHARGED X
+#: keyword observables: Biased Near-side Yield
+#: keyword cmenergies: 13000.0
+#: FORWARD MULTIPLICITY CLASS [PCT],0-0.1
+#: stat,Statistical Uncertainty
+#: sys,Systematic Uncertainty
+"$p_\mathrm{T,min}^\mathrm{LP}$ (GeV/$c$)","$Y^{\mathrm{near,LP}}$",stat +,stat -,sys +,sys -
+0,0.0778351,5.47545e-06,-5.47545e-06,0.00356127,-0.00356127
+3,0.0920082,7.78005e-06,-7.78005e-06,0.00427515,-0.00427515
+5,0.112696,1.64201e-05,-1.64201e-05,0.00559755,-0.00559755
+7,0.129563,2.9896e-05,-2.9896e-05,0.00696733,-0.00696733
+9,0.144261,4.72074e-05,-4.72074e-05,0.00867907,-0.00867907
+13,0.166649,9.23106e-05,-9.23106e-05,0.0108771,-0.0108771
+20,0.184388,0.000207878,-0.000207878,0.0131683,-0.0131683
+

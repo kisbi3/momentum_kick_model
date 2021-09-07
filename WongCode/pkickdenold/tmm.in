@@ -1,0 +1,11 @@
+  2                        ! ieta output type, 1(eta=etaj-etaLab),2(eta=etaLab)
+  0.0  1.0  11   2         ! etajetmn,etajmx,netaj,nsetaj of jet trigger
+  0.140  1.10   5.5  0.500  1.0 ! am, q1kick,sigyi width of y, Ti, alamda
+  0.77                     ! mass in the transverse mass denominator
+  1.2 0.55 0.7122 0.35     ! anjetpt,Tjet, anjetfi(pt-interval),sigfi
+  0.0  1.0  21   2         ! etamn,   etamx, neta, nsetaj(#sides) of detc part.
+  0.0  0.05  41   2         ! fi,   dfi, nfi,  nsfi(#sides)
+  0.15  0.1  39              ! pt,  dpt, npt
+  0      1    0  0        ! plot dndpt, dndfi, dndeta, eta-fi(1) fi-eta(2),
+      -1.7  0.0  2.0      ! fiplt(eta),etaplt(fi),fietaplt(pt) 
+  5.0 5. 5.  1.0 ! Aptplt, Afiplt, Aetaplt, Afietaplt  cnstntspltting

@@ -1,0 +1,19 @@
+#: table_doi: 10.17182/hepdata.73192.v1/t34
+#: name: Table 34
+#: description: Associated yield for the near side of the correlation function averaged over 2 $<|\Delta\eta|<$  4 for pp data at $\sqrt{s} =$ 7 $TeV$. The associated yield as a function of $p_{T}$ for events with $N^{offline}_{trk} \geq$ 110. The $p_{T}$ value for each $p_{T}$ bin is the average $p_{T}$ value.
+
+#: data_file: Table34.yaml
+#: keyword reactions: P P --> CHARGED X
+#: keyword observables: CORR
+#: keyword phrases: Inclusive | Proton-Proton Scattering
+#: keyword cmenergies: 7000.0
+#: $|\Delta\eta|$,> 2
+#: Muliplicity Class,$\N^{offline}_{trk} \geq$ 110
+#: RE,P P --> CHARGED X
+#: SQRT(S) [GeV],7000.0
+$p_{T}$ [GEV/C],Associated yield,stat +,stat -,sys +,sys -
+0.5,0.0012,0.0008,-0.0008,0.000626,-0.000626
+1.4,0.0122,0.0006,-0.0006,0.00182,-0.00182
+2.4,0.0068,0.0006,-0.0006,0.00116,-0.00116
+3.4,0.0014,0.0006,-0.0006,0.000673,-0.000673
+

@@ -1,0 +1,17 @@
+
+This is the program to run the parton distribution.
+
+I normalize my distribution to 1, if we think of pi0,pi+,pi-, then I
+should normalize to 3.  So, there is a porssible factor of 3 depending
+on the method of normalization.
+
+pardis.f is the fortran  program
+
+
+pardis.in is the input numbers
+    I calcualte it for pion, kaons, protons, ... a few different cases
+
+pardis.xn is the putput numbers, mostly a copy of the input 
+
+pardis.07  output for printint out prupsoes
+

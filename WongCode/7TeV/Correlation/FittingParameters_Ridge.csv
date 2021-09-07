@@ -1,0 +1,9 @@
+a,6
+T,0.6
+q,1.8
+pion mass,0.13957
+beam mass,0.13957
+m_d,0.2
+sqrtSnn,7000
+A_Ridge,0.0257808
+k,7,f_R<N_k>=k*exp(-pt/sqrt(md*md+pt*pt))

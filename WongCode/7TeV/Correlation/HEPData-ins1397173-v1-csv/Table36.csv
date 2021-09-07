@@ -1,0 +1,19 @@
+#: table_doi: 10.17182/hepdata.73192.v1/t36
+#: name: Table 36
+#: description: Associated yield for the near side of the correlation function averaged over 2 $<|\Delta\eta|<$  4 for pp data at $\sqrt{s} =$ 7 $TeV$. The associated yield as a function of $N_{trk}^{offline}$ for events with 1.0 $< p_{T} <$ 2.0 GeV/c. The $N_{trk}^{offline}$ value for each $N_{trk}^{offline}$ bin is the average $N_{trk}^{offline}$ value.
+
+#: data_file: Table36.yaml
+#: keyword reactions: P P --> CHARGED X
+#: keyword observables: CORR
+#: keyword phrases: Inclusive | Proton-Proton Scattering
+#: keyword cmenergies: 7000.0
+#: $p_{T}$,1.0 $< p_{T} <$ 2.0
+#: $|\Delta\eta|$,> 2
+#: RE,P P --> CHARGED X
+#: SQRT(S) [GeV],7000.0
+$N_{trk}^{offline}$,Associated yield,stat +,stat -,sys +,sys -
+13.6,-0.0002,0.0002,-0.0002,-0.00125,0.00125
+45.8,0.0016,0.0002,-0.0002,0.000686,-0.000686
+97.1,0.0092,0.0008,-0.0008,0.00144,-0.00144
+118.0,0.0122,0.0006,-0.0006,0.00182,-0.00182
+

@@ -1,0 +1,41 @@
+%\Documentclass[preprint,showpacs,aps]{revtex4}
+%\documentclass[twocolumn,showpacs,aps]{revtex4}
+\documentclass[showpacs,preprintnumbers,amsmath,amssymb,floatfix]{revtex4}
+%\documentclass[preprint,showpacs,preprintnumbers,amsmath,amssymb,floatfix]{revtex4}
+%\documentclass[showpacs,preprintnumbers,amsmath,amssymb]{revtex4}
+
+\headheight=2.0cm
+
+\usepackage{color}   %option added by cyw eg \pagecolor{blue} \color{red}
+\usepackage{graphicx}% Include figure files
+\usepackage{dcolumn}% Align table columns on decimal point
+\usepackage{bm}% bold math
+
+\begin{document}
+\def\bbox#1{\hbox{\boldmath${#1}$}}
+\def\blambda{{\hbox{\boldmath $\lambda$}}}
+\def\eeta{{\hbox{\boldmath $\eta$}}}
+\def\bxi{{\hbox{\boldmath $\xi$}}}
+\def\bzeta{{\hbox{\boldmath $\zeta$}}}
+
+\title{ 
+Ridge and Jet Distributions at Low $p_t$
+and Large $\eta$
+}
+
+
+\author{Cheuk-Yin Wong}
+\date{\today}
+
+\maketitle
+
+In order to get some estimate of the forward rapidity ridge structure,
+we need to rely on associated particles with low $p_t$ for which the
+number of counts can be large enough for meaningful measurement.  The
+counting rate for large $p_t$ and large rapidity is not high enough to
+minimize statistical errors.
+
+We therefore need a reasonable description of the associated particles
+with low transverse momenta.
+
+

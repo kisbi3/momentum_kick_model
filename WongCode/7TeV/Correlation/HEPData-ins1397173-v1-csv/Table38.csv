@@ -1,0 +1,34 @@
+#: table_doi: 10.17182/hepdata.73192.v1/t38
+#: name: Table 38
+#: description: Associated yield for the near side of the correlation function averaged over 2 $<|\Delta\eta|<$  4 PbPb data at $\sqrt{s} =$ 2.76 $TeV$. The associated yield as a function of $N_{trk}^{offline}$ for events with 1.0 $< p_{T} <$ 2.0 GeV/c. The $N_{trk}^{offline}$ value for each $N_{trk}^{offline}$ bin is the average $N_{trk}^{offline}$ value.
+
+#: data_file: Table38.yaml
+#: keyword reactions: PB PB --> CHARGED X
+#: keyword observables: CORR
+#: keyword phrases: Inclusive
+#: keyword cmenergies: 2760.0
+#: $p_{T}$,1.0 $< p_{T} <$ 2.0
+#: $|\Delta\eta|$,> 2
+#: RE,PB PB --> CHARGED X
+#: SQRT(S) [GeV],2760.0
+$N_{trk}^{offline}$,Associated yield,stat +,stat -,sys +,sys -
+3.0,0.0013,0.0031,-0.0031,0.0031,-0.0031
+7.0,0.003,0.0011,-0.0011,0.0031,-0.0031
+14.2,0.0009,0.0009,-0.0009,0.003,-0.003
+24.3,0.0006,0.0008,-0.0008,0.003,-0.003
+34.3,0.0023,0.0008,-0.0008,0.0031,-0.0031
+44.4,0.0063,0.0009,-0.0009,0.0033,-0.0033
+54.4,0.013,0.001,-0.001,0.0036,-0.0036
+69.1,0.0264,0.0008,-0.0008,0.0042,-0.0042
+89.2,0.0491,0.0009,-0.0009,0.0053,-0.0053
+109.0,0.0754,0.001,-0.001,0.0065,-0.0065
+134.0,0.113,0.0008,-0.0008,0.0082,-0.0082
+166.0,0.165,0.0009,-0.0009,0.0106,-0.0106
+202.0,0.221,0.0009,-0.0009,0.0132,-0.0132
+229.0,0.283,0.0013,-0.0013,0.016,-0.016
+249.0,0.317,0.0014,-0.0014,0.0176,-0.0176
+269.0,0.345,0.0014,-0.0014,0.0189,-0.0189
+289.0,0.381,0.0014,-0.0014,0.0205,-0.0205
+309.0,0.415,0.0015,-0.0015,0.0221,-0.0221
+334.0,0.462,0.0012,-0.0012,0.0242,-0.0242
+

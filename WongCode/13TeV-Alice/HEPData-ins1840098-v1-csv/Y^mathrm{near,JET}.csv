@@ -1,0 +1,20 @@
+#: table_doi: 10.17182/hepdata.105588.v1/t8
+#: name: $Y^\mathrm{near,JET}$
+#: description: Near-side yield as a function of $p_\mathrm{T,min}^\mathrm{JET}$ in high-multiplicity events.
+
+#: data_file: Table7.yaml
+#: keyword reactions: PROTON PROTON --> CHARGED X
+#: keyword observables: Biased Near-side Yield
+#: keyword cmenergies: 13000.0
+#: FORWARD MULTIPLICITY CLASS [PCT],0-0.1
+#: stat,Statistical Uncertainty
+#: sys,Systematic Uncertainty
+"$p_\mathrm{T,min}^\mathrm{JET}$ (GeV/$c$)","$Y^{\mathrm{near,Jet}}$",stat +,stat -,sys +,sys -
+0,0.0778351,5.47545e-06,-5.47545e-06,0.00356127,-0.00356127
+10,0.259663,2.45974e-05,-2.45974e-05,0.0123191,-0.0123191
+20,0.305511,8.28539e-05,-8.28539e-05,0.0155565,-0.0155565
+30,0.331092,0.000172326,-0.000172326,0.0195399,-0.0195399
+40,0.367827,0.00029624,-0.00029624,0.0229697,-0.0229697
+50,0.372672,0.000457392,-0.000457392,0.028401,-0.028401
+60,0.391869,0.000664171,-0.000664171,0.0359917,-0.0359917
+

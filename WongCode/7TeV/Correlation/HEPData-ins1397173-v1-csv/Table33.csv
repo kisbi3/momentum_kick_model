@@ -1,0 +1,24 @@
+#: table_doi: 10.17182/hepdata.73192.v1/t33
+#: name: Table 33
+#: description: Associated yield for the near side of the correlation function averaged over 2 $<|\Delta\eta|<$  4 and integrated over the region $|\Delta\Phi| < \Delta\Phi_{ZYAM}$ for pp data at $\sqrt{s} =$ 13 $TeV$. The associated yield as a function of $p_{T}$ for events with $N^{offline}_{trk} \geq$ 105. The $p_{T}$ value for each $p_{T}$ bin is the average $p_{T}$ value.
+
+#: data_file: Table33.yaml
+#: keyword reactions: P P --> CHARGED X
+#: keyword observables: CORR
+#: keyword phrases: Inclusive | Proton-Proton Scattering
+#: keyword cmenergies: 13000.0
+#: $|\Delta\eta|$,> 2
+#: Muliplicity Class,$\N^{offline}_{trk} \geq$ 105
+#: RE,P P --> CHARGED X
+#: SQRT(S) [GeV],13000.0
+$p_{T}$ [GEV/C],Associated yield,stat +,stat -,sys +,sys -
+0.307,0.00271,0.00299,-0.00299,0.00211,-0.00211
+0.715,0.00898,0.000923,-0.000923,0.00211,-0.00211
+1.22,0.0138,0.000835,-0.000835,0.00211,-0.00211
+1.72,0.0114,0.000819,-0.000819,0.00211,-0.00211
+2.22,0.008,0.000789,-0.000789,0.00211,-0.00211
+2.72,0.00594,0.000774,-0.000774,0.00211,-0.00211
+3.41,0.0022,0.000436,-0.000436,0.00211,-0.00211
+4.94,0.000545,0.000179,-0.000179,0.00211,-0.00211
+10.2,-2.59e-05,2.92e-05,-2.92e-05,0.00211,-0.00211
+

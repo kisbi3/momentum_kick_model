@@ -1,0 +1,48 @@
+#: table_doi: 10.17182/hepdata.73192.v1/t30
+#: name: Table 30
+#: description: Correlated yield obtained with the ZYAM procedure as a function of $|\Delta\Phi|$, averaged over 2 $<|\Delta\eta|<$ 4 in for 2.0 $<p_{T}<$ 3.0 $GeV/c$ and $N_{offline}^{trk}>$ 110 bins for pp data at $\sqrt =$ 7 $TeV$. The $p_{T}$ selection applies to both particles in the pair. Only statistical uncertainties are given. The subtracted ZYAM constant is given ($C_{ZYAM}$).
+
+#: data_file: Table30.yaml
+#: keyword reactions: P P --> CHARGED X
+#: keyword observables: CORR
+#: keyword phrases: Inclusive | Proton-Proton Scattering
+#: keyword cmenergies: 7000.0
+#: $C_{ZYAM}$,0.28
+#: $\Delta\Phi_{ZYAM}$,1.12
+#: $p_{T}$,2.0 < $p_{T}$ < 3.0
+#: $|\Delta\eta|$,> 2
+#: Muliplicity Class,$N_{offline}^{trk}$ > 110
+#: RE,P P --> CHARGED X
+#: SQRT(S) [GeV],7000.0
+$\Delta\Phi$ [RAD],$\frac{1}{N_{trig}}\frac{dN^{pair}}{d\Delta\Phi} - C_{ZYAM}$,error +,error -
+-1.37,0.00101,0.000532,-0.000532
+-1.18,0.000506,0.000531,-0.000531
+-0.982,-0.000178,0.00053,-0.00053
+-0.785,0.000879,0.000532,-0.000532
+-0.589,0.00207,0.000533,-0.000533
+-0.393,0.00429,0.000536,-0.000536
+-0.196,0.00527,0.000536,-0.000536
+0.0,0.00621,0.000537,-0.000537
+0.196,0.00545,0.000536,-0.000536
+0.393,0.0043,0.000536,-0.000536
+0.589,0.00233,0.000534,-0.000534
+0.785,0.00102,0.000532,-0.000532
+0.982,-0.000365,0.00053,-0.00053
+1.18,0.000432,0.000531,-0.000531
+1.37,0.000859,0.000531,-0.000531
+1.57,0.00311,0.000534,-0.000534
+1.77,0.00659,0.000538,-0.000538
+1.96,0.0101,0.000542,-0.000542
+2.16,0.0155,0.000547,-0.000547
+2.36,0.0202,0.000551,-0.000551
+2.55,0.0249,0.000556,-0.000556
+2.75,0.0304,0.000562,-0.000562
+2.95,0.0331,0.000565,-0.000565
+3.14,0.0348,0.000567,-0.000567
+3.34,0.0335,0.000566,-0.000566
+3.53,0.03,0.000562,-0.000562
+3.73,0.0247,0.000556,-0.000556
+3.93,0.0204,0.000552,-0.000552
+4.12,0.0154,0.000547,-0.000547
+4.32,0.0104,0.000542,-0.000542
+

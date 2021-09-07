@@ -1,0 +1,30 @@
+#: table_doi: 10.17182/hepdata.73192.v1/t35
+#: name: Table 35
+#: description: Associated yield for the near side of the correlation function averaged over 2 $<|\Delta\eta|<$  4 and integrated over the region $|\Delta\Phi| < \Delta\Phi_{ZYAM}$ for pp data at $\sqrt{s} =$ 13 $TeV$. The associated yield as a function of $N_{trk}^{offline}$ for events with 1.0 $< p_{T} <$ 2.0 GeV/c. The $N_{trk}^{offline}$ value for each $N_{trk}^{offline}$ bin is the average $N_{trk}^{offline}$ value.
+
+#: data_file: Table35.yaml
+#: keyword reactions: P P --> CHARGED X
+#: keyword observables: CORR
+#: keyword phrases: Inclusive | Proton-Proton Scattering
+#: keyword cmenergies: 13000.0
+#: $p_{T}$,1.0 $< p_{T} <$ 2.0
+#: $|\Delta\eta|$,> 2
+#: RE,P P --> CHARGED X
+#: SQRT(S) [GeV],13000.0
+$N_{trk}^{offline}$,Associated yield,stat +,stat -,sys +,sys -
+2.66,-7.51e-06,0.00165,-0.00165,0.00211,-0.00211
+6.85,-0.000249,0.000697,-0.000697,0.00211,-0.00211
+14.1,-0.000472,0.000474,-0.000474,0.00211,-0.00211
+24.1,-6.08e-05,0.000609,-0.000609,0.00211,-0.00211
+34.0,-0.000526,0.000315,-0.000315,0.00211,-0.00211
+44.0,0.00148,0.000437,-0.000437,0.00211,-0.00211
+53.9,0.00272,0.000552,-0.000552,0.00211,-0.00211
+66.9,0.00518,0.000615,-0.000615,0.00211,-0.00211
+83.8,0.00655,0.000605,-0.000605,0.00211,-0.00211
+95.3,0.00859,0.000858,-0.000858,0.00211,-0.00211
+107.0,0.0117,0.000376,-0.000376,0.00211,-0.00211
+125.0,0.0141,0.000934,-0.000934,0.00211,-0.00211
+140.0,0.0156,0.000602,-0.000602,0.00211,-0.00211
+155.0,0.0178,0.00126,-0.00126,0.00212,-0.00212
+173.0,0.0204,0.00263,-0.00263,0.00212,-0.00212
+
