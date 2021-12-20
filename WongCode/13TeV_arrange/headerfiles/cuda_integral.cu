@@ -89,8 +89,6 @@ extern "C" double cuda_twodimsumarray(double *gArr, int bin_x, int bin_y, double
 extern "C" double cuda_secondintegral(double x_st, double x_end, int bin_x, double y_st, double y_end, int bin_y){
 
     double totalsum = 0.;
-
-
     double *x, *y, *sum, *sumdist;
     cudaMalloc((void**) &x, bin_x*sizeof(double));
     cudaMalloc((void**) &sumdist, bin_x*sizeof(double));
