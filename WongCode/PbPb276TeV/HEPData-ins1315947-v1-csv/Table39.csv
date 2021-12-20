@@ -1,0 +1,24 @@
+#: table_doi: 10.17182/hepdata.66784.v1/t39
+#: name: Table 39
+#: description: The elliptic flow v2(2, $|\Delta\eta| > 2$) extracted for all charged particles as a function of $p_{T}$ from the correlation in the 120 $\leq N_{offline}^{trk}$ < 150 multiplicity class in PbPb.
+
+#: data_file: Table39.yaml
+#: keyword reactions: PB PB --> CHARGED X
+#: keyword observables: CORR
+#: keyword phrases: Inclusive
+#: keyword cmenergies: 2760.0
+#: $|\Delta\eta|$,> 2
+#: Muliplicity Class,120 $\leq N_{offline}^{trk}$ < 150
+#: RE,PB PB --> CHARGED X
+#: SQRT(S)/NUCLEON [GeV],2760.0
+$p_{T}$ [GEV],"v2(2, $|\Delta\eta| > 2$)",stat +,stat -,sys +,sys -
+0.395,0.0474,0.000245,-0.000245,0.00142,-0.00142
+0.702,0.0895,0.00025,-0.00025,0.00268,-0.00268
+1.2,0.138,0.000434,-0.000434,0.00415,-0.00415
+1.71,0.164,0.000735,-0.000735,0.00491,-0.00491
+2.21,0.178,0.00124,-0.00124,0.00533,-0.00533
+2.72,0.178,0.00184,-0.00184,0.00533,-0.00533
+3.38,0.173,0.00222,-0.00222,0.00518,-0.00518
+4.4,0.161,0.00413,-0.00413,0.00482,-0.00482
+5.42,0.152,0.00708,-0.00708,0.00456,-0.00456
+

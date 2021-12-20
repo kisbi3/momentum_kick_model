@@ -14,15 +14,15 @@
 //Ridge parameters
 double a = .5;    //fall off parameter
 double T = .63;    //Temperature, GeV
-double q = .88;    //GeV
+double q = .87;    //GeV
 double m = 0.13957018;  //m == mpi
 double mb = m; //mb==mpi, GeV
 double md = 1.;   //Ge+V
 double sqrSnn = 7000.;
 double mp = 0.938272046; //Proton mass, GeV
 
-double x = .6;
-double y = .5;
+double x = .36;
+double y = .87;
 
 // double A = 630.;
 // double C = 6.084;

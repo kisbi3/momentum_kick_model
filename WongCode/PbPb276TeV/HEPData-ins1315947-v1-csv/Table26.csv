@@ -1,0 +1,26 @@
+#: table_doi: 10.17182/hepdata.66784.v1/t26
+#: name: Table 26
+#: description: The elliptic flow v2(2, $|\Delta\eta| > 2$) extracted for $K^{0}_{S}$ as a function of $p_{T}$ from the correlation in the 220 $\leq N_{offline}^{trk}$ < 260 multiplicity class in pPb.
+
+#: data_file: Table26.yaml
+#: keyword reactions: P PB --> $K^{0}_{S}$ X
+#: keyword observables: CORR
+#: keyword phrases: Inclusive
+#: keyword cmenergies: 5020.0
+#: $|\Delta\eta|$,> 2
+#: Muliplicity Class,220 $\leq N_{offline}^{trk}$ < 260
+#: RE,P PB --> $K^{0}_{S}$ X
+#: SQRT(S)/NUCLEON [GeV],5020.0
+$p_{T}$ [GEV],"v2(2, $|\Delta\eta| > 2$)",stat +,stat -,sys +,sys -
+0.348,-0.00496,0.00913,-0.00913,0.000342,-0.000342
+0.523,0.027,0.003,-0.003,0.00186,-0.00186
+0.707,0.0387,0.00187,-0.00187,0.00267,-0.00267
+0.901,0.0612,0.00155,-0.00155,0.00423,-0.00423
+1.19,0.0824,0.0011,-0.0011,0.00569,-0.00569
+1.58,0.104,0.00126,-0.00126,0.00718,-0.00718
+1.98,0.125,0.00158,-0.00158,0.00865,-0.00865
+2.46,0.132,0.00179,-0.00179,0.0091,-0.0091
+3.13,0.14,0.00247,-0.00247,0.00964,-0.00964
+4.01,0.148,0.00389,-0.00389,0.0102,-0.0102
+5.19,0.136,0.00636,-0.00636,0.00938,-0.00938
+

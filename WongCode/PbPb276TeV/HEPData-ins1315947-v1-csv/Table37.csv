@@ -1,0 +1,23 @@
+#: table_doi: 10.17182/hepdata.66784.v1/t37
+#: name: Table 37
+#: description: The elliptic flow per constituent quark v2(2, $|\Delta\eta| > 2$)/$n_{q}$ extracted for $\Lambda/\bar{\Lambda}$ as a function of transverse kinetic energy per constituent quark $KE_{T}/n_{q}$ from the correlation in the 185 $\leq N_{offline}^{trk}$ < 220 multiplicity class in pPb.
+
+#: data_file: Table37.yaml
+#: keyword reactions: P PB --> $\Lambda/\bar{\Lambda}$ X
+#: keyword observables: CORR
+#: keyword phrases: Inclusive
+#: keyword cmenergies: 5020.0
+#: $|\Delta\eta|$,> 2
+#: Muliplicity Class,185 $\leq N_{offline}^{trk}$ < 220
+#: RE,P PB --> $\Lambda/\bar{\Lambda}$ X
+#: SQRT(S)/NUCLEON [GeV],5020.0
+$KE_{T}/n_{q}$ [GEV],"v2(2, $|\Delta\eta| > 2$)/$n_{q}$",stat +,stat -,sys +,sys -
+0.103,0.0103,0.00157,-0.00157,0.000712,-0.000712
+0.177,0.0189,0.000674,-0.000674,0.0013,-0.0013
+0.276,0.027,0.000561,-0.000561,0.00186,-0.00186
+0.388,0.0347,0.000569,-0.000569,0.00239,-0.00239
+0.532,0.0478,0.000546,-0.000546,0.0033,-0.0033
+0.74,0.0568,0.000671,-0.000671,0.00392,-0.00392
+1.01,0.0654,0.00103,-0.00103,0.00451,-0.00451
+1.39,0.0621,0.00185,-0.00185,0.00429,-0.00429
+

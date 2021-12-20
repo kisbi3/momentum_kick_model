@@ -5,5 +5,5 @@ pion mass,0.13957
 beam mass,0.13957
 m_d,1
 sqrtSnn,200
-A_Ridge,0.142061
+A_Ridge,0.142039
 k,7,f_R<N_k>=k*exp(-pt/sqrt(md*md+pt*pt))

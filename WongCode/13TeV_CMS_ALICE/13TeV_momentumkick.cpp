@@ -1,5 +1,4 @@
 #define _USE_MATH_DEFINES
-// #define _WIN32_WINNT 0x0A00
 
 #include <iostream>
 #include <cmath>
@@ -9,6 +8,7 @@
 #include <cstring>
 #include <fstream>
 #include <thread>
+#include <time.h>
 
 
 //Ridge parameters
@@ -235,7 +235,7 @@ int check2_6 = 1;
 
 //pt distribution 적분 범위
 
-int n_1 = 50;
+int n_1 = 100;
 double detaf_1 = double((1.8-1.6)/n_1);     //func1 eta 적분범위(Ridge, alice) : 1.6~1.8 -> x2 해야 함.
 double etaf0_1 = 1.6;
 double detacms_1 = double((4.-2.)/n_1);     //func1 eta 적분범위(Ridge, cms) : 1.6~1.8 -> x2 해야 함.
@@ -249,19 +249,37 @@ double phif_1 = -1.28;
 double phif0_1 = -1.28;
 double delta_Deltaphi = 2.56;
 
-int n_1_pt = 20;        //pt 포인트당 적분범위 이므로 주의하자. 현재 0.5간격으로 적분중
+int n_1_pt = 200;        //pt 포인트당 적분범위 이므로 주의하자. 현재 0.5간격으로 적분중
 double dptf_1 = double ((10.-0.)/n_1_pt);  //func1 pt 출력 범위 : 0.15~11
 double ddptf_1 = dptf_1/n_1;
 double ptf_1 = 0.;
 int check2_1 = 1;
 
+void func9(double arr[], double etaf_1, double etacms_1, double etajet_1, double ptf_1, double phif_1){
+    arr[0] += ptf_1*frnk(ptf_1)*RidgeDis(Aridge, ptf_1, etaf_1, phif_1, check2_1)*detaf_1*dphif_1*ddptf_1/delta_Deltaeta;
+    arr[1] += ptf_1*frnk(ptf_1)*RidgeDis(Aridge, ptf_1, etacms_1, phif_1, check2_1)*detacms_1*dphif_1*ddptf_1/delta_Deltaetacms;
+    arr[2] += ptf_1*integralNjet(ptf_1,etajet_1,phif_1,constant)*detajet_1*dphif_1*ddptf_1/delta_Deltaphi;
+    // sum_1_alice += ptf_1*frnk(ptf_1)*RidgeDis(Aridge, ptf_1, etaf_1, phif_1, check2_1)*detaf_1*dphif_1*ddptf_1/delta_Deltaeta;
+    // sum_1_cms += ptf_1*frnk(ptf_1)*RidgeDis(Aridge, ptf_1, etacms_1, phif_1, check2_1)*detacms_1*dphif_1*ddptf_1/delta_Deltaetacms;
+    // sum_1j += ptf_1*integralNjet(ptf_1,etajet_1,phif_1,constant)*detajet_1*dphif_1*ddptf_1/delta_Deltaphi;
+}
+
 void func1(){
     double etaf_1, dist_1, sum_1_alice, sum_1_cms, sum_1j, ptf_11, etajet_1, etacms_1, sum_1_alice_czyam, sum_1_cms_czyam;
     int i_1, j_1, k_1, l_1, h_1;
+    double** Yridge = new double*[n_1_pt];    //normalization 하자. 동적배열 delete 필수!
+    // double** CZYAM = new double*[n_1_pt+1];
+    for(int i=0;i<2;i++){
+        Yridge[i] = new double[n_1_pt];
+        // CZYAM[i] = new double [n_1_pt+1];
+    }
+    double norm1 = 0., norm2 = 0.;    //normalization
+    
     
     std::ofstream foutalicept("pTdis.csv");
     foutalicept<<"pt,ALICE_Ridge,CMS_Ridge,ALICE_Jet,CMS_Jet\n";
-    double CZYAM[30][2]={0.};
+    double CZYAM[2][400]={0.};
+    // double *CZYAM = new double [n_1_pt][2];
 
     // cout<<"1"<<endl;
     
@@ -279,8 +297,8 @@ void func1(){
         }
         sum_1_alice *= 2*2/3;
         sum_1_cms *= 2*2/3;
-        CZYAM[k_1][0]=sum_1_alice;
-        CZYAM[k_1][1]=sum_1_cms;
+        CZYAM[0][k_1]=sum_1_alice;
+        CZYAM[1][k_1]=sum_1_cms;
         // std::cout<<ptf_1<<std::setw(20)<<sum_1_alice<<std::endl;
         sum_1_alice = sum_1_cms = 0.;
     }
@@ -293,18 +311,19 @@ void func1(){
     for(k_1=1;k_1<=n_1_pt;k_1++){
         phif_1 = phif0_1;
         for(j_1=1;j_1<=n_1+1;j_1++){
-            sum_1_alice_czyam += CZYAM[k_1][0]*dphif_1;
-            sum_1_cms_czyam += CZYAM[k_1][1]*dphif_1;
+            sum_1_alice_czyam += CZYAM[0][k_1]*dphif_1;
+            sum_1_cms_czyam += CZYAM[1][k_1]*dphif_1;
             phif_1 += dphif_1;
         }
-        CZYAM[k_1][0] = sum_1_alice_czyam;
-        CZYAM[k_1][1] = sum_1_cms_czyam;
+        CZYAM[0][k_1] = sum_1_alice_czyam;
+        CZYAM[1][k_1] = sum_1_cms_czyam;
         sum_1_alice_czyam = sum_1_cms_czyam = 0.;
     }
 
 
     double ptf_1 = 0.;
     double phif_1 = phif0_1;
+    double arr[3]= {0.};
 
     for(k_1=1;k_1<=n_1_pt+1;k_1++){
         for(l_1=1;l_1<=n_1;l_1++){
@@ -328,9 +347,12 @@ void func1(){
                     // sum += dist;
                     // dist_1 = RidgeDis(Aridge, ptf_1, etaf_1, phif_1, check2_1)*detaf_1*dphif_1/delta_Deltaeta;   //임시저장 용도
                     // sum_1 += RidgeDis(Aridge, ptf_1, etaf_1, phif_1, check2_1)*detaf_1*dphif_1/delta_Deltaeta;
-                    double dist = ptf_1*frnk(ptf_1)*RidgeDis(Aridge, ptf_1, etaf_1, phif_1, check2_1)*detaf_1*dphif_1*ddptf_1/delta_Deltaeta;
-                    sum_1_alice += dist;
-                    // sum_1_alice += 
+                    
+                    // std::thread t9(func9,arr,etaf_1, etacms_1, etajet_1, ptf_1, phif_1);
+                    // // std::cout<<"1"<<std::endl;
+                    // t9.join();
+                    // double dist = ptf_1*frnk(ptf_1)*RidgeDis(Aridge, ptf_1, etaf_1, phif_1, check2_1)*detaf_1*dphif_1*ddptf_1/delta_Deltaeta;
+                    sum_1_alice += ptf_1*frnk(ptf_1)*RidgeDis(Aridge, ptf_1, etaf_1, phif_1, check2_1)*detaf_1*dphif_1*ddptf_1/delta_Deltaeta;
                     sum_1_cms += ptf_1*frnk(ptf_1)*RidgeDis(Aridge, ptf_1, etacms_1, phif_1, check2_1)*detacms_1*dphif_1*ddptf_1/delta_Deltaetacms;
                     sum_1j += ptf_1*integralNjet(ptf_1,etajet_1,phif_1,constant)*detajet_1*dphif_1*ddptf_1/delta_Deltaphi;
                     // std::cout<<ptf_1<<std::setw(20)<<phif_1<<std::setw(20)<<etaf_1<<std::setw(20)<<RidgeDis(Aridge, ptf_1, etaf_1, phif_1, check2_1)<<std::endl;
@@ -339,6 +361,7 @@ void func1(){
                     etaf_1 += detaf_1;
                     etacms_1 += detacms_1;
                     etajet_1 += detajet_1;
+                    
                 }
 
                 // totalsum += sum*dphif;
@@ -352,22 +375,48 @@ void func1(){
 
             ptf_1 += ddptf_1;
         }
+
         // ptf_1 -= dptf_1;
-        // std::cout<<std::endl<<ptf_1<<std::endl;
+        // std::cout<<ptf_1<<std::endl;
 
         // std::cout<<ptf_1<<std::endl; sum_1_alice_czyam = sum_1_cms_czyam =
+        
         sum_1_alice *= 2*2/3;
         sum_1_cms *= 2*2/3;
         sum_1j *= 2;
+        // std::cout<<'1'<<std::endl;
+        // arr[0] *= 2.*2./3.;
+        // arr[1] *= 2.*2./3.;
+        // arr[2] *= 2.*2./3.;
         
         // std::cout<<sum_1_alice_czyam<<std::endl;
         // double ptfout = ptf_1-(dptf_1/2);
-        foutalicept<<ptf_1-(dptf_1/2)<<","<<sum_1_alice-CZYAM[k_1][0]<<','<<sum_1_cms<<","<<sum_1j<<std::endl;
+
+        Yridge[0][k_1-1] = sum_1_alice-CZYAM[0][k_1];
+        Yridge[1][k_1-1] = sum_1_cms;
+        // std::cout<<'2'<<std::endl;
+        // Yridge[k_1-1] = arr[1];
+
+        if(1.<=ptf_1 && ptf_1<=4.){
+            // std::cout<<ptf_1<<std::endl;
+            norm1 += (sum_1_alice-CZYAM[0][k_1])*dptf_1;   
+            norm2 += sum_1_cms*dptf_1;                     
+        }
+        // std::cout<<ptf_1<<std::endl;
+        // norm2 += sum_1_cms*dptf_1;
+        // norm1 += (sum_1_alice-CZYAM[0][k_1][0])*dptf_1; 
+
+
+        // std::cout<<'3'<<std::endl;
+
+        // foutalicept<<ptf_1-(dptf_1/2)<<","<<sum_1_alice-CZYAM[0][k_1][0]<<','<<sum_1_cms<<","<<sum_1j<<std::endl;
         // std::cout<<ptf_1<<std::endl;
 
-        //-CZYAM[k_1][1]
-
         // sum_1_alice = sum_1_cms = sum_1j = 0.;
+        // arr[0] = 0.;
+        // arr[1] = 0.;
+
+        // arr[2] = 0.;
         sum_1_alice = sum_1_cms = sum_1_alice_czyam = sum_1_cms_czyam = sum_1j = 0.;
         // ptf_1 += dptf_1;
         // std::cout<<ptf_1<<std::endl;
@@ -375,7 +424,19 @@ void func1(){
         // cout<<pt<<std::setw(20)<<totalsum<<endl;
 
     }
+
+    // std::cout<<"1"<<std::endl;
+    norm1 = 1./norm1;
+    norm2 = 1./norm2;
+    ptf_1=0.;
+    // std::cout<<"1"<<std::endl;
+    for(k_1=1;k_1<=n_1_pt+1;k_1++){
+        foutalicept<<ptf_1+(dptf_1/2)<<","<<Yridge[0][k_1-1]*norm1<<","<<Yridge[1][k_1-1]*norm2<<","<<sum_1j<<std::endl;
+        // std::cout<<ptf_1+(dptf_1/2)<<","<<Yridge[0][k_1-1]*norm1<<","<<Yridge[1][k_1-1]*norm2<<","<<sum_1j<<std::endl;
+        ptf_1 += dptf_1;
+    }
     foutalicept.close();
+    delete [] Yridge, CZYAM;
 }
 
 
@@ -692,6 +753,11 @@ int main()
     using std::endl;
     using std::setw;
     using std::thread;
+    // clock_t start, end;
+    time_t start, end;
+
+    // start = clock();
+    start = time(NULL);
     
     // std::string buffer;
     double dyi, dphii, sum, totalsum, phii, yi, dpti, pti, sum2, resultsum;
@@ -853,9 +919,7 @@ int main()
     
     // func6();
 
-    thread t1(func1);    //pt distribution - alice
-    // thread t9(func9);    //pt distribution - cms
-
+    thread t1(func1);   //pt distribution - alice
     thread t2(func2);   //1D eta correlation, pt = 1~2
     thread t3(func3);   //1D eta correlation, pt = 2~3
     thread t4(func4);   //1D eta correlation, pt = 3~4
@@ -866,7 +930,6 @@ int main()
     // thread t8(func8);
     
     t1.join();
-    // t9.join();
     t2.join();
     t3.join();
     t4.join();
@@ -882,6 +945,9 @@ int main()
     strcpy(ch,command.c_str());
     std::system(ch);
 
+    // end = clock();
+    end = time(NULL);
+    cout<<double(end-start)<<endl;
 
     return 0;
 }

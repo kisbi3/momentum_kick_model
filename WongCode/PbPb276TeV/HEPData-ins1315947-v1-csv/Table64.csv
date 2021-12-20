@@ -1,0 +1,26 @@
+#: table_doi: 10.17182/hepdata.66784.v1/t64
+#: name: Table 64
+#: description: The triangular flow v3(2, $|\Delta\eta| > 2$) extracted for all charged particles as a function of $p_{T}$ from the correlation in the 185 $\leq N_{offline}^{trk}$ < 350 multiplicity class in pPb.
+
+#: data_file: Table64.yaml
+#: keyword reactions: P PB --> CHARGED X
+#: keyword observables: CORR
+#: keyword phrases: Inclusive
+#: keyword cmenergies: 5020.0
+#: $|\Delta\eta|$,> 2
+#: Muliplicity Class,185 $\leq N_{offline}^{trk}$ < 350
+#: RE,P PB --> CHARGED X
+#: SQRT(S)/NUCLEON [GeV],5020.0
+$p_{T}$ [GEV],"v3(2, $|\Delta\eta| > 2$)",stat +,stat -,sys +,sys -
+0.298,0.00425,0.000194,-0.000194,0.000166,-0.000166
+0.494,0.011,0.000176,-0.000176,0.000429,-0.000429
+0.694,0.0182,0.000207,-0.000207,0.00071,-0.00071
+0.894,0.0243,0.000248,-0.000248,0.000949,-0.000949
+1.18,0.0325,0.00023,-0.00023,0.00127,-0.00127
+1.58,0.042,0.000325,-0.000325,0.00164,-0.00164
+1.98,0.0504,0.000462,-0.000462,0.00197,-0.00197
+2.46,0.0565,0.000572,-0.000572,0.00221,-0.00221
+3.13,0.0565,0.000849,-0.000849,0.0022,-0.0022
+4.0,0.0452,0.00129,-0.00129,0.00176,-0.00176
+5.14,0.0261,0.00194,-0.00194,0.00102,-0.00102
+

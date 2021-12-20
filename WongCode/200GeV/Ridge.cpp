@@ -7,6 +7,7 @@
 #include <fstream>
 #include <cstring>
 #include <fstream>
+#include <time.h>
 #include <thread>   //linux의 경우
 
 // #include "C:\Users\kisbi\Dropbox\Code\mingw-std-threads-master\mingw.thread.h"  //windows의 경우
@@ -540,12 +541,16 @@ void func8(){
 
 int main()
 {
+    clock_t start, finish;
+    double duration;
+    start = clock();
     //multithread 컴파일 할 경우 다음의 명령어를 입력하자.
     // g++ -o Ridge Ridge.cpp -lpthread
     using std::cout;
     using std::endl;
     using std::setw;
     using std::thread;
+
     
     // std::string buffer;
     double dyi, dphii, sum, totalsum, phii, yi, dpti, pti, sum2, resultsum;
@@ -559,9 +564,9 @@ int main()
 
     //pti -> 0~5, yi -> -6~+6, phii -> 0~2pi
 
-    nyi = 1000;
-    npti = 1000;
-    nphii = 1000;
+    nyi = 100000;
+    npti = 100000;
+    nphii = 100000;
 
     dyi = double((0.0+10.)/nyi);
     dpti = double((0.+10.)/npti);
@@ -655,6 +660,9 @@ int main()
     
     // double Aridge = 1/resultsum;
     cout<<totalsum<<setw(20)<<Aridge<<endl;
+    finish = clock();
+    duration = (double)(finish-start)/CLOCKS_PER_SEC;
+    cout<<"time : "<<duration<<" sec"<<endl;
     
     //Aridge=0.1420386444451514
 

@@ -1,0 +1,22 @@
+#: table_doi: 10.17182/hepdata.66784.v1/t68
+#: name: Table 68
+#: description: The triangular flow per constituent quark v3(2, $|\Delta\eta| > 2$)/$n_{q}$ extracted for $\Lambda/\bar{\Lambda}$ as a function of transverse kinetic energy per constituent quark $KE_{T}/n_{q}$ from the correlation in the 185 $\leq N_{offline}^{trk}$ < 350 multiplicity class in pPb.
+
+#: data_file: Table68.yaml
+#: keyword reactions: P PB --> $\Lambda/\bar{\Lambda}$ X
+#: keyword observables: CORR
+#: keyword phrases: Inclusive
+#: keyword cmenergies: 5020.0
+#: $|\Delta\eta|$,> 2
+#: Muliplicity Class,185 $\leq N_{offline}^{trk}$ < 350
+#: RE,P PB --> $\Lambda/\bar{\Lambda}$ X
+#: SQRT(S)/NUCLEON [GeV],5020.0
+$KE_{T}/n_{q}$ [GEV],"v3(2, $|\Delta\eta| > 2$)/$n_{q}$",stat +,stat -,sys +,sys -
+0.177,0.00552,0.0019,-0.0019,0.000381,-0.000381
+0.276,0.0113,0.00165,-0.00165,0.000777,-0.000777
+0.388,0.0144,0.0016,-0.0016,0.000994,-0.000994
+0.532,0.0216,0.00153,-0.00153,0.00149,-0.00149
+0.74,0.026,0.00188,-0.00188,0.00179,-0.00179
+1.01,0.0278,0.0029,-0.0029,0.00192,-0.00192
+1.39,0.0185,0.00519,-0.00519,0.00128,-0.00128
+

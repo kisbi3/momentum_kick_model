@@ -59,8 +59,8 @@ fig.set_size_inches(35, 16.534, forward=True)
 
 # ax.yaxis.set_major_formatter(ticker.FuncFormatter(lambda y, _: '${:g}$'.format(y)))
 
-# plt.tick_params(axis='both',which='major',direction='in',width=2,length=30,labelsize=45, top = 'true', right = 'true')
-# plt.tick_params(axis='both',which='minor',direction='in',width=2,length=15,labelsize=45, top = 'true', right = 'true')
+# plt.tick_params(axis='both',which='major',direction='in',width=2,length=30,labelsize=45, top = 'true')
+# plt.tick_params(axis='both',which='minor',direction='in',width=2,length=15,labelsize=45, top = 'true')
 # # plt.ticklabel_format(axis='both',style='plain',useOffset=False)
 
 
@@ -113,29 +113,30 @@ plt.errorbar(deltaphitable28,dNdphitable28-datamintable28, yerr=(table28_error1,
 # plt.plot(resultphi, resultdNdphi-dNdphimin, color = 'red', linewidth=7, linestyle = '-',label=r'$Ridge$')
 # plt.plot(resultphi, resultJet, color = 'blue', linewidth=7, linestyle = '-',label=r'$Jet$')
 # plt.plot(resultphi, resultdNdphi+resultJet-Ridge_Jetmin, color = 'black', linewidth=7, linestyle = '-',label=r'$Ridge+Jet$')
-plt.plot(resultphi, resultdNdphi-dNdphimin, color = 'red', linewidth=7, linestyle = '-',label=fr'$CMS,pp,7TeV,\, Deviation : {cmsmse:.3E}$')
+plt.plot(resultphi, resultdNdphi-dNdphimin, color = 'red', linewidth=7, linestyle = '-',label=fr'$result, \, CMS$')
 # plt.plot(resultphi, resultJet, color = 'blue', linewidth=7, linestyle = '-',label=r'$Jet$')
 # plt.plot(resultphi, resultdNdphi+resultJet, color = 'black', linewidth=7, linestyle = '-',label=r'$Ridge+Jet$')
 # plt.plot(resultphi, resultdNdphi, color = 'red', linewidth=7, linestyle = '-',label=r'$result$')
 
 plt.xlabel(r'$\Delta\phi$',size=50)
-plt.ylabel(r'$\frac{1}{N_{trig}}\frac{dN^{pair}}{d\Delta\phi}-C_{ZYAM}$',size=50)
+# plt.ylabel(r'$\frac{1}{N_{trig}}\frac{dN^{pair}}{d\Delta\phi}-C_{ZYAM}$',size=50)
 
 # plt.title(r'$1.0<p_T<2.0 \quad N_{trk}^{offline}\geq105,\quad C_{ZYAM}=1.27,\quad \Delta\phi_{ZYAM}=1.18$', fontsize = 60)
-plt.title(r'$1.0<p_T<2.0$', fontsize = 60)
+# plt.title(r'$1.0<p_T<2.0$', fontsize = 60)
 plt.minorticks_on()
 # plt.yscale('log')
 # ax.axis([-0.1,3.1,0,0.1])
 
 ax.yaxis.set_major_formatter(ticker.FuncFormatter(lambda y, _: '${:g}$'.format(y)))
 
-plt.tick_params(axis='both',which='major',direction='in',width=2,length=30,labelsize=45, top = 'true', right = 'true')
-plt.tick_params(axis='both',which='minor',direction='in',width=2,length=15,labelsize=45, top = 'true', right = 'true')
+plt.tick_params(axis='both',which='major',direction='in',width=2,length=30,labelsize=45, top = 'true')
+plt.tick_params(axis='both',which='minor',direction='in',width=2,length=15,labelsize=45, top = 'true')
 # plt.ticklabel_format(axis='both',style='plain',useOffset=False)
 
 
 plt.grid(color='silver',linestyle=':',linewidth=3)
-plt.legend(fontsize=45,framealpha=False, loc='upper left')
+# plt.legend(fontsize=45,framealpha=False, loc='upper left')
+plt.legend(fontsize=45,framealpha=False, bbox_to_anchor=(1.5, 1))
 # plt.legend(fontsize=45)
 plt.tight_layout()
 
@@ -195,23 +196,23 @@ plt.plot(resultphi, resultdNdphi-dNdphimin, color = 'red', linewidth=7, linestyl
 # plt.plot(resultphi, resultdNdphi, color = 'red', linewidth=7, linestyle = '-',label=r'$result$')
 
 plt.xlabel(r'$\Delta\phi$',size=50)
-plt.ylabel(r'$\frac{1}{N_{trig}}\frac{dN^{pair}}{d\Delta\phi}-C_{ZYAM}$',size=50)
+# plt.ylabel(r'$\frac{1}{N_{trig}}\frac{dN^{pair}}{d\Delta\phi}-C_{ZYAM}$',size=50)
 
 # plt.title(r'$1.0<p_T<2.0 \quad N_{trk}^{offline}\geq105,\quad C_{ZYAM}=1.27,\quad \Delta\phi_{ZYAM}=1.18$', fontsize = 60)
-plt.title(r'$2.0<p_T<3.0$', fontsize = 60)
+# plt.title(r'$2.0<p_T<3.0$', fontsize = 60)
 plt.minorticks_on()
 # plt.yscale('log')
 # ax.axis([-0.1,3.1,0,0.1])
 
 ax.yaxis.set_major_formatter(ticker.FuncFormatter(lambda y, _: '${:g}$'.format(y)))
 
-plt.tick_params(axis='both',which='major',direction='in',width=2,length=30,labelsize=45, top = 'true', right = 'true')
-plt.tick_params(axis='both',which='minor',direction='in',width=2,length=15,labelsize=45, top = 'true', right = 'true')
+plt.tick_params(axis='both',which='major',direction='in',width=2,length=30,labelsize=45, top = 'true')
+plt.tick_params(axis='both',which='minor',direction='in',width=2,length=15,labelsize=45, top = 'true')
 # plt.ticklabel_format(axis='both',style='plain',useOffset=False)
 
 
 plt.grid(color='silver',linestyle=':',linewidth=3)
-plt.legend(fontsize=45,framealpha=False, loc='upper left')
+# plt.legend(fontsize=45,framealpha=False, loc='upper left')
 # plt.legend(fontsize=45)
 plt.tight_layout()
 
@@ -268,23 +269,23 @@ plt.plot(resultphi, resultdNdphi-dNdphimin, color = 'red', linewidth=7, linestyl
 # plt.plot(resultphi, resultdNdphi, color = 'red', linewidth=7, linestyle = '-',label=r'$result$')
 
 plt.xlabel(r'$\Delta\phi$',size=50)
-plt.ylabel(r'$\frac{1}{N_{trig}}\frac{dN^{pair}}{d\Delta\phi}-C_{ZYAM}$',size=50)
+# plt.ylabel(r'$\frac{1}{N_{trig}}\frac{dN^{pair}}{d\Delta\phi}-C_{ZYAM}$',size=50)
 
 # plt.title(r'$1.0<p_T<2.0 \quad N_{trk}^{offline}\geq105,\quad C_{ZYAM}=1.27,\quad \Delta\phi_{ZYAM}=1.18$', fontsize = 60)
-plt.title(r'$3.0<p_T<4.0$', fontsize = 60)
+# plt.title(r'$3.0<p_T<4.0$', fontsize = 60)
 plt.minorticks_on()
 # plt.yscale('log')
 # ax.axis([-0.1,3.1,0,0.1])
 
 ax.yaxis.set_major_formatter(ticker.FuncFormatter(lambda y, _: '${:g}$'.format(y)))
 
-plt.tick_params(axis='both',which='major',direction='in',width=2,length=30,labelsize=45, top = 'true', right = 'true')
-plt.tick_params(axis='both',which='minor',direction='in',width=2,length=15,labelsize=45, top = 'true', right = 'true')
+plt.tick_params(axis='both',which='major',direction='in',width=2,length=30,labelsize=45, top = 'true')
+plt.tick_params(axis='both',which='minor',direction='in',width=2,length=15,labelsize=45, top = 'true')
 # plt.ticklabel_format(axis='both',style='plain',useOffset=False)
 
 
 plt.grid(color='silver',linestyle=':',linewidth=3)
-plt.legend(fontsize=45,framealpha=False, loc='upper left')
+# plt.legend(fontsize=45,framealpha=False, loc='upper left')
 # plt.legend(fontsize=45)
 plt.tight_layout()
 
@@ -334,23 +335,23 @@ plt.plot(resultphi, resultdNdphi-dNdphimin, color = 'red', linewidth=7, linestyl
 # plt.plot(resultphi, resultdNdphi, color = 'red', linewidth=7, linestyle = '-',label=r'$result$')
 
 plt.xlabel(r'$\Delta\phi$',size=50)
-plt.ylabel(r'$\frac{1}{N_{trig}}\frac{dN^{pair}}{d\Delta\phi}-C_{ZYAM}$',size=50)
+# plt.ylabel(r'$\frac{1}{N_{trig}}\frac{dN^{pair}}{d\Delta\phi}-C_{ZYAM}$',size=50)
 
 # plt.title(r'$1.0<p_T<2.0 \quad N_{trk}^{offline}\geq105,\quad C_{ZYAM}=1.27,\quad \Delta\phi_{ZYAM}=1.18$', fontsize = 60)
-plt.title(r'$1.0<p_T<4.0$', fontsize = 60)
+# plt.title(r'$1.0<p_T<4.0$', fontsize = 60)
 plt.minorticks_on()
 # plt.yscale('log')
 # ax.axis([-0.1,3.1,0,0.1])
 
 ax.yaxis.set_major_formatter(ticker.FuncFormatter(lambda y, _: '${:g}$'.format(y)))
 
-plt.tick_params(axis='both',which='major',direction='in',width=2,length=30,labelsize=45, top = 'true', right = 'true')
-plt.tick_params(axis='both',which='minor',direction='in',width=2,length=15,labelsize=45, top = 'true', right = 'true')
+plt.tick_params(axis='both',which='major',direction='in',width=2,length=30,labelsize=45, top = 'true')
+plt.tick_params(axis='both',which='minor',direction='in',width=2,length=15,labelsize=45, top = 'true')
 # plt.ticklabel_format(axis='both',style='plain',useOffset=False)
 
 
 plt.grid(color='silver',linestyle=':',linewidth=3)
-plt.legend(fontsize=45,framealpha=False, loc='upper left')
+# plt.legend(fontsize=45,framealpha=False, loc='upper left')
 # plt.legend(fontsize=45)
 plt.tight_layout()
 
@@ -422,8 +423,8 @@ plt.minorticks_on()
 
 ax.yaxis.set_major_formatter(ticker.FuncFormatter(lambda y, _: '${:g}$'.format(y)))
 
-plt.tick_params(axis='both',which='major',direction='in',width=2,length=30,labelsize=45, top = 'true', right = 'true')
-plt.tick_params(axis='both',which='minor',direction='in',width=2,length=15,labelsize=45, top = 'true', right = 'true')
+plt.tick_params(axis='both',which='major',direction='in',width=2,length=30,labelsize=45, top = 'true')
+plt.tick_params(axis='both',which='minor',direction='in',width=2,length=15,labelsize=45, top = 'true')
 # plt.ticklabel_format(axis='both',style='plain',useOffset=False)
 
 
@@ -449,8 +450,8 @@ CMS7TeVptdis_error2=np.loadtxt('/home/jaesung/Desktop/Dropbox/Code/WongCode/7TeV
 plt.errorbar(CMS7TeVpt,CMS7TeVptdis, yerr=(CMS7TeVptdis_error1,abs(CMS7TeVptdis_error2)), color="blue",markersize=15,marker='o',linestyle=' ',linewidth=3,label=r'$pp,7TeV \, CMS$',capsize=10)
 plt.xlabel(r'$p_{t}\quad(GeV)$',size=50)
 plt.ylabel(r'$(1/N_{trig})dN_{ch}/p_{t}dp_{t}{}\quad(GeV^{-2})$',size=50)
-plt.plot(pt,jetdis,color="blue", linestyle = '-.', linewidth=7,label=r'$pp,Jet$')
-plt.plot(pt,Ridgedis+0.632*jetdis, color="black",linewidth=7,label=r'$p+p,Jet+Ridge$')
+# plt.plot(pt,jetdis,color="blue", linestyle = '-.', linewidth=7,label=r'$pp,Jet$')
+# plt.plot(pt,Ridgedis+0.632*jetdis, color="black",linewidth=7,label=r'$p+p,Jet+Ridge$')
 plt.plot(pt,Ridgedis, color="red",linewidth=4,linestyle = '-',label=r'$p+p,Ridge$')
 
 
@@ -460,8 +461,8 @@ ax.axis([0,4,0.0004,20])
 
 ax.yaxis.set_major_formatter(ticker.FuncFormatter(lambda y, _: '${:g}$'.format(y)))
 
-plt.tick_params(axis='both',which='major',direction='in',width=2,length=30,labelsize=45, top = 'true', right = 'true')
-plt.tick_params(axis='both',which='minor',direction='in',width=2,length=15,labelsize=45, top = 'true', right = 'true')
+plt.tick_params(axis='both',which='major',direction='in',width=2,length=30,labelsize=45, top = 'true')
+plt.tick_params(axis='both',which='minor',direction='in',width=2,length=15,labelsize=45, top = 'true')
 # plt.ticklabel_format(axis='both',style='plain',useOffset=False)
 
 

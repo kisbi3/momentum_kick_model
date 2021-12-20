@@ -1,0 +1,22 @@
+#: table_doi: 10.17182/hepdata.66784.v1/t13
+#: name: Table 13
+#: description: The elliptic flow v2(2, $|\Delta\eta| > 2$) extracted for $K_{S}^{0}$ as a function of $p_{T}$ from the correlation in the $N_{offline}^{trk}$ < 35 multiplicity class in PbPb.
+
+#: data_file: Table13.yaml
+#: keyword reactions: PB PB --> $K_{S}^{0}$ X
+#: keyword observables: CORR
+#: keyword phrases: Inclusive
+#: keyword cmenergies: 2760.0
+#: $|\Delta\eta|$,> 2
+#: Muliplicity Class,$N_{offline}^{trk}$ < 35
+#: RE,PB PB --> $K_{S}^{0}$ X
+#: SQRT(S)/NUCLEON [GeV],2760.0
+$p_{T}$ [GEV],"v2(2, $|\Delta\eta| > 2$)",stat +,stat -,sys +,sys -
+0.433,0.00657,0.0152,-0.0152,0.000433,-0.000433
+0.854,0.0623,0.00977,-0.00977,0.00411,-0.00411
+1.44,0.136,0.0143,-0.0143,0.00897,-0.00897
+2.11,0.161,0.0226,-0.0226,0.0106,-0.0106
+2.98,0.216,0.0418,-0.0418,0.0143,-0.0143
+4.0,0.306,0.0886,-0.0886,0.0202,-0.0202
+5.18,0.539,0.143,-0.143,0.0356,-0.0356
+

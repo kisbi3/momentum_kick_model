@@ -1,0 +1,22 @@
+#: table_doi: 10.17182/hepdata.66784.v1/t66
+#: name: Table 66
+#: description: The triangular flow v3(2, $|\Delta\eta| > 2$) extracted for $\Lambda/\bar{\Lambda}$ as a function of $p_{T}$ from the correlation in the 185 $\leq N_{offline}^{trk}$ < 350 multiplicity class in pPb.
+
+#: data_file: Table66.yaml
+#: keyword reactions: P PB --> $\Lambda/\bar{\Lambda}$ X
+#: keyword observables: CORR
+#: keyword phrases: Inclusive
+#: keyword cmenergies: 5020.0
+#: $|\Delta\eta|$,> 2
+#: Muliplicity Class,185 $\leq N_{offline}^{trk}$ < 350
+#: RE,P PB --> $\Lambda/\bar{\Lambda}$ X
+#: SQRT(S)/NUCLEON [GeV],5020.0
+$p_{T}$ [GEV],"v3(2, $|\Delta\eta| > 2$)",stat +,stat -,sys +,sys -
+1.21,0.0166,0.00569,-0.00569,0.00114,-0.00114
+1.59,0.0338,0.00496,-0.00496,0.00233,-0.00233
+1.99,0.0432,0.00479,-0.00479,0.00298,-0.00298
+2.47,0.0647,0.00459,-0.00459,0.00447,-0.00447
+3.14,0.0779,0.00564,-0.00564,0.00538,-0.00538
+4.0,0.0835,0.00869,-0.00869,0.00576,-0.00576
+5.15,0.0555,0.0156,-0.0156,0.00383,-0.00383
+

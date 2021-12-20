@@ -1,0 +1,23 @@
+#: table_doi: 10.17182/hepdata.66784.v1/t49
+#: name: Table 49
+#: description: The elliptic flow v2(2, $|\Delta\eta| > 2$) extracted for $\Lambda/\bar{\Lambda}$ as a function of $p_{T}$ from the correlation in the 185 $\leq N_{offline}^{trk}$ < 220 multiplicity class in PbPb.
+
+#: data_file: Table49.yaml
+#: keyword reactions: PB PB --> $\Lambda/\bar{\Lambda}$ X
+#: keyword observables: CORR
+#: keyword phrases: Inclusive
+#: keyword cmenergies: 2760.0
+#: $|\Delta\eta|$,> 2
+#: Muliplicity Class,185 $\leq N_{offline}^{trk}$ < 220
+#: RE,PB PB --> $\Lambda/\bar{\Lambda}$ X
+#: SQRT(S)/NUCLEON [GeV],2760.0
+$p_{T}$ [GEV],"v2(2, $|\Delta\eta| > 2$)",stat +,stat -,sys +,sys -
+0.845,0.0709,0.00543,-0.00543,0.00468,-0.00468
+1.19,0.122,0.00384,-0.00384,0.00808,-0.00808
+1.58,0.156,0.00388,-0.00388,0.0103,-0.0103
+1.98,0.186,0.00454,-0.00454,0.0123,-0.0123
+2.45,0.207,0.00509,-0.00509,0.0137,-0.0137
+3.12,0.234,0.00784,-0.00784,0.0155,-0.0155
+3.98,0.213,0.0136,-0.0136,0.0141,-0.0141
+5.14,0.193,0.0246,-0.0246,0.0127,-0.0127
+
