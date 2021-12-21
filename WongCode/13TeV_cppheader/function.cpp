@@ -1,5 +1,23 @@
 #include "function.hpp"
 
+//Ridge Parameters
+double a = .5;    //fall off parameter
+double T = .62;    //Temperature, GeV
+double q = .87;    //GeV
+double m = 0.13957018;  //m == mpi
+double mb = m; //mb==mpi, GeV
+double md = 1.;   //GeV
+double sqrSnn = 13000.;
+double mp = 0.938272046; //Proton mass, GeV
+
+
+//Jet Parameters
+double Njet=10.;
+double fj=1.;
+double Tjet=0.7;
+double sigmaphizero = .05;
+double ma = 100.;
+
 double Jet::integralNjet(double pt, double eta, double phi){
     double sigmaphi;
     double constant = Njet/(Tjet*(m+Tjet)*2*M_PI);

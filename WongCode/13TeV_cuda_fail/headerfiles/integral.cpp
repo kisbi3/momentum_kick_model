@@ -20,3 +20,16 @@ double integral::secondintegral(double (*func)(double, double), double x_st, dou
 
     return sum;
 }
+
+double integral::quadintegral(double (*func)(double, ...), double args, ...){
+    va_list ap;
+
+    va_start(ap, args);
+    for(int i=0;i<args;i++){
+        int num = va_arg(ap, int);  
+        printf("%d", num);
+    }
+
+
+    va_end(ap);
+}
