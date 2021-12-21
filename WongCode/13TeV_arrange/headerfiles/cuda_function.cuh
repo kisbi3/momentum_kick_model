@@ -3,8 +3,10 @@
 #ifndef cuda_function_cuh
 #define cuda_function_cuh
 
-
-__device__ double main_function(double x, double y);
+// x : pti, y : yi
+__device__ double main_function2(int function_number, double x, double y);
+// x : ptf, y : etaf, z : phif
+__device__ double main_function3(int function_number, double x, double y, double z);
 
 //Jet
 __device__ double integralNjet(double pt, double eta, double phi);

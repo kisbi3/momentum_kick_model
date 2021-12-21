@@ -6,8 +6,8 @@
 // extern "C" double cuda_secondintegral(double (*func)(double, double), double x_st, double x_end, int bin_x, double y_st, double y_end, int bin_y);
 
 //integrals
-extern "C" double cuda_secondintegral(double x_st, double x_end, int bin_x, double y_st, double y_end, int bin_y);
-// extern "C" double cuda_thirdintegral(double x_st, double x_end, int bin_x, double y_st, double y_end, int bin_y, double z_st, double z_end, int bin_z);
+extern "C" double cuda_secondintegral(double x_st, double x_end, int bin_x, double y_st, double y_end, int bin_y, int function_number);
+extern "C" double cuda_thirdintegral(double x_st, double x_end, int bin_x, double y_st, double y_end, int bin_y, double z_st, double z_end, int bin_z, int function_number);
 
 
 

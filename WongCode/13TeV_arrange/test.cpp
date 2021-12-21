@@ -33,7 +33,7 @@ int main()
     cout << "CPU : "<< integrate.secondintegral(func1, 0., 1., 10000, 0., 1., 10000) << endl;
     // cout << cuda.secondintegral(cuda_function, 0., 1., 100000, 0., 1., 100000) << endl;
     // cout << cuda_secondintegral(cuda_func, 0., 1., 100000, 0., 1., 100000) << endl;
-    double totalsum = cuda_secondintegral(0., 10., 100, 0., 10., 100);
+    double totalsum = cuda_secondintegral(0., 10., 100, 0., 10., 100, 1);
     totalsum *= 4.*M_PI;
     cout << "GPU : "<< totalsum << std::setw(20)<< 1/totalsum << endl;
 

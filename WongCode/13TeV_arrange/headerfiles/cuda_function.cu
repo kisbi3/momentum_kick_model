@@ -28,11 +28,36 @@ __device__ double frnk(double pt){
     return F1*exp(F2*pt);
 }
 
-__device__ double main_function(double x, double y){
-    double dist = integralAridge(x, y);
+__device__ double main_function2(int function_number, double x, double y){
+    // double dist = integralAridge(x, y);
     // printf("%f\n", dist);
-    return dist;
+
+    if(function_number == 1){
+        return integralAridge(x,y);
+    }
+    else if(function_number == 2 ){
+        return x*frnk(x)*RidgeDisf(x,y,1.28);
+    }
+    else{
+        printf("Select function.");
+        return 1;
+        // exit(1);
+    }
+    // return func(x, y);
     // return exp(x)+sqrt(y);
+}
+
+__device__ double main_function3(int function_number, double x, double y, double z){
+    
+    //In this function, x == ptf, y == etaf, z == phif
+    if(function_number == 2){
+        return x*frnk(x)*RidgeDisf(x,y,z);
+    }
+    else{
+        printf("Select function.");
+        return 1;
+    }
+    
 }
 
 __device__ double integralNjet(double pt, double eta, double phi){
