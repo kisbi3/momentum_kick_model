@@ -2,15 +2,18 @@
 #include <cmath>
 
 
-__device__ double fallof = .5;    //fall off parameter
-__device__ double T = .5;    //Temperature, GeV
-__device__ double q = .87;    //GeV
+__device__ double fallof = 0.5;    //fall off parameter
+__device__ double T = 0.5;    //Temperature, GeV
+__device__ double q = 0.87;    //GeV
 __device__ double m = 0.13957018;  //m == mpi
 __device__ double mb = 0.13957018; //mb==mpi, GeV
-__device__ double md = 1.;   //GeV
+__device__ double md = 1.0;   //GeV
 __device__ double sqrSnn = 200.;
-__device__ double mp = 0.938272046; //Proton mass, GeV
+__device__ double mp = 0.938272; //Proton mass, GeV
 
+//fRNk Parameters
+__device__ double F1 = .32;
+__device__ double F2 = .71;
 
 //Jet Parameters
 __device__ double Njet=10.;
@@ -20,6 +23,10 @@ __device__ double sigmaphizero = .05;
 __device__ double ma = 100.;
 
 __device__ double Aridge;
+
+__device__ double frnk(double pt){
+    return F1*exp(F2*pt);
+}
 
 __device__ double main_function(double x, double y){
     double dist = integralAridge(x, y);
@@ -47,31 +54,18 @@ __device__ double lightcone(double pti, double yi){
 
 __device__ double integralAridge(double pti, double yi){
     double x = lightcone(pti, yi);
-    double squareroot=sqrt(m*m+pti*pti);
-    // printf("%f\n", x);
+    // double squareroot=sqrt(m*m+pti*pti);
     if(x>=1.){
         return 0.;
     }
     else{
-        double fall = pow(1-x,0.5);
-        printf("%f\n", fall);
-        // return pti*pow(1-x,0.5)*exp(-sqrt(m*m+pti*pti)/T)/sqrt(md*md+pti*pti);
-        return pti*sqrt(1.-x)*exp(-sqrt(m*m+pti*pti)/T)/sqrt(md*md+pti*pti);
-        // return pti*exp(x)+yi;
-        // return pti*pow(1.-x,a)+yi;
-        // double power = pow(1.-x,6.);
-        // return sqrt(1.-x);
+
+        return pti*pow(1-x,fallof)*exp(-sqrt(m*m+pti*pti)/T)/sqrt(md*md+pti*pti);
+
     }
     
 }
 
-// __device__ double lightcone(double pti, double yi){    
-//     double yb = acosh(sqrSnn/(2.*mp));    //mN=mbeam, mb = mp
-
-//     double squareroot=sqrt(m*m+pti*pti);
-//     double yiabs = std::fabs(yi);
-//     return (squareroot/m)*exp(yiabs-yb);
-// }
 
 __device__ double RidgeDisi(double pti, double yi){
     double x = lightcone(pti, yi);
