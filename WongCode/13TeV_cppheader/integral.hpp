@@ -21,7 +21,8 @@ class integral
         double secondintegral(double (*func)(double, double),double x_st, double x_end, int bin_x, double y_st, double y_end, int bin_y);
 
         //가변 인자 함수. 순서 : function, 변수 개수, x start, x end, dx , y start, y end, dy ...순서로 입력.
-        double quadintegral(double (*func)(double, double, double), int num, double args2, ...);
+        //변수 개수는 메모리로 가져오면 되잖아!
+        double quadintegral(void (*func)(int), int num, double args2, ...);
 
 };
 

@@ -2,12 +2,19 @@
 #include <cmath>
 #include <iomanip>
 #include "integral.hpp"
+#include "function.hpp"
 // #include "headerfiles/function.hpp"
 
 
-double func1(double x, double y, double z){
-    return x*x+y*y+z*z;
+// double func1(double x, double y, double z){
+//     return x*x+y*y+z*z;
+// }
+
+void func1(int num){
+    Aridge Ar;
+    Ar.integralAridge();
 }
+
 
 double cuda_function(double x, double y){
     return x*x+y*y;

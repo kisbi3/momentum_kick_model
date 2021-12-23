@@ -31,14 +31,14 @@ double integral::secondintegral(double (*func)(double, double), double x_st, dou
 //     return p;
 // }
 
-double integral::quadintegral(double (*func)(double , double, double), int num, double args2,...){
+double integral::quadintegral(void (*func)(int), int num, double args2,...){
     // printf("\n");
 
     va_list ap;
     // va_start(ap, args2);    //args2의 첫 숫자는 여기에서 사라진다. args2로 입력됨.
     // double *xyz = (double*)malloc(num*sizeof(double));
-    double *xyz;
-    int *bin;
+    extern double *xyz;
+    extern int *bin;
     int loop = 1; // loop를 돌 횟수(적분 횟수)
     bin = (int *)malloc(num*sizeof(int));
     xyz = (double *)malloc(num*sizeof(double));
@@ -62,11 +62,6 @@ double integral::quadintegral(double (*func)(double , double, double), int num, 
         bin[i] = int ((x_end-x_st)/dx);
         xyz[3*i] = x_st;
         xyz[3*i+1] = x_end;
-        xyz[3*i+2] = dx;
-
-
-        // printf("%d\n", i);
-        // printf("%f\t%f\t%f\t%d\n", xyz[3*i], xyz[3*i+1], xyz[3*i+2], bin[i]);
         // printf("%f\t%f\t%f\n", xyz[3*i], xyz[3*i+1], xyz[3*i+2]);
         // printf("%f\t%f\t%f\t%d\n", x_st, x_end, dx, bin[i]);
         loop *= bin[i];
@@ -74,45 +69,49 @@ double integral::quadintegral(double (*func)(double , double, double), int num, 
 
     // printf("%d", num);
     double sum = 0.;
-    //어떻게 하지?
-    if(num==1){
-        for(int j = 0;j<bin[0];j++){
-            sum += func(xyz[0]+xyz[2]*j)*xyz[2];
-        }
-        free(xyz);
-        free(bin);
-        return sum;        
-    }
-    else if(num==2){
-        for(int j = 0;j<bin[0];j++){
-            for(int k = 0; k<bin[1];k++){
-                sum += func(xyz[0]+xyz[2]*j, xyz[3]+xyz[5]*k)*xyz[2]*xyz[5];
-            }
-        }
-        free(xyz);
-        free(bin);
-        return sum;        
-    }
+
+    func(num);
 
 
-    else if(num==3){
-        for(int j = 0;j<bin[0];j++){
-            for(int k = 0; k<bin[1];k++){
-                for(int l = 0; l<bin[2];l++){
-                    sum += func(xyz[0]+xyz[2]*j, xyz[3]+xyz[5]*k, xyz[6]+xyz[8]*l)*xyz[2]*xyz[5]*xyz[8];
-                }
-            }
-        }
-        free(xyz);
-        free(bin);
-        return sum;        
-    }
+    // //어떻게 하지?
+    // if(num==1){
+    //     for(int j = 0;j<bin[0];j++){
+    //         sum += func(xyz[0]+xyz[2]*j)*xyz[2];
+    //     }
+    //     free(xyz);
+    //     free(bin);
+    //     return sum;        
+    // }
+    // else if(num==2){
+    //     for(int j = 0;j<bin[0];j++){
+    //         for(int k = 0; k<bin[1];k++){
+    //             sum += func(xyz[0]+xyz[2]*j, xyz[3]+xyz[5]*k)*xyz[2]*xyz[5];
+    //         }
+    //     }
+    //     free(xyz);
+    //     free(bin);
+    //     return sum;        
+    // }
 
 
-    else{
-        printf("Error!\n");
-        return 1;
-    }
+    // else if(num==3){
+    //     for(int j = 0;j<bin[0];j++){
+    //         for(int k = 0; k<bin[1];k++){
+    //             for(int l = 0; l<bin[2];l++){
+    //                 sum += func(xyz[0]+xyz[2]*j, xyz[3]+xyz[5]*k, xyz[6]+xyz[8]*l)*xyz[2]*xyz[5]*xyz[8];
+    //             }
+    //         }
+    //     }
+    //     free(xyz);
+    //     free(bin);
+    //     return sum;        
+    // }
+
+
+    // else{
+    //     printf("Error!\n");
+    //     return 1;
+    // }
 
     // return xyz[4];
 

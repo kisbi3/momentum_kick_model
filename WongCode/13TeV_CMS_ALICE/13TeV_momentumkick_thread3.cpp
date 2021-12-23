@@ -14,8 +14,8 @@
 
 //Ridge parameters
 double a = .5;    //fall off parameter
-double T = .62;    //Temperature, GeV
-double q_1 = .87;    //GeV
+double T = .65;    //Temperature, GeV
+double q_1 = .9;    //GeV
 double m = 0.13957018;  //m == mpi
 double mb = m; //mb==mpi, GeV
 double md = 1.;   //GeV
@@ -23,12 +23,11 @@ double sqrSnn = 13000.;
 double mp = 0.938272046; //Proton mass, GeV
 
 
-double x = .32;
+double x = .67;
 double y = .71;
 
 
 double etajet = 0.;
-
 
 
 //Jet Parameters
@@ -50,7 +49,44 @@ double frnk(double pt){
     // return (md*exp(-pt/sqrt(md*md+pt*pt)))/frnkconst;
     // return exp(-md*pt/sqrt(md*md+pt*pt));
     // return  3.5*pt-3.25;
-    return  x*exp(y*pt);
+
+    if(0.<pt<1.){
+        return x*exp(y*0.5);
+    }
+    else if(1.<pt<2.){
+        return x*exp(y*1.5);
+    }
+    else if(2.<pt<3.){
+        return x*exp(y*2.5);
+    }
+    else if(3.<pt<4.){
+        return x*exp(y*3.5);
+    }
+    else if(4.<pt<5.){
+        return x*exp(y*4.5);
+    }
+    else if(5.<pt<6.){
+        return x*exp(y*5.5);
+    }
+    else if(6.<pt<7.){
+        return x*exp(y*6.5);
+    }
+    else if(7.<pt<8.){
+        return x*exp(y*7.5);
+    }
+    else if(8.<pt<9.){
+        return x*exp(y*8.5);
+    }
+    else if(9.<pt<10.){
+        return x*exp(y*9.5);
+    }
+    else{
+        printf("Something error");
+        exit(1);
+        return 0;
+    }
+
+    // return  x*exp(y*pt);
 }
 
 double rapidityintit(double pt, double eta){
@@ -154,7 +190,7 @@ double integralNjet(double pt, double eta, double phi, double constant){
 
 //pt distribution 적분 범위
 
-int n_1 = 200;
+int n_1 = 100;
 double detaf_1 = double((1.8-1.6)/n_1);     //func1 eta 적분범위(Ridge, alice) : 1.6~1.8 -> x2 해야 함.
 double etaf0_1 = 1.6;
 double lasteta = 1.8;
@@ -172,7 +208,7 @@ double phif0_1 = -1.28;
 double lastphi = 1.28; //적분 끝 범위
 double delta_Deltaphi = 2.56;
 
-int n_1_pt = 400;
+int n_1_pt = 200;
 double dptf_1 = double ((10.-0.)/n_1_pt);  //func1 pt 출력 범위 : 0.15~11
 double ddptf_1 = dptf_1/n_1;
 double ptf_1 = 0.;
@@ -206,8 +242,10 @@ void func9(double arr[], double ptf_1, double phif_1, double q, double dptfff){
         etajet_1 = etajet0_1;
         std::thread t11(func10,arr, ptf_1, phif_1, etaf_1, etacms_1, etajet, q, dptfff);
         std::thread t12(func10,arr, ptf_1, phif_1, (etaf_1+lasteta)/2., (etacms_1+lastetacms)/2., (etajet_1+lastetajet)/2., q, dptfff);
+        // std::thread t13(func10,arr, ptf_1, phif_1, (etaf_1+lasteta)/2., (etacms_1+lastetacms)/2., (etajet_1+lastetajet)/2., q, dptfff);
         t11.join();
         t12.join();
+        // t13.join();
         phif_1 += dphif_1;
     }
     // std::cout<<arr[0]<<std::setw(15)<<arr[1]<<std::endl;
@@ -262,10 +300,13 @@ void func11(double ptf2, double phif, int k, double q, char dist, double dptf2){
         Yridge[1][k-1] = arr1[1];
         // std::cout<<k-1<<std::setw(20)<<Yridge[0][k-1]<<std::setw(20)<<Yridge[1][k-1]<<std::endl;
 
-        if(1.<=ptf2 && ptf2<=4.){
-            norm[0] += (arr1[0]-CZYAM[0][k])*dptf_1;   
-            norm[1] += arr1[1]*dptf_1;                     
-        }        
+        // if(1.<=ptf2 && ptf2<=4.){
+        //     norm[0] += (arr1[0]-CZYAM[0][k])*dptf_1;   
+        //     norm[1] += arr1[1]*dptf_1;                     
+        // }        
+        norm[0] += (arr1[0]-CZYAM[0][k])*dptf_1;   
+        // norm[1] += (arr1[1]-CZYAM[1][k])*dptf_1;   //cms도 alice와 동일하게 해야되는거 아닌가? 왜이러지?
+        norm[1] += arr1[1]*dptf_1;      
     }
 
     else if(dist == 'j'){
@@ -290,10 +331,13 @@ void func11(double ptf2, double phif, int k, double q, char dist, double dptf2){
         Yridgej[1][k-1] = arr2[1];
         //std::cout<<k-1<<std::setw(20)<<Yridgej[0][k-1]<<std::setw(20)<<Yridgej[1][k-1]<<std::endl;
 
-        if(1.<=ptf2 && ptf2<=4.){
-            normj[0] += (arr2[0]-CZYAMj[0][k])*dptf_1;   
-            normj[1] += arr2[1]*dptf_1;                     
-        }        
+        // if(1.<=ptf2 && ptf2<=4.){
+        //     normj[0] += (arr2[0]-CZYAMj[0][k])*dptf_1;   
+        //     normj[1] += arr2[1]*dptf_1;                     
+        // }        
+
+        normj[0] += (arr2[0]-CZYAMj[0][k])*dptf_1;   
+        normj[1] += arr2[1]*dptf_1;                     
     }
 
 }

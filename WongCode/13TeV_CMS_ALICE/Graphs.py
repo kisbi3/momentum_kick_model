@@ -110,7 +110,7 @@ plt.plot(resultphi, cms_resultdNdphi-cms_dNdphimin, color = 'magenta', linewidth
 plt.ylabel(r'$\frac{1}{N_{trig}}\frac{dN^{pair}}{d\Delta\phi}-C_{ZYAM}$',size=70)
 
 # plt.title(r'$1.0<p_T<2.0 \quad N_{trk}^{offline}\geq105,\quad C_{ZYAM}=1.27,\quad \Delta\phi_{ZYAM}=1.18$', fontsize = 75)
-# plt.title(r'$1.0<p_T<2.0$', fontsize = 75)
+plt.title(r'$1.0<p_T<2.0$', fontsize = 75)
 # plt.text(-0.25, 0.0, r'$1.0<p_T<2.0$', fontsize = 75)
 
 plt.minorticks_on()
@@ -119,8 +119,10 @@ plt.minorticks_on()
 
 ax.yaxis.set_major_formatter(ticker.FuncFormatter(lambda y, _: '${:g}$'.format(y)))
 
-plt.tick_params(axis='both',which='major',direction='in',width=2,length=30,labelsize=45, top = 'true')
-plt.tick_params(axis='both',which='minor',direction='in',width=2,length=15,labelsize=45, top = 'true')
+# plt.tick_params(axis='both',which='major',direction='in',width=2,length=30,labelsize=45, top = 'true')
+# plt.tick_params(axis='both',which='minor',direction='in',width=2,length=15,labelsize=45, top = 'true')
+plt.tick_params(axis='both',which='major',direction='in',width=2,length=30,labelsize=45)
+plt.tick_params(axis='both',which='minor',direction='in',width=2,length=15,labelsize=45)
 # plt.ticklabel_format(axis='both',style='plain',useOffset=False)
 
 
@@ -496,67 +498,15 @@ wr.writerow(['Y^Ridge','ALICE : ',alicemse])
 wr.writerow(['Y^Ridge','CMS : ',cmsmse])
 
 # yerr=(Alice13TeVptdis_error1,abs(Alice13TeVptdis_error2))
-plt.errorbar(Alice13TeVpt, Alice13TeVptdis, yerr=(abs(Alice13TeVptdis_error2)*norm_Alice,Alice13TeVptdis_error1*norm_Alice), color="blue",zorder=1,markersize=35,marker='v',linestyle=' ',linewidth=3,label=r'$pp, \, 13TeV, \, ALICE$',capsize=10)
+plt.errorbar(Alice13TeVpt, Alice13TeVptdis, yerr=(abs(Alice13TeVptdis_error2)*norm_Alice,Alice13TeVptdis_error1*norm_Alice), color="blue",zorder=2,markersize=35,marker='v',linestyle=' ',linewidth=3,label=r'$pp, \, 13TeV, \, ALICE$',capsize=10)
 # result,\, ALICE, \,1.6<\vert\Delta\eta\vert<1.8
 plt.errorbar(CMS13TeVpt, CMS13TeVptdis, yerr=(abs(CMS13TeVptdis_error2)*norm_CMS,CMS13TeVptdis_error1*norm_CMS), color="black",zorder=1,markersize=35,marker='^',linestyle=' ',linewidth=3,label=r'$pp, \, 13TeV, \, CMS$',capsize=10)
-# result,\, CMS, \,2.0<\vert\Delta\eta\vert<4.0
 
-# plt.plot(pt,aliceRidgedis, color="blue",linewidth=5,linestyle = '-',label=r'$pp,Ridge,1.6<\vert\Delta\eta\vert<1.8$')
-# plt.scatter(pt,aliceRidgedis, color="skyblue",s=1000,linewidths=6,facecolors='none',marker='D',label=fr'$pp,Ridge,1.6<\vert\Delta\eta\vert<1.8,\, Deviation : {alicemse:.3E}$',zorder=2)
-# plt.scatter(pt,cmsRidgedis, color="crimson",s=1000,linewidths=6,facecolors='none',marker='s',label=fr'$pp,Ridge,2.0<\vert\Delta\eta\vert<4.0$',zorder=2)
-
-# ,\, Error : {cmsmse:.3E}$
-
-
-plt.plot(pt,aliceRidgedis, color="skyblue",linewidth=6,linestyle = '-',label=fr'$result, \, ALICE$',zorder=2)
+plt.plot(pt,aliceRidgedis, color="skyblue",linewidth=6,linestyle = '-',label=fr'$result, \, ALICE$',zorder=4)
 # pp,Ridge,1.6<\vert\Delta\eta\vert<1.8
 # ,\, Error : {alicemse:.3E}
 
-plt.plot(pt,cmsRidgedis, color="crimson",linewidth=6, linestyle = '-',label=fr'$result, \, CMS$',zorder=2)
-
-# pp,Ridge,2.0<\vert\Delta\eta\vert<4.0
-# ,\, Error : {cmsmse:.3E}$
-
-
-# plt.plot(alicept,alicejetdis, color="blue",linewidth=5,linestyle = '--',label=r'$pp,Jet,1.6<\vert\Delta\eta\vert<1.8$')
-# plt.plot(cmspt,cmsRidgedis, color="black",linewidth=5,linestyle = '-',label=r'$pp,Ridge,2.0<\vert\Delta\eta\vert<4.0$')
-
-# x=np.arange(0.45,10,0.01)
-# y1=0.06782985130264102*np.exp(-(0.9341561431595556/(x**2))-0.984985854370021*x)
-# y2=0.07314538280113343*np.exp((-0.8078484337720946/(x**2))-0.8777989424828683*x)
-
-
-
-#######Fitting 해본 흔적들
-
-# def func(x,a,b,c,d,e):
-#         # return a*np.exp((b/(x**2))+c*x)+d
-#         # return a*np.exp(b/(x**2)+c*x+d/x)
-#         return a*np.exp(b/(x**2)+c*x)
-#         # return a*d**(b/(x**2))
-
-# # popt, pcov = curve_fit(f=func,xdata=CMS13TeVpt,ydata=CMS13TeVptdis)
-# # fitx=np.arange(0,10,0.01)
-# # plt.plot(fitx, func(fitx, *popt), color='black', linewidth=7, label='Python Fit')
-
-
-# popt, pcov = curve_fit(f=func,xdata=pt,ydata=cmsRidgedis)
-# fitx=np.arange(0.3,10,0.01)
-# plt.plot(fitx, func(fitx, *popt), color='black', linewidth=7, label='exponential, Python Fit')
-
-# popt, pcov = curve_fit(f=func,xdata=pt,ydata=aliceRidgedis)
-# fitx=np.arange(0.3,10,0.01)
-# # plt.plot(fitx, func(fitx, *popt), color='blue', linewidth=7, label='exponential, Python Fit')
-
-# fit1 = np.polyfit(pt,cmsRidgedis,17)
-# def nppolyfit(x):
-#         y=0
-#         for i in range(len(fit1)):
-#                 y += fit1[i]*(x**(17-i))
-#         return y
-
-# plt.plot(fitx, nppolyfit(fitx), color='red', linewidth=7, label='Polynomial Python Fit')
-
+plt.plot(pt,cmsRidgedis, color="crimson",linewidth=6, linestyle = '-',label=fr'$result, \, CMS$',zorder=3)
 
 
 
