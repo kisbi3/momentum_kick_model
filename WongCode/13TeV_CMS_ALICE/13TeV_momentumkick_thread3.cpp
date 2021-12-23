@@ -54,13 +54,13 @@ double frnk(double pt){
         return x*exp(y*0.5);
     }
     else if(1.<pt<2.){
-        return x*exp(y*1.5);
+        return x*exp(y*1.);
     }
     else if(2.<pt<3.){
-        return x*exp(y*2.5);
+        return x*exp(y*3.);
     }
     else if(3.<pt<4.){
-        return x*exp(y*3.5);
+        return x*exp(y*4.);
     }
     else if(4.<pt<5.){
         return x*exp(y*4.5);
