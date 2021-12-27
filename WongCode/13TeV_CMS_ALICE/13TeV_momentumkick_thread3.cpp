@@ -23,8 +23,8 @@ double sqrSnn = 13000.;
 double mp = 0.938272046; //Proton mass, GeV
 
 
-double x = .67;
-double y = .71;
+double xx = .67;
+double yy = .71;
 
 
 double etajet = 0.;
@@ -43,6 +43,9 @@ double Aridge;
 double constant = Njet/(Tjet*(m+Tjet)*2*M_PI);
 
 double frnk(double pt){
+
+    return  xx*exp(yy*pt);
+
     // return exp(-frnkconst*pt/(frnkconst*frnkconst+pt*pt));
     // return exp(-frnkconst*pt/sqrt(md*md+pt*pt));
     // return frnkconst*exp(-pt/sqrt(md*md+pt*pt));
@@ -50,43 +53,43 @@ double frnk(double pt){
     // return exp(-md*pt/sqrt(md*md+pt*pt));
     // return  3.5*pt-3.25;
 
-    if(0.<pt<1.){
-        return x*exp(y*0.5);
-    }
-    else if(1.<pt<2.){
-        return x*exp(y*1.);
-    }
-    else if(2.<pt<3.){
-        return x*exp(y*3.);
-    }
-    else if(3.<pt<4.){
-        return x*exp(y*4.);
-    }
-    else if(4.<pt<5.){
-        return x*exp(y*4.5);
-    }
-    else if(5.<pt<6.){
-        return x*exp(y*5.5);
-    }
-    else if(6.<pt<7.){
-        return x*exp(y*6.5);
-    }
-    else if(7.<pt<8.){
-        return x*exp(y*7.5);
-    }
-    else if(8.<pt<9.){
-        return x*exp(y*8.5);
-    }
-    else if(9.<pt<10.){
-        return x*exp(y*9.5);
-    }
-    else{
-        printf("Something error");
-        exit(1);
-        return 0;
-    }
+    // if(0.<=pt && pt<1.){
+    //     return xx*exp(yy*0.5);
+    // }
+    // else if(1.<=pt && pt<2.){
+    //     return xx*exp(yy*1.5);
+    // }
+    // else if(2.<=pt && pt<3.){
+    //     return xx*exp(yy*2.5);
+    // }
+    // else if(3.<=pt && pt<4.){
+    //     return xx*exp(yy*3.5);
+    // }
+    // else if(4.<=pt && pt<5.){
+    //     return xx*exp(yy*4.5);
+    // }
+    // else if(5.<=pt && pt<6.){
+    //     return xx*exp(yy*5.5);
+    // }
+    // else if(6.<=pt && pt<7.){
+    //     return xx*exp(yy*6.5);
+    // }
+    // else if(7.<=pt && pt<8.){
+    //     return xx*exp(yy*7.5);
+    // }
+    // else if(8.<=pt && pt<9.){
+    //     return xx*exp(yy*8.5);
+    // }
+    // else if(9.<=pt && pt<=11.){
+    //     return xx*exp(yy*10.);
+    // }
+    // else{
+    //     printf("\nSomething error, ptf : %f\n", pt);
+    //     exit(1);
+    //     return 0;
+    // }
 
-    // return  x*exp(y*pt);
+
 }
 
 double rapidityintit(double pt, double eta){
@@ -291,7 +294,11 @@ void func11(double ptf2, double phif, int k, double q, char dist, double dptf2){
             t10.join();
             ptf2 += dptf2;
         }
+
+
         std::cout<<"Ridge"<<std::setw(20)<<ptf2<<std::setw(20)<<arr1[0]<<std::setw(20)<<arr1[1]<<std::endl;
+
+
         // std::cout<<ptf_1<<std::endl;
         arr1[0] *= 2.*2./3.;
         arr1[1] *= 2.*2./3.;
@@ -321,7 +328,12 @@ void func11(double ptf2, double phif, int k, double q, char dist, double dptf2){
             // std::cout<<ptf2<<std::endl;
             ptf2 += dptf2;
         }
+
+
+        
         std::cout<<"Jet"<<std::setw(20)<<q<<std::setw(20)<<arr2[0]<<std::setw(20)<<arr2[1]<<std::endl;
+        
+        
         // std::cout<<ptf_1<<std::endl;
         arr2[0] *= 2.*2./3.;
         arr2[1] *= 2.*2./3.;
@@ -443,10 +455,10 @@ void func1(double ptq){
 
 //pt1~2, 2~3, 3~4 부터 시작해보자.
 
-void func2(double ptf_st, double ptf_end, double etaf_st, double etaf_end, double etacms_st, double etacms_end, double phif_st, double phif_end, int n, int check2, double ptjetcut, double q){
+void func2(double ptf_st, double ptf_end, double etaf_st, double etaf_end, double etacms_st, double etacms_end, double etaatlas_st, double etaatlas_end, double phif_st, double phif_end, int n, int check2, double ptjetcut, double q){
     
-    double ptf, etaf, phif, sum_alice, sum_cms, sum_j, etacms;
-    double dptf, dphif, detaf, detacms, delta_Deltaeta, delta_Deltaetacms, ptf0, etaf0, phif0, etacms0;
+    double ptf, etaf, phif, sum_alice, sum_cms, sum_j, etacms, etaatlas, sum_atlas;
+    double dptf, dphif, detaf, detacms, detaatlas, delta_Deltaeta, delta_Deltaetacms, delta_Deltaetaatlas, ptf0, etaf0, phif0, etacms0, etaatlas0;
     int i, j, k;
     if(ptjetcut == 0.){
         std::string filename, pt_st, pt_end, filename2;
@@ -461,16 +473,18 @@ void func2(double ptf_st, double ptf_end, double etaf_st, double etaf_end, doubl
         filename.append(".csv");
 
         std::ofstream fout(filename);
-        fout<<"phi,Alice,CMS\n";
+        fout<<"phi,Alice,CMS,ATLAS\n";
 
         dptf = (ptf_end-ptf_st)/n;
         detaf = (etaf_end-etaf_st)/n;
         detacms = (etacms_end-etacms_st)/n;
+        detaatlas = (etaatlas_end-etaatlas_st)/n;
         dphif = (phif_end-phif_st)/n;
 
         ptf0 = ptf_st;
         etaf0 = etaf_st;
         etacms0 = etacms_st;
+        etaatlas0 = etaatlas_st;
         phif0 = phif_st;
         
         sum_alice = sum_cms = sum_j = 0.;
@@ -478,29 +492,35 @@ void func2(double ptf_st, double ptf_end, double etaf_st, double etaf_end, doubl
         
         delta_Deltaeta = 2*(etaf_end-etaf_st);
         delta_Deltaetacms = 2*(etacms_end-etacms_st);
+        delta_Deltaetaatlas = 2*(etaatlas_end-etaatlas_st);
 
 
         for(k=1;k<=n+1;k++){
             etacms = etacms0;
             etaf = etaf0;
+            etaatlas = etaatlas0;
             for(i=1;i<=n+1;i++){
                 ptf = ptf0;
                 for(j=1;j<=n+1;j+=1){
-                    
                     sum_alice += frnk(ptf)*ptf*RidgeDis(Aridge, ptf, etaf, phif, check2, q)*dptf*detaf/delta_Deltaeta;
                     sum_cms += frnk(ptf)*ptf*RidgeDis(Aridge, ptf, etacms, phif, check2, q)*dptf*detacms/delta_Deltaetacms;
+                    sum_atlas += frnk(ptf)*ptf*RidgeDis(Aridge, ptf, etaatlas, phif, check2, q)*dptf*detaatlas/delta_Deltaetaatlas;
+                    // std::cout<<ptf<<std::setw(20)<<FRNK<<std::endl;
                     ptf += dptf;
                 }
+                // std::cout<<etaatlas<<std::endl;
                 
                 etaf += detaf;
                 etacms += detacms;
+                etaatlas += detaatlas;
             }
             sum_alice *= 2*2/3;
             sum_cms *= 2*2/3;
+            sum_atlas *= 2*2/3;
             
-            fout<<phif<<","<<sum_alice<<","<<sum_cms<<std::endl;
+            fout<<phif<<","<<sum_alice<<","<<sum_cms<<","<<sum_atlas<<std::endl;
             phif += dphif;
-            sum_alice = sum_cms = sum_j = 0.;
+            sum_alice = sum_cms = sum_atlas = sum_j = 0.;
         }
         fout.close();
 
@@ -821,7 +841,7 @@ int main()
     fout<<"m_d,"<<md<<endl;
     fout<<"sqrtSnn,"<<sqrSnn<<endl;
     fout<<"A_Ridge,"<<Aridge<<endl;
-    fout<<"f_R<N_k>=,"<<x<<"exp("<<y<<"*pT)"<<endl;
+    fout<<"f_R<N_k>=,"<<xx<<"exp("<<yy<<"*pT)"<<endl;
 
 
     // std::ofstream foutjet("FittingParameters_Jet.csv");
@@ -845,18 +865,18 @@ int main()
 
 
 
-    thread t2(func2, 1., 2., 1.6, 1.8, 2., 4., -1.28, 1.28, 300, 1, 0., q_1);   //1D phi correlation, pt = 1~2
-    thread t3(func2, 2., 3., 1.6, 1.8, 2., 4., -1.28, 1.28, 300, 1, 0., q_1);   //1D phi correlation, pt = 2~3
-    thread t4(func2, 3., 4., 1.6, 1.8, 2., 4., -1.28, 1.28, 300, 1, 0., q_1);   //1D phi correlation, pt = 3~4
-    thread t5(func2, 1., 4., 1.6, 1.8, 2., 4., -1.28, 1.28, 300, 1, 0., q_1);   //1D phi correlation, pt = 1~4
+    thread t2(func2, 1., 2., 1.6, 1.8, 2., 4., 2., 5., -1.28, 1.28, 300, 1, 0., q_1);   //1D phi correlation, pt = 1~2
+    thread t3(func2, 2., 3., 1.6, 1.8, 2., 4., 2., 5., -1.28, 1.28, 300, 1, 0., q_1);   //1D phi correlation, pt = 2~3
+    thread t4(func2, 3., 4., 1.6, 1.8, 2., 4., 2., 5., -1.28, 1.28, 300, 1, 0., q_1);   //1D phi correlation, pt = 3~4
+    thread t5(func2, 1., 4., 1.6, 1.8, 2., 4., 2., 5., -1.28, 1.28, 300, 1, 0., q_1);   //1D phi correlation, pt = 1~4
     
     t2.join();
     t3.join();
     t4.join();
     t5.join();
 
-    thread t6(func2, 1., 2., 1.6, 1.8, 2., 4., -1.28, 1.28, 300, 1, 10., q_1);   //1D phi correlation, pt = 1~2 (jet event cut)
-    thread t7(func2, 1., 2., 1.6, 1.8, 2., 4., -1.28, 1.28, 300, 1, 20., q_1);   //1D phi correlation, pt = 1~2 (jet event cut)
+    thread t6(func2, 1., 2., 1.6, 1.8, 2., 4., 2., 5., -1.28, 1.28, 300, 1, 10., q_1);   //1D phi correlation, pt = 1~2 (jet event cut)
+    thread t7(func2, 1., 2., 1.6, 1.8, 2., 4., 2., 5., -1.28, 1.28, 300, 1, 20., q_1);   //1D phi correlation, pt = 1~2 (jet event cut)
 
     t7.join();
     t6.join();

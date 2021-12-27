@@ -46,15 +46,20 @@ cms_table27_error2=np.loadtxt('/home/jaesung/Desktop/Dropbox/Code/WongCode/13TeV
 resultphi=np.loadtxt('phiCorrelation_pt1-2.csv',delimiter=',',usecols=[0],skiprows=1)
 alice_resultdNdphi=np.loadtxt('phiCorrelation_pt1-2.csv',delimiter=',',usecols=[1],skiprows=1)
 cms_resultdNdphi=np.loadtxt('phiCorrelation_pt1-2.csv',delimiter=',',usecols=[2],skiprows=1)
+atlas_resultdNdphi=np.loadtxt('phiCorrelation_pt1-2.csv',delimiter=',',usecols=[3],skiprows=1)
 
 alice_dNdphimin=min(alice_resultdNdphi)
 cms_dNdphimin=min(cms_resultdNdphi)
+atlas_dNdphimin=min(atlas_resultdNdphi)
 
 # print(dNdphimin)
 alice_czyam = alice_dNdphitable27-alice_datamintable27
 alice_result_czyam = alice_resultdNdphi-alice_dNdphimin
 cms_czyam = cms_dNdphitable27-cms_datamintable27
 cms_result_czyam = cms_resultdNdphi-cms_dNdphimin
+
+atlas_result_czyam = atlas_resultdNdphi-atlas_dNdphimin
+
 dphi = resultphi[1]-resultphi[0]
 dphi = 0.198/dphi
 j0 = j = 12
@@ -100,6 +105,8 @@ plt.plot(resultphi, alice_resultdNdphi-alice_dNdphimin, color = 'blue', linewidt
 # plt.text(-0.5, 0.0025,fr"$ALICE\quad Error : {alicemse:.3E}$Deviationze=50)
 # plt.text(-0.5, 0.,fr"$CMS\quad Error : {cmsmse:.3E}$", size=50)
 plt.plot(resultphi, cms_resultdNdphi-cms_dNdphimin, color = 'magenta', linewidth=7, linestyle = '--',label=fr'$result,\, CMS$')
+
+plt.plot(resultphi, atlas_resultdNdphi-atlas_dNdphimin, color = 'green', linewidth=7, linestyle = ':',label=fr'$result,\, ATLAS$')
 
 # ,\, Error : {cmsmse:.2f}$
 
@@ -162,9 +169,11 @@ cms_table29_error2=np.loadtxt('/home/jaesung/Desktop/Dropbox/Code/WongCode/13TeV
 resultphi=np.loadtxt('phiCorrelation_pt2-3.csv',delimiter=',',usecols=[0],skiprows=1)
 alice_resultdNdphi=np.loadtxt('phiCorrelation_pt2-3.csv',delimiter=',',usecols=[1],skiprows=1)
 cms_resultdNdphi=np.loadtxt('phiCorrelation_pt2-3.csv',delimiter=',',usecols=[2],skiprows=1)
+atlas_resultdNdphi=np.loadtxt('phiCorrelation_pt2-3.csv',delimiter=',',usecols=[3],skiprows=1)
 
 alice_dNdphimin=min(alice_resultdNdphi)
 cms_dNdphimin=min(cms_resultdNdphi)
+atlas_dNdphimin=min(atlas_resultdNdphi)
 
 
 # print(dNdphimin)
@@ -172,6 +181,9 @@ alice_czyam = alice_dNdphitable29-alice_datamintable29
 alice_result_czyam = alice_resultdNdphi-alice_dNdphimin
 cms_czyam = cms_dNdphitable29-cms_datamintable29
 cms_result_czyam = cms_resultdNdphi-cms_dNdphimin
+
+atlas_result_czyam = atlas_resultdNdphi-atlas_dNdphimin
+
 dphi = resultphi[1]-resultphi[0]
 dphi = 0.198/dphi
 j0 = j = 12
@@ -206,6 +218,8 @@ plt.plot(resultphi, alice_resultdNdphi-alice_dNdphimin, color = 'blue', linewidt
 # ,\, Error : {alicemse:.2f}
 
 plt.plot(resultphi, cms_resultdNdphi-cms_dNdphimin, color = 'magenta', linewidth=7, linestyle = '--',label=fr'$result,\, CMS$')
+
+plt.plot(resultphi, atlas_resultdNdphi-atlas_dNdphimin, color = 'green', linewidth=7, linestyle = ':',label=fr'$result,\, ATLAS')
 
 # ,\, Error : {cmsmse:.2f}$
 
@@ -268,14 +282,19 @@ cms_table31_error2=np.loadtxt('/home/jaesung/Desktop/Dropbox/Code/WongCode/13TeV
 resultphi=np.loadtxt('phiCorrelation_pt3-4.csv',delimiter=',',usecols=[0],skiprows=1)
 alice_resultdNdphi=np.loadtxt('phiCorrelation_pt3-4.csv',delimiter=',',usecols=[1],skiprows=1)
 cms_resultdNdphi=np.loadtxt('phiCorrelation_pt3-4.csv',delimiter=',',usecols=[2],skiprows=1)
+atlas_resultdNdphi=np.loadtxt('phiCorrelation_pt3-4.csv',delimiter=',',usecols=[3],skiprows=1)
 
 alice_dNdphimin=min(alice_resultdNdphi)
 cms_dNdphimin=min(cms_resultdNdphi)
+atlas_dNdphimin=min(atlas_resultdNdphi)
 
 alice_czyam = alice_dNdphitable31-alice_datamintable31
 alice_result_czyam = alice_resultdNdphi-alice_dNdphimin
 cms_czyam = cms_dNdphitable31-cms_datamintable31
 cms_result_czyam = cms_resultdNdphi-cms_dNdphimin
+
+atlas_result_czyam = atlas_resultdNdphi-atlas_dNdphimin
+
 dphi = resultphi[1]-resultphi[0]
 dphi = 0.198/dphi
 j0 = j = 12
@@ -315,6 +334,8 @@ plt.plot(resultphi, alice_resultdNdphi-alice_dNdphimin, color = 'blue', linewidt
 
 plt.plot(resultphi, cms_resultdNdphi-cms_dNdphimin, color = 'magenta', linewidth=7, linestyle = '--',label=fr'$result,\,CMS$')
 
+plt.plot(resultphi, atlas_resultdNdphi-atlas_dNdphimin, color = 'green', linewidth=7, linestyle = ':',label=fr'$result,\,ATLAS$')
+
 # ,\, Error : {cmsmse:.2f}$
 
 # plt.plot(resultphi, resultdNdphi, color = 'red', linewidth=7, linestyle = '-',label=r'$result$')
@@ -347,8 +368,11 @@ fig.clear()
 resultphi=np.loadtxt('phiCorrelation_pt1-4.csv',delimiter=',',usecols=[0],skiprows=1)
 alice_resultdNdphi=np.loadtxt('phiCorrelation_pt1-4.csv',delimiter=',',usecols=[1],skiprows=1)
 cms_resultdNdphi=np.loadtxt('phiCorrelation_pt1-4.csv',delimiter=',',usecols=[2],skiprows=1)
+atlas_resultdNdphi=np.loadtxt('phiCorrelation_pt1-4.csv',delimiter=',',usecols=[3],skiprows=1)
+
 cms_dNdphimin=min(cms_resultdNdphi)
 alice_dNdphimin=min(alice_resultdNdphi)
+atlas_dNdphimin=min(atlas_resultdNdphi)
 
 
 deltaphi_pt14=cms_deltaphitable27
@@ -358,6 +382,9 @@ mindNdphi_pt14=min(dNdphi_pt14)
 
 cms_czyam = dNdphi_pt14-mindNdphi_pt14
 cms_result_czyam = cms_resultdNdphi-cms_dNdphimin
+
+atlas_result_czyam = atlas_resultdNdphi-atlas_dNdphimin
+
 dphi = resultphi[1]-resultphi[0]
 dphi = 0.198/dphi
 j0 = j = 12
@@ -380,6 +407,7 @@ plt.errorbar(deltaphi_pt14,dNdphi_pt14-mindNdphi_pt14, yerr=((cms_table27_error1
 # plt.plot(deltaphi,dNdphi-datamin, color="blue", linestyle = '', linewidth = 13)
 plt.plot(resultphi, alice_resultdNdphi-alice_dNdphimin, color = 'blue', linewidth=7, linestyle = '-',label=fr'$result,\,ALICE$')
 plt.plot(resultphi, cms_resultdNdphi-cms_dNdphimin, color = 'magenta', linewidth=7, linestyle = '--',label=fr'$result,\,CMS$')
+plt.plot(resultphi, atlas_resultdNdphi-atlas_dNdphimin, color = 'green', linewidth=7, linestyle = ':',label=fr'$result,\,ATLAS$')
 
 # ,\, Error : {cmsmse:.2f}$
 
