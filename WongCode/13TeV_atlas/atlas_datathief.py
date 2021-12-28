@@ -1,20 +1,9 @@
 import matplotlib as mpl
 import matplotlib.pyplot as plt
-import matplotlib.colors as colors
 import numpy as np
-import math
-import csv
-import matplotlib.ticker as ticker
 from matplotlib.ticker import ScalarFormatter, FormatStrFormatter
 from scipy.optimize import curve_fit
-import pandas as pd
 
-
-# f = open('G_coefficient.csv','w',newline='')
-# wr=csv.writer(f)
-
-# df = pd.read_csv('G_coefficient.csv', delimiter=',')
-dataintegral=[]     #data 적분 결과 저장 array
 
 mpl.rcParams["text.usetex"] = True
 
@@ -26,8 +15,16 @@ def templ_276(phi, dataintegral, F, v):
     G=(dataintegral-F*norm_276)/np.pi
     return F*periph_276_data+G*(1+2*v*np.cos(2*phi))
 
+def templ_130_G_periph(phi, G, F, v, i):
+    return F*periph_130_data[i]+G
 
-def templ_130_graph(phi, G, F, v):
+def templ_130_G_periph0(phi, G, F, v):
+    return F*periph_130_data[10]+G
+
+def templ_130_ridge_periph0(phi, G, F, v):
+    return F*periph_130_data[10]+G*(1+2*v*np.cos(2*phi))
+
+def templ_130(phi, G, F, v):
     return F*periph_130_data+G*(1+2*v*np.cos(2*phi))
 
 Gfit=[]
@@ -39,31 +36,23 @@ def wrap_templ_130(dataintegral):
     vfit.clear()
     def tempfunc(phi, F, v, integral = dataintegral):
         G_dist=(integral-F*norm_130)/np.pi
-        # wr.writerow([G])
-        # G = np.append(G, G_dist)\
-        print(G_dist, F, v)
         Gfit.append(G_dist)
         Ffit.append(F)
         vfit.append(v)
-        return templ_130_graph(phi, G_dist, F, v)
+        return templ_130(phi, G_dist, F, v)
     
-    # print(Gfit)
     return tempfunc
-        # return F*periph_130_data+G(1+2*v*np.cos(2*phi))
 
 
 fig = plt.figure()
 ax = plt.axes()
 
-fig.set_size_inches(35, 16.534, forward=True)
+fig.set_size_inches(25, 20, forward=True)
 
 periph_276_phi=np.loadtxt('./atlasgraphs/Low_multiplicity.csv',delimiter=',',usecols=[0],skiprows=1)
 periph_276_data=np.loadtxt('./atlasgraphs/Low_multiplicity.csv',delimiter=',',usecols=[1],skiprows=1)
 periph_130_phi=np.loadtxt('./atlasgraphs/Low_multiplicity.csv',delimiter=',',usecols=[2],skiprows=1)
 periph_130_data=np.loadtxt('./atlasgraphs/Low_multiplicity.csv',delimiter=',',usecols=[3],skiprows=1)
-
-# plt.plot(periph_276_phi, periph_276_data, color = 'red', linewidth=7, linestyle = '-',label=fr'$peripheral, 2.76TeV$')
-# plt.plot(periph_130_phi, periph_130_data, color = 'blue', linewidth=7, linestyle = '-',label=fr'$peripheral, 13TeV$')
 
 plt.scatter(periph_276_phi, periph_276_data, color = 'red', s=100,label=fr'$peripheral, 2.76TeV$')
 plt.scatter(periph_130_phi, periph_130_data, color = 'blue', s=100,label=fr'$peripheral, 13TeV$')
@@ -77,17 +66,6 @@ plt.minorticks_on()
 
 plt.tick_params(axis='both',which='major',direction='in',width=2,length=30,labelsize=45)
 plt.tick_params(axis='both',which='minor',direction='in',width=2,length=15,labelsize=45)
-
-# x = np.linspace(-1.5, 5, 35)
-
-popt_276, pcov_276 = curve_fit(periph, periph_276_phi, periph_276_data)
-popt_130, pcov_130 = curve_fit(periph, periph_130_phi, periph_130_data)
-
-# plt.plot(periph_276_phi, periph(periph_276_phi, *popt_276), color = 'red', linewidth=7, linestyle = '-',label=fr'$peripheral\,\, fit, 2.76TeV$')
-# plt.plot(periph_130_phi, periph(periph_130_phi, *popt_130), color = 'blue', linewidth=7, linestyle = '-',label=fr'$peripheral\,\, fit, 13TeV$')
-
-# print(popt_130, popt_276)
-
 
 plt.grid(color='silver',linestyle=':',linewidth=3)
 
@@ -120,9 +98,6 @@ for i in range(len(periph_130_phi_avg)-1):
     if(-0.001<periph_276_phi_avg[i]<np.pi):
         norm_276 += periph_276_data[i+1]*(periph_276_phi_avg[i+1]-periph_276_phi_avg[i])
 
-# print(norm_130, norm_276)
-# print(periph_130_phi_avg)
-
 
 phi_13TeV_130_up=np.loadtxt('./atlasgraphs/13TeV_130~.csv',delimiter=',',usecols=[0])
 data_13TeV_130_up=np.loadtxt('./atlasgraphs/13TeV_130~.csv',delimiter=',',usecols=[1])
@@ -143,40 +118,32 @@ for i in range(len(avg_13TeV_130_up)-1):
     if(-0.001<avg_13TeV_130_up[i]<np.pi):
         norm_130_up += data_13TeV_130_up[i+1]*(avg_13TeV_130_up[i+1]-avg_13TeV_130_up[i])
 
-print(norm_130_up)
-dataintegral.append(norm_130_up)
-        # print(data_13TeV_130_up[i+1], avg_13TeV_130_up[i+1], avg_13TeV_130_up[i])
-    # if(-0.001<periph_276_phi_avg[i]<np.pi):
-    #     norm_276 += periph_276_data[i+1]*(periph_276_phi_avg[i+1]-periph_276_phi_avg[i])
-
-# wr.writerow(['130~'])
-
-
 popt_13TeV_130_up, pcov_13TeV_130_up = curve_fit(wrap_templ_130(norm_130_up), phi_13TeV_130_up, data_13TeV_130_up)
-# popt_13TeV_130_up, pcov_13TeV_130_up = curve_fit(templ_130, phi_13TeV_130_up, data_13TeV_130_up)
-# print(G[-1])
 
-print(popt_13TeV_130_up)
-# print(pcov_13TeV_130_up)
+plt.scatter(phi_13TeV_130_up, data_13TeV_130_up, color = 'black', s=1000, marker='o',label=fr'$Y(\Delta\phi)$')
 
-# print(Gfit[-1])
-# print(Ffit[-1])
-# print(vfit[-1])
+G_periph=np.zeros(len(phi_13TeV_130_up))
+G_periph0=np.zeros(len(phi_13TeV_130_up))
+ridge_periph0=np.zeros(len(phi_13TeV_130_up))
 
+for i in range(len(phi_13TeV_130_up)):
+    G_periph[i] = templ_130_G_periph(phi_13TeV_130_up[i], Gfit[-1], Ffit[-1], vfit[-1], i)
+    G_periph0[i] = templ_130_G_periph0(phi_13TeV_130_up[i], Gfit[-1], Ffit[-1], vfit[-1])
+    ridge_periph0[i] = templ_130_ridge_periph0(phi_13TeV_130_up[i], Gfit[-1], Ffit[-1], vfit[-1])
 
-# plt.scatter(phi_13TeV_130_up, templ_130(phi_13TeV_130_up, *popt_13TeV_130_up), color = 'red', s=5000,marker='_',label=fr'$templ, 13TeV$')
-# plt.step(phi_13TeV_130_up, templ_130(phi_13TeV_130_up, *popt_13TeV_130_up), drawstyle='steps-mid', color = 'red', label=fr'$templ, 13TeV$')
-plt.scatter(phi_13TeV_130_up, data_13TeV_130_up, color = 'blue', s=1000, marker='o',label=fr'$data, 13TeV$')
-# phi_13TeV_130_up_plus = np.append(phi_13TeV_130_up, -1.55)
-# plt.plot(phi_13TeV_130_up, templ_130(phi_13TeV_130_up, *popt_13TeV_130_up), drawstyle='steps-mid', color = 'red', linewidth=5, linestyle = '-',label=fr'$temple\,\, fit, 13TeV$')
-plt.plot(phi_13TeV_130_up, templ_130_graph(phi_13TeV_130_up, Gfit[-1], Ffit[-1], vfit[-1]), drawstyle='steps-mid', color = 'red', linewidth=5, linestyle = '-',label=fr'$temple\,\, fit, 13TeV$')
+plt.plot(phi_13TeV_130_up, templ_130(phi_13TeV_130_up, Gfit[-1], Ffit[-1], vfit[-1]), drawstyle='steps-mid', color = 'red', linewidth=5, linestyle = '-',label=r'$Y^{templ}(\Delta\phi)$')
+
+# plt.plot(phi_13TeV_130_up, G_periph, drawstyle='steps-mid', color = 'red', linewidth=5, linestyle = '-',label=fr'$G+FY^periph(\Delta\phi)$')
+plt.scatter(phi_13TeV_130_up, G_periph, edgecolor = 'black', facecolors='none', s=1000, label=r'$G+FY^{periph} (\Delta\phi)$')
+plt.plot(phi_13TeV_130_up, G_periph0, color = 'orange', linewidth=5, linestyle = '--',label=r'$G+FY^{periph}(0)$')
+plt.plot(phi_13TeV_130_up, ridge_periph0, color = 'blue', linewidth=5, linestyle = '--',label=r'$Y^{ridge}+FY^{periph}(0)$')
 
 plt.xlim(-1.55,4.7)
 
 plt.ylabel(r'$Y(\Delta \phi)$', size = 70)
 plt.xlabel(r'$\Delta \phi$', size=70)
 
-plt.title(r'$ATLAS,\quad Y^{templ} \, (130 \leq N^{rec}_{ch})$', fontsize = 75)
+plt.title(r'$ATLAS \,\, pp(13TeV) \,\, (130 \leq N^{rec}_{ch})$', fontsize = 75)
 
 plt.minorticks_on()
 
@@ -195,3 +162,125 @@ fig.clear()
 
 
 
+phi_13TeV_120_130=np.loadtxt('./atlasgraphs/13TeV_120~130.csv',delimiter=',',usecols=[0])
+data_13TeV_120_130=np.loadtxt('./atlasgraphs/13TeV_120~130.csv',delimiter=',',usecols=[1])
+
+
+norm = 0.
+
+avg_13TeV_120_130=np.zeros(len(phi_13TeV_120_130)-1)
+for i in range(len(phi_13TeV_120_130)-1):
+    avg_13TeV_120_130[i]=(phi_13TeV_120_130[i]+phi_13TeV_120_130[i+1])/2.
+end = 2*phi_13TeV_120_130[-1]-avg_13TeV_120_130[-1]
+
+avg_13TeV_120_130 = np.append(avg_13TeV_120_130, end)
+
+#적분값을 구해봅시다.
+norm_120_130 = 0.
+for i in range(len(avg_13TeV_120_130)-1):
+    if(-0.001<avg_13TeV_120_130[i]<np.pi):
+        norm_120_130 += data_13TeV_120_130[i+1]*(avg_13TeV_120_130[i+1]-avg_13TeV_120_130[i])
+
+popt_13TeV_120_130, pcov_13TeV_120_130 = curve_fit(wrap_templ_130(norm_120_130), phi_13TeV_120_130, data_13TeV_120_130)
+
+plt.scatter(phi_13TeV_120_130, data_13TeV_120_130, color = 'black', s=1000, marker='o',label=fr'$Y(\Delta\phi)$')
+
+G_periph=np.zeros(len(phi_13TeV_120_130))
+G_periph0=np.zeros(len(phi_13TeV_120_130))
+ridge_periph0=np.zeros(len(phi_13TeV_120_130))
+
+for i in range(len(phi_13TeV_120_130)):
+    G_periph[i] = templ_130_G_periph(phi_13TeV_120_130[i], Gfit[-1], Ffit[-1], vfit[-1], i)
+    G_periph0[i] = templ_130_G_periph0(phi_13TeV_120_130[i], Gfit[-1], Ffit[-1], vfit[-1])
+    ridge_periph0[i] = templ_130_ridge_periph0(phi_13TeV_120_130[i], Gfit[-1], Ffit[-1], vfit[-1])
+
+plt.plot(phi_13TeV_120_130, templ_130(phi_13TeV_120_130, Gfit[-1], Ffit[-1], vfit[-1]), drawstyle='steps-mid', color = 'red', linewidth=5, linestyle = '-',label=r'$Y^{templ}(\Delta\phi)$')
+
+# plt.plot(phi_13TeV_120_130, G_periph, drawstyle='steps-mid', color = 'red', linewidth=5, linestyle = '-',label=fr'$G+FY^periph(\Delta\phi)$')
+plt.scatter(phi_13TeV_120_130, G_periph, edgecolor = 'black', facecolors='none', s=1000, label=r'$G+FY^{periph} (\Delta\phi)$')
+plt.plot(phi_13TeV_120_130, G_periph0, color = 'orange', linewidth=5, linestyle = '--',label=r'$G+FY^{periph}(0)$')
+plt.plot(phi_13TeV_120_130, ridge_periph0, color = 'blue', linewidth=5, linestyle = '--',label=r'$Y^{ridge}+FY^{periph}(0)$')
+
+plt.xlim(-1.55,4.7)
+
+plt.ylabel(r'$Y(\Delta \phi)$', size = 70)
+plt.xlabel(r'$\Delta \phi$', size=70)
+
+plt.title(r'$ATLAS \,\, pp(13TeV) \,\, (120 \leq N^{rec}_{ch} < 130)$', fontsize = 75)
+
+plt.minorticks_on()
+
+plt.tick_params(axis='both',which='major',direction='in',width=2,length=30,labelsize=45)
+plt.tick_params(axis='both',which='minor',direction='in',width=2,length=15,labelsize=45)
+plt.legend(fontsize=45,framealpha=False)
+
+
+plt.grid(color='silver',linestyle=':',linewidth=3)
+
+plt.tight_layout()
+
+fig.savefig('13TeV_120~130.png')
+
+fig.clear()
+
+
+phi_13TeV_110_120=np.loadtxt('./atlasgraphs/13TeV_110~120.csv',delimiter=',',usecols=[0])
+data_13TeV_110_120=np.loadtxt('./atlasgraphs/13TeV_110~120.csv',delimiter=',',usecols=[1])
+
+
+norm = 0.
+
+avg_13TeV_110_120=np.zeros(len(phi_13TeV_110_120)-1)
+for i in range(len(phi_13TeV_110_120)-1):
+    avg_13TeV_110_120[i]=(phi_13TeV_110_120[i]+phi_13TeV_110_120[i+1])/2.
+end = 2*phi_13TeV_110_120[-1]-avg_13TeV_110_120[-1]
+
+avg_13TeV_110_120 = np.append(avg_13TeV_110_120, end)
+
+#적분값을 구해봅시다.
+norm_110_120 = 0.
+for i in range(len(avg_13TeV_110_120)-1):
+    if(-0.001<avg_13TeV_110_120[i]<np.pi):
+        norm_110_120 += data_13TeV_110_120[i+1]*(avg_13TeV_110_120[i+1]-avg_13TeV_110_120[i])
+
+popt_13TeV_110_120, pcov_13TeV_110_120 = curve_fit(wrap_templ_130(norm_110_120), phi_13TeV_110_120, data_13TeV_110_120)
+
+plt.scatter(phi_13TeV_110_120, data_13TeV_110_120, color = 'black', s=1000, marker='o',label=fr'$Y(\Delta\phi)$')
+
+G_periph=np.zeros(len(phi_13TeV_110_120))
+G_periph0=np.zeros(len(phi_13TeV_110_120))
+ridge_periph0=np.zeros(len(phi_13TeV_110_120))
+
+for i in range(len(phi_13TeV_110_120)):
+    G_periph[i] = templ_130_G_periph(phi_13TeV_110_120[i], Gfit[-1], Ffit[-1], vfit[-1], i)
+    G_periph0[i] = templ_130_G_periph0(phi_13TeV_110_120[i], Gfit[-1], Ffit[-1], vfit[-1])
+    ridge_periph0[i] = templ_130_ridge_periph0(phi_13TeV_110_120[i], Gfit[-1], Ffit[-1], vfit[-1])
+
+plt.plot(phi_13TeV_110_120, templ_130(phi_13TeV_110_120, Gfit[-1], Ffit[-1], vfit[-1]), drawstyle='steps-mid', color = 'red', linewidth=5, linestyle = '-',label=r'$Y^{templ}(\Delta\phi)$')
+
+# plt.plot(phi_13TeV_110_120, G_periph, drawstyle='steps-mid', color = 'red', linewidth=5, linestyle = '-',label=fr'$G+FY^periph(\Delta\phi)$')
+plt.scatter(phi_13TeV_110_120, G_periph, edgecolor = 'black', facecolors='none', s=1000, label=r'$G+FY^{periph} (\Delta\phi)$')
+plt.plot(phi_13TeV_110_120, G_periph0, color = 'orange', linewidth=5, linestyle = '--',label=r'$G+FY^{periph}(0)$')
+plt.plot(phi_13TeV_110_120, ridge_periph0, color = 'blue', linewidth=5, linestyle = '--',label=r'$Y^{ridge}+FY^{periph}(0)$')
+
+plt.xlim(-1.55,4.7)
+
+plt.ylabel(r'$Y(\Delta \phi)$', size = 70)
+plt.xlabel(r'$\Delta \phi$', size=70)
+
+plt.title(r'$ATLAS \,\, pp(13TeV) \,\, (110 \leq N^{rec}_{ch}<120)$', fontsize = 75)
+
+plt.minorticks_on()
+
+plt.tick_params(axis='both',which='major',direction='in',width=2,length=30,labelsize=45)
+plt.tick_params(axis='both',which='minor',direction='in',width=2,length=15,labelsize=45)
+plt.legend(fontsize=45,framealpha=False)
+
+
+plt.grid(color='silver',linestyle=':',linewidth=3)
+
+plt.tight_layout()
+
+fig.savefig('13TeV_110~120.png')
+
+fig.clear()

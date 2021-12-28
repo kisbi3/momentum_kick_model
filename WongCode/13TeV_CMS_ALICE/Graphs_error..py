@@ -219,7 +219,7 @@ plt.plot(resultphi, alice_resultdNdphi-alice_dNdphimin, color = 'blue', linewidt
 
 plt.plot(resultphi, cms_resultdNdphi-cms_dNdphimin, color = 'magenta', linewidth=7, linestyle = '--',label=fr'$result,\, CMS$')
 
-plt.plot(resultphi, atlas_resultdNdphi-atlas_dNdphimin, color = 'green', linewidth=7, linestyle = ':',label=fr'$result,\, ATLAS')
+plt.plot(resultphi, atlas_resultdNdphi-atlas_dNdphimin, color = 'green', linewidth=7, linestyle = ':',label=fr'$result,\, ATLAS$')
 
 # ,\, Error : {cmsmse:.2f}$
 
