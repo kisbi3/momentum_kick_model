@@ -184,9 +184,28 @@ cms_result_czyam = cms_resultdNdphi-cms_dNdphimin
 
 atlas_result_czyam = atlas_resultdNdphi-atlas_dNdphimin
 
+dphi = resultphi[1]-resultphi[0]
+dphi = 0.198/dphi
+j0 = j = 12
+alicemse = 0
+cmsmse = 0
+for i in range(len(alice_dNdphitable29)):
+        # print(cms_deltaphitable27[i],alice_deltaphitable27[i],resultphi[round(j)])
+        # alicemse += abs(alice_czyam[i]-alice_result_czyam[round(j)])**2
+        # print(alice_deltaphitable29[i], resultphi[round(j)], alice_czyam[i], alice_result_czyam[round(j)])
+        # print(cms_deltaphitable29[i], resultphi[round(j)], cms_czyam[i], cms_result_czyam[round(j)])
+        alicemse += abs(alice_czyam[i]-alice_result_czyam[round(j)])/alice_result_czyam[round(j)]
+        cmsmse += abs(cms_czyam[i]-cms_result_czyam[round(j)])/cms_result_czyam[round(j)]
+        j = j0+(i+1)*dphi
+alicemse = (alicemse/len(alice_dNdphitable29))*100
+cmsmse = (cmsmse/len(cms_dNdphitable29))*100
+print('2<pT<3')
+print('ALICE error = ', alicemse)
+print('CMS error = ', cmsmse)
 wr.writerow(['2<pT<3','ALICE : ',alicemse])
 wr.writerow(['2<pT<3','CMS : ',cmsmse])
 
+errors += alicemse + cmsmse
 
 plt.errorbar(alice_deltaphitable29,alice_dNdphitable29-alice_datamintable29, yerr=(alice_table29_error1,abs(alice_table29_error2)), color="blue",markersize=20,marker='o',fillstyle='none',linestyle=' ',linewidth=5,label=r'$pp,13TeV \, ALICE$',capsize=15)
 plt.errorbar(cms_deltaphitable29,cms_dNdphitable29-cms_datamintable29, yerr=(cms_table29_error1,abs(cms_table29_error2)), color="magenta",markersize=25,marker='o',linestyle=' ',linewidth=5,fillstyle='none',label=r'$pp,13TeV \, CMS$',capsize=15)
@@ -276,6 +295,27 @@ cms_result_czyam = cms_resultdNdphi-cms_dNdphimin
 
 atlas_result_czyam = atlas_resultdNdphi-atlas_dNdphimin
 
+dphi = resultphi[1]-resultphi[0]
+dphi = 0.198/dphi
+j0 = j = 12
+alicemse = 0
+cmsmse = 0
+for i in range(len(alice_dNdphitable31)):
+        # print(cms_deltaphitable27[i],alice_deltaphitable27[i],resultphi[round(j)])
+        # alicemse += abs(alice_czyam[i]-alice_result_czyam[round(j)])**2
+        # print(alice_deltaphitable27[i], resultphi[round(j)], alice_czyam[i], alice_result_czyam[round(j)])
+        # print(cms_deltaphitable31[i], resultphi[round(j)], cms_czyam[i], cms_result_czyam[round(j)])
+        alicemse += abs(alice_czyam[i]-alice_result_czyam[round(j)])/alice_result_czyam[round(j)]
+        cmsmse += abs(cms_czyam[i]-cms_result_czyam[round(j)])/cms_result_czyam[round(j)]
+        j = j0+(i+1)*dphi
+alicemse = (alicemse/len(alice_dNdphitable31))*100
+cmsmse = (cmsmse/len(cms_dNdphitable31))*100
+print('3<pT<4')
+print('ALICE error = ', alicemse)
+print('CMS error = ', cmsmse)
+
+errors += alicemse + cmsmse
+
 wr.writerow(['3<pT<4','ALICE : ',alicemse])
 wr.writerow(['3<pT<4','CMS : ',cmsmse])
 
@@ -345,7 +385,20 @@ cms_result_czyam = cms_resultdNdphi-cms_dNdphimin
 
 atlas_result_czyam = atlas_resultdNdphi-atlas_dNdphimin
 
+dphi = resultphi[1]-resultphi[0]
+dphi = 0.198/dphi
+j0 = j = 12
+cmsmse = 0
+for i in range(len(alice_dNdphitable31)):
+        # print(cms_deltaphitable27[i],alice_deltaphitable27[i],resultphi[round(j)])
+        cmsmse += abs(cms_czyam[i]-cms_result_czyam[round(j)])/cms_result_czyam[round(j)]
+        j = j0+(i+1)*dphi
+cmsmse = (cmsmse/len(cms_dNdphitable31))*100
+print('1<pT<4')
+print('CMS error = ', cmsmse)
 wr.writerow(['1<pT<4','CMS : ',cmsmse])
+
+errors += cmsmse
 
 plt.errorbar(deltaphi_pt14,dNdphi_pt14-mindNdphi_pt14, yerr=((cms_table27_error1**2+cms_table29_error1**2+cms_table31_error1**2)**0.5,(cms_table27_error2**2+cms_table29_error2**2+cms_table31_error2**2)**0.5), color="magenta",markersize=25,fillstyle='none',marker='o',linestyle=' ',linewidth=5,label=r'$pp,13TeV \, CMS$',capsize=15)
 
@@ -409,10 +462,14 @@ Alice13TeVdpt = Alice13TeVpt_high-Alice13TeVpt_low
 
 norm_Alice = 0
 for i in range(len(Alice13TeVdpt)):
-        norm_Alice += (Alice13TeVpt_high[i]-Alice13TeVpt_low[i])*Alice13TeVptdis[i]
+        norm_Alice += Alice13TeVptdis[i]*Alice13TeVdpt[i]
+        # print(Alice13TeVdpt[i])
+norm_Alice = 1/norm_Alice
 
+Alice13TeVptdis = Alice13TeVptdis*norm_Alice
 
-
+# print(Alice13TeVptdis_error1)
+# print(Alice13TeVptdis_error2)
 
 CMS13TeVpt               =np.loadtxt('/home/jaesung/Desktop/Dropbox/Code/WongCode/13TeV/HEPData-ins1397173-v1-csv/Table33.csv',delimiter=',',usecols=[0],skiprows=14,max_rows=9)
 CMS13TeVptdis            =np.loadtxt('/home/jaesung/Desktop/Dropbox/Code/WongCode/13TeV/HEPData-ins1397173-v1-csv/Table33.csv',delimiter=',',usecols=[1],skiprows=14,max_rows=9)
@@ -428,10 +485,16 @@ CMS13TeVpt_low = np.loadtxt('/home/jaesung/Desktop/Dropbox/Code/WongCode/13TeV/H
 CMS13TeVpt_high = np.loadtxt('/home/jaesung/Desktop/Dropbox/Code/WongCode/13TeV/HEPData-ins1397173-v1-csv/Table33.csv',delimiter=',',usecols=[7],skiprows=14,max_rows=9)
 CMS13TeVdpt = CMS13TeVpt_high-CMS13TeVpt_low
 
-#적분값을 구하자.
 norm_CMS=0
 for i in range(len(CMS13TeVdpt)):
-        norm_CMS += (CMS13TeVpt_high[i]-CMS13TeVpt_low[i])*CMS13TeVptdis[i]
+        norm_CMS += CMS13TeVptdis[i]*CMS13TeVdpt[i]
+        # print(Alice13TeVdpt[i])
+norm_CMS = 1/norm_CMS
+
+CMS13TeVptdis = CMS13TeVptdis*norm_CMS
+
+alicemse=0
+cmsmse = 0
 
 # print(pt[24], Alice13TeVpt[0], Alice13TeVptdis[0], aliceRidgedis[24])
 # print(pt[34], Alice13TeVpt[1], Alice13TeVptdis[1], aliceRidgedis[34])
@@ -442,24 +505,36 @@ alicemse = abs(Alice13TeVptdis[0]-aliceRidgedis[24])/aliceRidgedis[24]+abs(Alice
 alicemse = (alicemse/4)*100
 
 print('Y^Ridge')
+# print(Alice13TeVpt)
+# print(pt)
+# print(CMS13TeVpt)
+dpt = pt[1]-pt[0]
+dpt = 10
+j0 = j = 4
+for i in range(len(CMS13TeVpt)-3):
+        # print(CMS13TeVpt[i],pt[i*dpt+j0])
+        cmsmse += abs(CMS13TeVptdis[i]-cmsRidgedis[i*dpt+j0])/cmsRidgedis[i*dpt+j0]
+cmsmse += abs(CMS13TeVptdis[7]-cmsRidgedis[68])/cmsRidgedis[68]+abs(CMS13TeVptdis[7]-cmsRidgedis[98])/cmsRidgedis[98]
+cmsmse = (cmsmse/8)*100
+
+errors += alicemse + cmsmse
+
+print('ALICE error = ',alicemse)
+print('CMS error = ',cmsmse)
 
 wr.writerow(['Y^Ridge','ALICE : ',alicemse])
 wr.writerow(['Y^Ridge','CMS : ',cmsmse])
 
 # yerr=(Alice13TeVptdis_error1,abs(Alice13TeVptdis_error2))
-plt.errorbar(Alice13TeVpt, Alice13TeVptdis, yerr=(abs(Alice13TeVptdis_error2),Alice13TeVptdis_error1), color="blue",zorder=2,markersize=35,marker='v',linestyle=' ',linewidth=3,label=r'$pp, \, 13TeV, \, ALICE$',capsize=10)
+plt.errorbar(Alice13TeVpt, Alice13TeVptdis, yerr=(abs(Alice13TeVptdis_error2)*norm_Alice,Alice13TeVptdis_error1*norm_Alice), color="blue",zorder=2,markersize=35,marker='v',linestyle=' ',linewidth=3,label=r'$pp, \, 13TeV, \, ALICE$',capsize=10)
 # result,\, ALICE, \,1.6<\vert\Delta\eta\vert<1.8
-plt.errorbar(CMS13TeVpt, CMS13TeVptdis, yerr=(abs(CMS13TeVptdis_error2),CMS13TeVptdis_error1), color="black",zorder=1,markersize=35,marker='^',linestyle=' ',linewidth=3,label=r'$pp, \, 13TeV, \, CMS$',capsize=10)
+plt.errorbar(CMS13TeVpt, CMS13TeVptdis, yerr=(abs(CMS13TeVptdis_error2)*norm_CMS,CMS13TeVptdis_error1*norm_CMS), color="black",zorder=1,markersize=35,marker='^',linestyle=' ',linewidth=3,label=r'$pp, \, 13TeV, \, CMS$',capsize=10)
 
-alice_norm = np.loadtxt('pTdis_integral.csv', delimiter=',', usecols = [1])
-cms_norm = np.loadtxt('pTdis_integral.csv', delimiter=',', usecols = [3])
-
-
-plt.plot(pt,aliceRidgedis*(norm_Alice/alice_norm), color="skyblue",linewidth=6,linestyle = '-',label=fr'$result, \, ALICE$',zorder=4)
+plt.plot(pt,aliceRidgedis, color="skyblue",linewidth=6,linestyle = '-',label=fr'$result, \, ALICE$',zorder=4)
 # pp,Ridge,1.6<\vert\Delta\eta\vert<1.8
 # ,\, Error : {alicemse:.3E}
 
-plt.plot(pt,cmsRidgedis*(norm_CMS/cms_norm), color="crimson",linewidth=6, linestyle = '-',label=fr'$result, \, CMS$',zorder=3)
+plt.plot(pt,cmsRidgedis, color="crimson",linewidth=6, linestyle = '-',label=fr'$result, \, CMS$',zorder=3)
 
 
 
@@ -718,6 +793,18 @@ ax.yaxis.set_major_formatter(ticker.FuncFormatter(lambda y, _: '${:g}$'.format(y
 plt.tick_params(axis='both',which='major',direction='in',width=2,length=30,labelsize=45)
 plt.tick_params(axis='both',which='minor',direction='in',width=2,length=15,labelsize=45)
 
+
+# plt.ticklabel_format(axis='both',style='plain',useOffset=False)
+# ax2 = ax.twinx()
+# q = 0.05*result_Yridge_jetpt+0.5
+# qy = np.zeros(len(result_Yridge_jet))-5
+# line2 = ax2.plot(q,qy)
+# ax2.set_xlabel('q')
+# ax2.spines.bottom.set_position(("axes", -0.15))
+# ax2.xaxis.set_label_position('bottom')
+# ax2.xaxis.set_ticks_position('bottom')
+# # ax2.axis([0,9,-1,1])
+# ax2.get_xlim(9)
 
 plt.grid(color='silver',linestyle=':',linewidth=3)
 # plt.legend(fontsize=45,framealpha=False, loc='upper left')

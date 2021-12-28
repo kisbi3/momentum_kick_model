@@ -212,9 +212,9 @@ double lastphi = 1.28; //적분 끝 범위
 double delta_Deltaphi = 2.56;
 
 int n_1_pt = 200;
-double dptf_1 = double ((10.-0.)/n_1_pt);  //func1 pt 출력 범위 : 0.15~11
+double dptf_1 = double ((15.-0.15)/n_1_pt);  //func1 pt 출력 범위 : 0.15~11
 double ddptf_1 = dptf_1/n_1;
-double ptf_1 = 0.;
+double ptf_1 = 0.15;
 int check2_1 = 1;
 
 // double arr[3]= {0.};
@@ -305,15 +305,23 @@ void func11(double ptf2, double phif, int k, double q, char dist, double dptf2){
         arr1[2] *= 2.*2./3.;
         Yridge[0][k-1] = arr1[0]-CZYAM[0][k];
         Yridge[1][k-1] = arr1[1];
+
+
         // std::cout<<k-1<<std::setw(20)<<Yridge[0][k-1]<<std::setw(20)<<Yridge[1][k-1]<<std::endl;
 
-        // if(1.<=ptf2 && ptf2<=4.){
-        //     norm[0] += (arr1[0]-CZYAM[0][k])*dptf_1;   
-        //     norm[1] += arr1[1]*dptf_1;                     
-        // }        
-        norm[0] += (arr1[0]-CZYAM[0][k])*dptf_1;   
+        //Alice의 경우 1<pt<4의 경우에서 그래프가 그려진다.
+        if(1.<=ptf2 && ptf2<=4.){
+            norm[0] += (arr1[0]-CZYAM[0][k])*dptf_1;   
+            // norm[1] += arr1[1]*dptf_1;                     
+        }
+        // norm[0] += (arr1[0]-CZYAM[0][k])*dptf_1;   
         // norm[1] += (arr1[1]-CZYAM[1][k])*dptf_1;   //cms도 alice와 동일하게 해야되는거 아닌가? 왜이러지?
-        norm[1] += arr1[1]*dptf_1;      
+
+        //CMS의 경우에는 0.154~14.37임.
+        if(0.154<=ptf2 && ptf2<=14.37){
+            norm[1] += arr1[1]*dptf_1;    
+        }
+        
     }
 
     else if(dist == 'j'){
@@ -419,9 +427,9 @@ void func1(double ptq){
     //phi에 대해서 적분
     std::cout<<"CZYAM Calculate end"<<std::endl;
 
-    double ptf_1 = 0.;
+    double ptf_1 = 0.15;
     // double ptf_2 = dptf_1*n_1_pt/2;
-    double ptf_2 = (10.-0.)/2.;
+    double ptf_2 = (15.-0.15)/2.;
     double phif_1 = phif0_1;
     // double arr[3]= {0.};
     int k_2 = (n_1_pt+2)/2;
@@ -438,17 +446,28 @@ void func1(double ptq){
         k_2++;
     }
 
-    norm[0] = 1./norm[0];
-    norm[1] = 1./norm[1];
+    // norm[0] = 1./norm[0];
+    // norm[1] = 1./norm[1];
+
+
     // std::cout<<norm[0]<<std::setw(20)<<norm[1]<<std::endl;
-    ptf_1=0.;
+    ptf_1=0.15;
     for(k_1=1;k_1<=n_1_pt+1;k_1++){
         // std::cout<<k_1<<std::endl;
         // std::cout<<k_1<<std::setw(20)<<Yridge[0][k_1-1]<<std::setw(20)<<Yridge[1][k_1-1]<<std::endl;
-        foutalicept<<ptf_1+(dptf_1/2)<<","<<Yridge[0][k_1-1]*norm[0]<<","<<Yridge[1][k_1-1]*norm[1]<<","<<sum_1j<<std::endl;
+
+        // foutalicept<<ptf_1+(dptf_1/2)<<","<<Yridge[0][k_1-1]*norm[0]<<","<<Yridge[1][k_1-1]*norm[1]<<","<<sum_1j<<std::endl;
+
+        //normalize 하면 안된다. 이때 계산한 값들의 적분값과 데이터의 적분값이 동일하도록 하자. 이는 graph 그리는 곳에서 진행한다.
+        foutalicept<<ptf_1+(dptf_1/2)<<","<<Yridge[0][k_1-1]<<","<<Yridge[1][k_1-1]<<","<<sum_1j<<std::endl;
         ptf_1 += dptf_1;
     }
     foutalicept.close();
+
+    std::ofstream fout("pTdis_integral.csv");
+    fout<<"Alice,"<<norm[0]<<","<<"CMS,"<<norm[1]<<std::endl;
+    fout.close();
+
     // delete [] Yridge;
 }
 
