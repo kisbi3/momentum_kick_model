@@ -27,38 +27,6 @@ def templ_276(phi, dataintegral, F, v):
     return F*periph_276_data+G*(1+2*v*np.cos(2*phi))
 
 
-def templ_130_dist(phi,F, v):
-    i=0
-    G=(dataintegral[i-1]-F*norm_130)/np.pi
-    # print(dataintegral[i-1])
-    def count():
-        nonlocal i
-        i+=1
-        return i
-    count()     #curve fit한 횟수를 세기 위한 함수. 이를 이용해 몇 행에 배치할 것인지 확인할 것이다.
-
-    # def tempfunc(phi, F, v):
-    #     G=(dataintegral[i]-F*norm_130)/np.pi
-        # return F*periph_130_data+G*(1+2*v*np.cos(2*phi))
-
-    # return tempfunc
-    print(G, F, v)
-    return F*periph_130_data+G*(1+2*v*np.cos(2*phi))
-    
-    # return F*periph_130_data+6.111789855692136*(1+2*v*np.cos(2*phi))
-    # return F*periph_130_data+((dataintegral[i-1]-F*norm_130)/np.pi)*(1+2*v*np.cos(2*phi))
-
-def G_function(F):
-    return (25.441657682350233-F*norm_130)/math.pi
-
-def templ_130(phi, F, v):
-    # return F*periph_130_data+6.111789855692136*(1+2*v*np.cos(2*phi))
-    return F*periph_130_data+(1+2*v*np.cos(2*phi))*G_function(F)
-    # G = (dataintegral[0]-F*norm_130)/np.pi
-    # print(G, F, v)
-    # return F*periph_130_data+G*(1+2*v*np.cos(2*phi))
-
-
 def templ_130_graph(phi, G, F, v):
     return F*periph_130_data+G*(1+2*v*np.cos(2*phi))
 
@@ -79,7 +47,7 @@ def wrap_templ_130(dataintegral):
         vfit.append(v)
         return templ_130_graph(phi, G_dist, F, v)
     
-    print(Gfit)
+    # print(Gfit)
     return tempfunc
         # return F*periph_130_data+G(1+2*v*np.cos(2*phi))
 
