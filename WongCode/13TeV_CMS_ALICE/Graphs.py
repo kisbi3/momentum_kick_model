@@ -8,6 +8,9 @@ import matplotlib.ticker as ticker
 from matplotlib.ticker import ScalarFormatter, FormatStrFormatter
 from scipy.optimize import curve_fit
 
+def atlas_ridge(periph, phi, F, G, v):          #atlas는 0.5<pt<5 이므로 지금까지 그려온 그래프와 맞지 않음.
+        return F*periph+G*(1+2*v*np.cos(2*phi))
+
 
 mpl.rcParams["text.usetex"] = True
 
@@ -25,23 +28,23 @@ ax = plt.axes()
 fig.set_size_inches(35, 16.534, forward=True)
 # fig.set_size_inches(50, 30, forward=True)
 
-alice_deltaphitable27=np.loadtxt('/home/jaesung/Desktop/Dropbox/Code/WongCode/13TeV-Alice/HEPData-ins1840098-v1-csv/1-NTRIGDN-DPHI.csv',delimiter=',',usecols=[0],skiprows=129, max_rows=13)
-alice_dNdphitable27=np.loadtxt('/home/jaesung/Desktop/Dropbox/Code/WongCode/13TeV-Alice/HEPData-ins1840098-v1-csv/1-NTRIGDN-DPHI.csv',delimiter=',',usecols=[3],skiprows=129, max_rows=13)
+alice_deltaphitable27=np.loadtxt('/home/jaesung/OneDrive/Code/WongCode/13TeV-Alice/HEPData-ins1840098-v1-csv/1-NTRIGDN-DPHI.csv',delimiter=',',usecols=[0],skiprows=129, max_rows=13)
+alice_dNdphitable27=np.loadtxt('/home/jaesung/OneDrive/Code/WongCode/13TeV-Alice/HEPData-ins1840098-v1-csv/1-NTRIGDN-DPHI.csv',delimiter=',',usecols=[3],skiprows=129, max_rows=13)
 alice_datamintable27=min(alice_dNdphitable27)
-alice_table27_error1_stat=np.loadtxt('/home/jaesung/Desktop/Dropbox/Code/WongCode/13TeV-Alice/HEPData-ins1840098-v1-csv/1-NTRIGDN-DPHI.csv',delimiter=',',usecols=[4],skiprows=129, max_rows=13)
-alice_table27_error2_stat=np.loadtxt('/home/jaesung/Desktop/Dropbox/Code/WongCode/13TeV-Alice/HEPData-ins1840098-v1-csv/1-NTRIGDN-DPHI.csv',delimiter=',',usecols=[5],skiprows=129, max_rows=13)
+alice_table27_error1_stat=np.loadtxt('/home/jaesung/OneDrive/Code/WongCode/13TeV-Alice/HEPData-ins1840098-v1-csv/1-NTRIGDN-DPHI.csv',delimiter=',',usecols=[4],skiprows=129, max_rows=13)
+alice_table27_error2_stat=np.loadtxt('/home/jaesung/OneDrive/Code/WongCode/13TeV-Alice/HEPData-ins1840098-v1-csv/1-NTRIGDN-DPHI.csv',delimiter=',',usecols=[5],skiprows=129, max_rows=13)
 
-alice_table27_error1_sys=np.loadtxt('/home/jaesung/Desktop/Dropbox/Code/WongCode/13TeV-Alice/HEPData-ins1840098-v1-csv/1-NTRIGDN-DPHI.csv',delimiter=',',usecols=[6],skiprows=129, max_rows=13)
-alice_table27_error2_sys=np.loadtxt('/home/jaesung/Desktop/Dropbox/Code/WongCode/13TeV-Alice/HEPData-ins1840098-v1-csv/1-NTRIGDN-DPHI.csv',delimiter=',',usecols=[7],skiprows=129, max_rows=13)
+alice_table27_error1_sys=np.loadtxt('/home/jaesung/OneDrive/Code/WongCode/13TeV-Alice/HEPData-ins1840098-v1-csv/1-NTRIGDN-DPHI.csv',delimiter=',',usecols=[6],skiprows=129, max_rows=13)
+alice_table27_error2_sys=np.loadtxt('/home/jaesung/OneDrive/Code/WongCode/13TeV-Alice/HEPData-ins1840098-v1-csv/1-NTRIGDN-DPHI.csv',delimiter=',',usecols=[7],skiprows=129, max_rows=13)
 
 alice_table27_error1 = (alice_table27_error1_stat**2+alice_table27_error1_sys**2)**0.5
 alice_table27_error2 = (alice_table27_error2_stat**2+alice_table27_error2_sys**2)**0.5
 
-cms_deltaphitable27=np.loadtxt('/home/jaesung/Desktop/Dropbox/Code/WongCode/13TeV/HEPData-ins1397173-v1-csv/Table27.csv',delimiter=',',usecols=[0],skiprows=18, max_rows=13)
-cms_dNdphitable27=np.loadtxt('/home/jaesung/Desktop/Dropbox/Code/WongCode/13TeV/HEPData-ins1397173-v1-csv/Table27.csv',delimiter=',',usecols=[1],skiprows=18, max_rows=13)
+cms_deltaphitable27=np.loadtxt('/home/jaesung/OneDrive/Code/WongCode/13TeV/HEPData-ins1397173-v1-csv/Table27.csv',delimiter=',',usecols=[0],skiprows=18, max_rows=13)
+cms_dNdphitable27=np.loadtxt('/home/jaesung/OneDrive/Code/WongCode/13TeV/HEPData-ins1397173-v1-csv/Table27.csv',delimiter=',',usecols=[1],skiprows=18, max_rows=13)
 cms_datamintable27=min(cms_dNdphitable27)
-cms_table27_error1=np.loadtxt('/home/jaesung/Desktop/Dropbox/Code/WongCode/13TeV/HEPData-ins1397173-v1-csv/Table27.csv',delimiter=',',usecols=[2],skiprows=18, max_rows=13)
-cms_table27_error2=np.loadtxt('/home/jaesung/Desktop/Dropbox/Code/WongCode/13TeV/HEPData-ins1397173-v1-csv/Table27.csv',delimiter=',',usecols=[3],skiprows=18, max_rows=13)
+cms_table27_error1=np.loadtxt('/home/jaesung/OneDrive/Code/WongCode/13TeV/HEPData-ins1397173-v1-csv/Table27.csv',delimiter=',',usecols=[2],skiprows=18, max_rows=13)
+cms_table27_error2=np.loadtxt('/home/jaesung/OneDrive/Code/WongCode/13TeV/HEPData-ins1397173-v1-csv/Table27.csv',delimiter=',',usecols=[3],skiprows=18, max_rows=13)
 
 resultphi=np.loadtxt('phiCorrelation_pt1-2.csv',delimiter=',',usecols=[0],skiprows=1)
 alice_resultdNdphi=np.loadtxt('phiCorrelation_pt1-2.csv',delimiter=',',usecols=[1],skiprows=1)
@@ -148,23 +151,23 @@ fig.clear()
 
 fig.set_size_inches(35, 16.534, forward=True)
 
-alice_deltaphitable29=np.loadtxt('/home/jaesung/Desktop/Dropbox/Code/WongCode/13TeV-Alice/HEPData-ins1840098-v1-csv/1-NTRIGDN-DPHI.csv',delimiter=',',usecols=[0],skiprows=167, max_rows=13)
-alice_dNdphitable29=np.loadtxt('/home/jaesung/Desktop/Dropbox/Code/WongCode/13TeV-Alice/HEPData-ins1840098-v1-csv/1-NTRIGDN-DPHI.csv',delimiter=',',usecols=[3],skiprows=167, max_rows=13)
+alice_deltaphitable29=np.loadtxt('/home/jaesung/OneDrive/Code/WongCode/13TeV-Alice/HEPData-ins1840098-v1-csv/1-NTRIGDN-DPHI.csv',delimiter=',',usecols=[0],skiprows=167, max_rows=13)
+alice_dNdphitable29=np.loadtxt('/home/jaesung/OneDrive/Code/WongCode/13TeV-Alice/HEPData-ins1840098-v1-csv/1-NTRIGDN-DPHI.csv',delimiter=',',usecols=[3],skiprows=167, max_rows=13)
 alice_datamintable29=min(alice_dNdphitable29)
-alice_table29_error1_stat=np.loadtxt('/home/jaesung/Desktop/Dropbox/Code/WongCode/13TeV-Alice/HEPData-ins1840098-v1-csv/1-NTRIGDN-DPHI.csv',delimiter=',',usecols=[4],skiprows=167, max_rows=13)
-alice_table29_error2_stat=np.loadtxt('/home/jaesung/Desktop/Dropbox/Code/WongCode/13TeV-Alice/HEPData-ins1840098-v1-csv/1-NTRIGDN-DPHI.csv',delimiter=',',usecols=[5],skiprows=167, max_rows=13)
+alice_table29_error1_stat=np.loadtxt('/home/jaesung/OneDrive/Code/WongCode/13TeV-Alice/HEPData-ins1840098-v1-csv/1-NTRIGDN-DPHI.csv',delimiter=',',usecols=[4],skiprows=167, max_rows=13)
+alice_table29_error2_stat=np.loadtxt('/home/jaesung/OneDrive/Code/WongCode/13TeV-Alice/HEPData-ins1840098-v1-csv/1-NTRIGDN-DPHI.csv',delimiter=',',usecols=[5],skiprows=167, max_rows=13)
 
-alice_table29_error1_sys=np.loadtxt('/home/jaesung/Desktop/Dropbox/Code/WongCode/13TeV-Alice/HEPData-ins1840098-v1-csv/1-NTRIGDN-DPHI.csv',delimiter=',',usecols=[6],skiprows=167, max_rows=13)
-alice_table29_error2_sys=np.loadtxt('/home/jaesung/Desktop/Dropbox/Code/WongCode/13TeV-Alice/HEPData-ins1840098-v1-csv/1-NTRIGDN-DPHI.csv',delimiter=',',usecols=[7],skiprows=167, max_rows=13)
+alice_table29_error1_sys=np.loadtxt('/home/jaesung/OneDrive/Code/WongCode/13TeV-Alice/HEPData-ins1840098-v1-csv/1-NTRIGDN-DPHI.csv',delimiter=',',usecols=[6],skiprows=167, max_rows=13)
+alice_table29_error2_sys=np.loadtxt('/home/jaesung/OneDrive/Code/WongCode/13TeV-Alice/HEPData-ins1840098-v1-csv/1-NTRIGDN-DPHI.csv',delimiter=',',usecols=[7],skiprows=167, max_rows=13)
 
 alice_table29_error1 = (alice_table29_error1_stat**2+alice_table29_error1_sys**2)**0.5
 alice_table29_error2 = (alice_table29_error2_stat**2+alice_table29_error2_sys**2)**0.5
 
-cms_deltaphitable29=np.loadtxt('/home/jaesung/Desktop/Dropbox/Code/WongCode/13TeV/HEPData-ins1397173-v1-csv/Table29.csv',delimiter=',',usecols=[0],skiprows=18, max_rows=13)
-cms_dNdphitable29=np.loadtxt('/home/jaesung/Desktop/Dropbox/Code/WongCode/13TeV/HEPData-ins1397173-v1-csv/Table29.csv',delimiter=',',usecols=[1],skiprows=18, max_rows=13)
+cms_deltaphitable29=np.loadtxt('/home/jaesung/OneDrive/Code/WongCode/13TeV/HEPData-ins1397173-v1-csv/Table29.csv',delimiter=',',usecols=[0],skiprows=18, max_rows=13)
+cms_dNdphitable29=np.loadtxt('/home/jaesung/OneDrive/Code/WongCode/13TeV/HEPData-ins1397173-v1-csv/Table29.csv',delimiter=',',usecols=[1],skiprows=18, max_rows=13)
 cms_datamintable29=min(cms_dNdphitable29)
-cms_table29_error1=np.loadtxt('/home/jaesung/Desktop/Dropbox/Code/WongCode/13TeV/HEPData-ins1397173-v1-csv/Table29.csv',delimiter=',',usecols=[2],skiprows=18, max_rows=13)
-cms_table29_error2=np.loadtxt('/home/jaesung/Desktop/Dropbox/Code/WongCode/13TeV/HEPData-ins1397173-v1-csv/Table29.csv',delimiter=',',usecols=[3],skiprows=18, max_rows=13)
+cms_table29_error1=np.loadtxt('/home/jaesung/OneDrive/Code/WongCode/13TeV/HEPData-ins1397173-v1-csv/Table29.csv',delimiter=',',usecols=[2],skiprows=18, max_rows=13)
+cms_table29_error2=np.loadtxt('/home/jaesung/OneDrive/Code/WongCode/13TeV/HEPData-ins1397173-v1-csv/Table29.csv',delimiter=',',usecols=[3],skiprows=18, max_rows=13)
 
 resultphi=np.loadtxt('phiCorrelation_pt2-3.csv',delimiter=',',usecols=[0],skiprows=1)
 alice_resultdNdphi=np.loadtxt('phiCorrelation_pt2-3.csv',delimiter=',',usecols=[1],skiprows=1)
@@ -242,23 +245,23 @@ fig.clear()
 
 fig.set_size_inches(35, 16.534, forward=True)
 
-alice_deltaphitable31=np.loadtxt('/home/jaesung/Desktop/Dropbox/Code/WongCode/13TeV-Alice/HEPData-ins1840098-v1-csv/1-NTRIGDN-DPHI.csv',delimiter=',',usecols=[0],skiprows=205, max_rows=13)
-alice_dNdphitable31=np.loadtxt('/home/jaesung/Desktop/Dropbox/Code/WongCode/13TeV-Alice/HEPData-ins1840098-v1-csv/1-NTRIGDN-DPHI.csv',delimiter=',',usecols=[3],skiprows=205, max_rows=13)
+alice_deltaphitable31=np.loadtxt('/home/jaesung/OneDrive/Code/WongCode/13TeV-Alice/HEPData-ins1840098-v1-csv/1-NTRIGDN-DPHI.csv',delimiter=',',usecols=[0],skiprows=205, max_rows=13)
+alice_dNdphitable31=np.loadtxt('/home/jaesung/OneDrive/Code/WongCode/13TeV-Alice/HEPData-ins1840098-v1-csv/1-NTRIGDN-DPHI.csv',delimiter=',',usecols=[3],skiprows=205, max_rows=13)
 alice_datamintable31=min(alice_dNdphitable31)
-alice_table31_error1_stat=np.loadtxt('/home/jaesung/Desktop/Dropbox/Code/WongCode/13TeV-Alice/HEPData-ins1840098-v1-csv/1-NTRIGDN-DPHI.csv',delimiter=',',usecols=[4],skiprows=205, max_rows=13)
-alice_table31_error2_stat=np.loadtxt('/home/jaesung/Desktop/Dropbox/Code/WongCode/13TeV-Alice/HEPData-ins1840098-v1-csv/1-NTRIGDN-DPHI.csv',delimiter=',',usecols=[5],skiprows=205, max_rows=13)
+alice_table31_error1_stat=np.loadtxt('/home/jaesung/OneDrive/Code/WongCode/13TeV-Alice/HEPData-ins1840098-v1-csv/1-NTRIGDN-DPHI.csv',delimiter=',',usecols=[4],skiprows=205, max_rows=13)
+alice_table31_error2_stat=np.loadtxt('/home/jaesung/OneDrive/Code/WongCode/13TeV-Alice/HEPData-ins1840098-v1-csv/1-NTRIGDN-DPHI.csv',delimiter=',',usecols=[5],skiprows=205, max_rows=13)
 
-alice_table31_error1_sys=np.loadtxt('/home/jaesung/Desktop/Dropbox/Code/WongCode/13TeV-Alice/HEPData-ins1840098-v1-csv/1-NTRIGDN-DPHI.csv',delimiter=',',usecols=[6],skiprows=205, max_rows=13)
-alice_table31_error2_sys=np.loadtxt('/home/jaesung/Desktop/Dropbox/Code/WongCode/13TeV-Alice/HEPData-ins1840098-v1-csv/1-NTRIGDN-DPHI.csv',delimiter=',',usecols=[7],skiprows=205, max_rows=13)
+alice_table31_error1_sys=np.loadtxt('/home/jaesung/OneDrive/Code/WongCode/13TeV-Alice/HEPData-ins1840098-v1-csv/1-NTRIGDN-DPHI.csv',delimiter=',',usecols=[6],skiprows=205, max_rows=13)
+alice_table31_error2_sys=np.loadtxt('/home/jaesung/OneDrive/Code/WongCode/13TeV-Alice/HEPData-ins1840098-v1-csv/1-NTRIGDN-DPHI.csv',delimiter=',',usecols=[7],skiprows=205, max_rows=13)
 
 alice_table31_error1 = (alice_table31_error1_stat**2+alice_table31_error1_sys**2)**0.5
 alice_table31_error2 = (alice_table31_error2_stat**2+alice_table31_error2_sys**2)**0.5
 
-cms_deltaphitable31=np.loadtxt('/home/jaesung/Desktop/Dropbox/Code/WongCode/13TeV/HEPData-ins1397173-v1-csv/Table31.csv',delimiter=',',usecols=[0],skiprows=18, max_rows=13)
-cms_dNdphitable31=np.loadtxt('/home/jaesung/Desktop/Dropbox/Code/WongCode/13TeV/HEPData-ins1397173-v1-csv/Table31.csv',delimiter=',',usecols=[1],skiprows=18, max_rows=13)
+cms_deltaphitable31=np.loadtxt('/home/jaesung/OneDrive/Code/WongCode/13TeV/HEPData-ins1397173-v1-csv/Table31.csv',delimiter=',',usecols=[0],skiprows=18, max_rows=13)
+cms_dNdphitable31=np.loadtxt('/home/jaesung/OneDrive/Code/WongCode/13TeV/HEPData-ins1397173-v1-csv/Table31.csv',delimiter=',',usecols=[1],skiprows=18, max_rows=13)
 cms_datamintable31=min(cms_dNdphitable31)
-cms_table31_error1=np.loadtxt('/home/jaesung/Desktop/Dropbox/Code/WongCode/13TeV/HEPData-ins1397173-v1-csv/Table31.csv',delimiter=',',usecols=[2],skiprows=18, max_rows=13)
-cms_table31_error2=np.loadtxt('/home/jaesung/Desktop/Dropbox/Code/WongCode/13TeV/HEPData-ins1397173-v1-csv/Table31.csv',delimiter=',',usecols=[3],skiprows=18, max_rows=13)
+cms_table31_error1=np.loadtxt('/home/jaesung/OneDrive/Code/WongCode/13TeV/HEPData-ins1397173-v1-csv/Table31.csv',delimiter=',',usecols=[2],skiprows=18, max_rows=13)
+cms_table31_error2=np.loadtxt('/home/jaesung/OneDrive/Code/WongCode/13TeV/HEPData-ins1397173-v1-csv/Table31.csv',delimiter=',',usecols=[3],skiprows=18, max_rows=13)
 
 resultphi=np.loadtxt('phiCorrelation_pt3-4.csv',delimiter=',',usecols=[0],skiprows=1)
 alice_resultdNdphi=np.loadtxt('phiCorrelation_pt3-4.csv',delimiter=',',usecols=[1],skiprows=1)
@@ -393,18 +396,18 @@ alicejetdis=np.loadtxt('pTdis.csv',delimiter=',',usecols=[3],skiprows=1)
 # cmsjetdis=np.loadtxt('pTdis.csv',delimiter=',',usecols=[4],skiprows=1)
 
 
-Alice13TeVpt=np.loadtxt('/home/jaesung/Desktop/Dropbox/Code/WongCode/13TeV-Alice/HEPData-ins1840098-v1-csv/Y^mathrm{ridge}.csv',delimiter=',',usecols=[0],skiprows=12,max_rows=5)
-Alice13TeVptdis=np.loadtxt('/home/jaesung/Desktop/Dropbox/Code/WongCode/13TeV-Alice/HEPData-ins1840098-v1-csv/Y^mathrm{ridge}.csv',delimiter=',',usecols=[3],skiprows=12,max_rows=5)
-Alice13TeVptdis_error1_stat=np.loadtxt('/home/jaesung/Desktop/Dropbox/Code/WongCode/13TeV-Alice/HEPData-ins1840098-v1-csv/Y^mathrm{ridge}.csv',delimiter=',',usecols=[4],skiprows=12,max_rows=5)
-Alice13TeVptdis_error2_stat=np.loadtxt('/home/jaesung/Desktop/Dropbox/Code/WongCode/13TeV-Alice/HEPData-ins1840098-v1-csv/Y^mathrm{ridge}.csv',delimiter=',',usecols=[5],skiprows=12,max_rows=5)
-Alice13TeVptdis_error1_sys=np.loadtxt('/home/jaesung/Desktop/Dropbox/Code/WongCode/13TeV-Alice/HEPData-ins1840098-v1-csv/Y^mathrm{ridge}.csv',delimiter=',',usecols=[6],skiprows=12,max_rows=5)
-Alice13TeVptdis_error2_sys=np.loadtxt('/home/jaesung/Desktop/Dropbox/Code/WongCode/13TeV-Alice/HEPData-ins1840098-v1-csv/Y^mathrm{ridge}.csv',delimiter=',',usecols=[7],skiprows=12,max_rows=5)
+Alice13TeVpt=np.loadtxt('/home/jaesung/OneDrive/Code/WongCode/13TeV-Alice/HEPData-ins1840098-v1-csv/Y^mathrm{ridge}.csv',delimiter=',',usecols=[0],skiprows=12,max_rows=5)
+Alice13TeVptdis=np.loadtxt('/home/jaesung/OneDrive/Code/WongCode/13TeV-Alice/HEPData-ins1840098-v1-csv/Y^mathrm{ridge}.csv',delimiter=',',usecols=[3],skiprows=12,max_rows=5)
+Alice13TeVptdis_error1_stat=np.loadtxt('/home/jaesung/OneDrive/Code/WongCode/13TeV-Alice/HEPData-ins1840098-v1-csv/Y^mathrm{ridge}.csv',delimiter=',',usecols=[4],skiprows=12,max_rows=5)
+Alice13TeVptdis_error2_stat=np.loadtxt('/home/jaesung/OneDrive/Code/WongCode/13TeV-Alice/HEPData-ins1840098-v1-csv/Y^mathrm{ridge}.csv',delimiter=',',usecols=[5],skiprows=12,max_rows=5)
+Alice13TeVptdis_error1_sys=np.loadtxt('/home/jaesung/OneDrive/Code/WongCode/13TeV-Alice/HEPData-ins1840098-v1-csv/Y^mathrm{ridge}.csv',delimiter=',',usecols=[6],skiprows=12,max_rows=5)
+Alice13TeVptdis_error2_sys=np.loadtxt('/home/jaesung/OneDrive/Code/WongCode/13TeV-Alice/HEPData-ins1840098-v1-csv/Y^mathrm{ridge}.csv',delimiter=',',usecols=[7],skiprows=12,max_rows=5)
 
 Alice13TeVptdis_error1 = pow(Alice13TeVptdis_error1_stat*Alice13TeVptdis_error1_stat+Alice13TeVptdis_error1_sys*Alice13TeVptdis_error1_sys,0.5)
 Alice13TeVptdis_error2 = pow(Alice13TeVptdis_error2_stat*Alice13TeVptdis_error2_stat+Alice13TeVptdis_error2_sys*Alice13TeVptdis_error2_sys,0.5)
 
-Alice13TeVpt_low = np.loadtxt('/home/jaesung/Desktop/Dropbox/Code/WongCode/13TeV-Alice/HEPData-ins1840098-v1-csv/Y^mathrm{ridge}.csv',delimiter=',',usecols=[1],skiprows=12,max_rows=5)
-Alice13TeVpt_high = np.loadtxt('/home/jaesung/Desktop/Dropbox/Code/WongCode/13TeV-Alice/HEPData-ins1840098-v1-csv/Y^mathrm{ridge}.csv',delimiter=',',usecols=[2],skiprows=12,max_rows=5)
+Alice13TeVpt_low = np.loadtxt('/home/jaesung/OneDrive/Code/WongCode/13TeV-Alice/HEPData-ins1840098-v1-csv/Y^mathrm{ridge}.csv',delimiter=',',usecols=[1],skiprows=12,max_rows=5)
+Alice13TeVpt_high = np.loadtxt('/home/jaesung/OneDrive/Code/WongCode/13TeV-Alice/HEPData-ins1840098-v1-csv/Y^mathrm{ridge}.csv',delimiter=',',usecols=[2],skiprows=12,max_rows=5)
 Alice13TeVdpt = Alice13TeVpt_high-Alice13TeVpt_low
 
 norm_Alice = 0
@@ -414,18 +417,18 @@ for i in range(len(Alice13TeVdpt)):
 
 
 
-CMS13TeVpt               =np.loadtxt('/home/jaesung/Desktop/Dropbox/Code/WongCode/13TeV/HEPData-ins1397173-v1-csv/Table33.csv',delimiter=',',usecols=[0],skiprows=14,max_rows=9)
-CMS13TeVptdis            =np.loadtxt('/home/jaesung/Desktop/Dropbox/Code/WongCode/13TeV/HEPData-ins1397173-v1-csv/Table33.csv',delimiter=',',usecols=[1],skiprows=14,max_rows=9)
-CMS13TeVptdis_error1_stat=np.loadtxt('/home/jaesung/Desktop/Dropbox/Code/WongCode/13TeV/HEPData-ins1397173-v1-csv/Table33.csv',delimiter=',',usecols=[2],skiprows=14,max_rows=9)
-CMS13TeVptdis_error2_stat=np.loadtxt('/home/jaesung/Desktop/Dropbox/Code/WongCode/13TeV/HEPData-ins1397173-v1-csv/Table33.csv',delimiter=',',usecols=[3],skiprows=14,max_rows=9)
-CMS13TeVptdis_error1_sys =np.loadtxt('/home/jaesung/Desktop/Dropbox/Code/WongCode/13TeV/HEPData-ins1397173-v1-csv/Table33.csv',delimiter=',',usecols=[4],skiprows=14,max_rows=9)
-CMS13TeVptdis_error2_sys =np.loadtxt('/home/jaesung/Desktop/Dropbox/Code/WongCode/13TeV/HEPData-ins1397173-v1-csv/Table33.csv',delimiter=',',usecols=[5],skiprows=14,max_rows=9)
+CMS13TeVpt               =np.loadtxt('/home/jaesung/OneDrive/Code/WongCode/13TeV/HEPData-ins1397173-v1-csv/Table33.csv',delimiter=',',usecols=[0],skiprows=14,max_rows=9)
+CMS13TeVptdis            =np.loadtxt('/home/jaesung/OneDrive/Code/WongCode/13TeV/HEPData-ins1397173-v1-csv/Table33.csv',delimiter=',',usecols=[1],skiprows=14,max_rows=9)
+CMS13TeVptdis_error1_stat=np.loadtxt('/home/jaesung/OneDrive/Code/WongCode/13TeV/HEPData-ins1397173-v1-csv/Table33.csv',delimiter=',',usecols=[2],skiprows=14,max_rows=9)
+CMS13TeVptdis_error2_stat=np.loadtxt('/home/jaesung/OneDrive/Code/WongCode/13TeV/HEPData-ins1397173-v1-csv/Table33.csv',delimiter=',',usecols=[3],skiprows=14,max_rows=9)
+CMS13TeVptdis_error1_sys =np.loadtxt('/home/jaesung/OneDrive/Code/WongCode/13TeV/HEPData-ins1397173-v1-csv/Table33.csv',delimiter=',',usecols=[4],skiprows=14,max_rows=9)
+CMS13TeVptdis_error2_sys =np.loadtxt('/home/jaesung/OneDrive/Code/WongCode/13TeV/HEPData-ins1397173-v1-csv/Table33.csv',delimiter=',',usecols=[5],skiprows=14,max_rows=9)
 
 CMS13TeVptdis_error1 = pow(CMS13TeVptdis_error1_stat*CMS13TeVptdis_error1_stat+CMS13TeVptdis_error1_sys*CMS13TeVptdis_error1_sys,0.5)
 CMS13TeVptdis_error2 = pow(CMS13TeVptdis_error2_stat*CMS13TeVptdis_error2_stat+CMS13TeVptdis_error2_sys*CMS13TeVptdis_error2_sys,0.5)
 
-CMS13TeVpt_low = np.loadtxt('/home/jaesung/Desktop/Dropbox/Code/WongCode/13TeV/HEPData-ins1397173-v1-csv/Table33.csv',delimiter=',',usecols=[6],skiprows=14,max_rows=9)
-CMS13TeVpt_high = np.loadtxt('/home/jaesung/Desktop/Dropbox/Code/WongCode/13TeV/HEPData-ins1397173-v1-csv/Table33.csv',delimiter=',',usecols=[7],skiprows=14,max_rows=9)
+CMS13TeVpt_low = np.loadtxt('/home/jaesung/OneDrive/Code/WongCode/13TeV/HEPData-ins1397173-v1-csv/Table33.csv',delimiter=',',usecols=[6],skiprows=14,max_rows=9)
+CMS13TeVpt_high = np.loadtxt('/home/jaesung/OneDrive/Code/WongCode/13TeV/HEPData-ins1397173-v1-csv/Table33.csv',delimiter=',',usecols=[7],skiprows=14,max_rows=9)
 CMS13TeVdpt = CMS13TeVpt_high-CMS13TeVpt_low
 
 #적분값을 구하자.
@@ -496,13 +499,13 @@ print(f'average : {errors/9}')
 
 fig.clear()
 
-Alice13TeV_Y_near_jet_pt=np.loadtxt('/home/jaesung/Desktop/Dropbox/Code/WongCode/13TeV-Alice/HEPData-ins1840098-v1-csv/Y^mathrm{near,JET}.csv',delimiter=',',usecols=[0],skiprows=12,max_rows=7)
-Alice13TeV_Y_near_jet=np.loadtxt('/home/jaesung/Desktop/Dropbox/Code/WongCode/13TeV-Alice/HEPData-ins1840098-v1-csv/Y^mathrm{near,JET}.csv',delimiter=',',usecols=[1],skiprows=12,max_rows=7)
+Alice13TeV_Y_near_jet_pt=np.loadtxt('/home/jaesung/OneDrive/Code/WongCode/13TeV-Alice/HEPData-ins1840098-v1-csv/Y^mathrm{near,JET}.csv',delimiter=',',usecols=[0],skiprows=12,max_rows=7)
+Alice13TeV_Y_near_jet=np.loadtxt('/home/jaesung/OneDrive/Code/WongCode/13TeV-Alice/HEPData-ins1840098-v1-csv/Y^mathrm{near,JET}.csv',delimiter=',',usecols=[1],skiprows=12,max_rows=7)
 
-Alice13TeV_Y_near_jet_error1_stat=np.loadtxt('/home/jaesung/Desktop/Dropbox/Code/WongCode/13TeV-Alice/HEPData-ins1840098-v1-csv/Y^mathrm{near,JET}.csv',delimiter=',',usecols=[2],skiprows=12,max_rows=7)
-Alice13TeV_Y_near_jet_error2_stat=np.loadtxt('/home/jaesung/Desktop/Dropbox/Code/WongCode/13TeV-Alice/HEPData-ins1840098-v1-csv/Y^mathrm{near,JET}.csv',delimiter=',',usecols=[3],skiprows=12,max_rows=7)
-Alice13TeV_Y_near_jet_error1_sys=np.loadtxt('/home/jaesung/Desktop/Dropbox/Code/WongCode/13TeV-Alice/HEPData-ins1840098-v1-csv/Y^mathrm{near,JET}.csv',delimiter=',',usecols=[4],skiprows=12,max_rows=7)
-Alice13TeV_Y_near_jet_error2_sys=np.loadtxt('/home/jaesung/Desktop/Dropbox/Code/WongCode/13TeV-Alice/HEPData-ins1840098-v1-csv/Y^mathrm{near,JET}.csv',delimiter=',',usecols=[5],skiprows=12,max_rows=7)
+Alice13TeV_Y_near_jet_error1_stat=np.loadtxt('/home/jaesung/OneDrive/Code/WongCode/13TeV-Alice/HEPData-ins1840098-v1-csv/Y^mathrm{near,JET}.csv',delimiter=',',usecols=[2],skiprows=12,max_rows=7)
+Alice13TeV_Y_near_jet_error2_stat=np.loadtxt('/home/jaesung/OneDrive/Code/WongCode/13TeV-Alice/HEPData-ins1840098-v1-csv/Y^mathrm{near,JET}.csv',delimiter=',',usecols=[3],skiprows=12,max_rows=7)
+Alice13TeV_Y_near_jet_error1_sys=np.loadtxt('/home/jaesung/OneDrive/Code/WongCode/13TeV-Alice/HEPData-ins1840098-v1-csv/Y^mathrm{near,JET}.csv',delimiter=',',usecols=[4],skiprows=12,max_rows=7)
+Alice13TeV_Y_near_jet_error2_sys=np.loadtxt('/home/jaesung/OneDrive/Code/WongCode/13TeV-Alice/HEPData-ins1840098-v1-csv/Y^mathrm{near,JET}.csv',delimiter=',',usecols=[5],skiprows=12,max_rows=7)
 Alice13TeV_Y_near_jet_min=min(Alice13TeV_Y_near_jet)
 
 Alice13TeV_Y_near_jet_error1 = (Alice13TeV_Y_near_jet_error1_stat**2+Alice13TeV_Y_near_jet_error1_sys**2)**0.5
@@ -545,13 +548,13 @@ fig.savefig('Y^near.png')
 
 fig.clear()
 
-Alice13TeV_jetphi_over10=np.loadtxt('/home/jaesung/Desktop/Dropbox/Code/WongCode/13TeV-Alice/HEPData-ins1840098-v1-csv/JETBIASED1-NTRIGDN-DPHI.csv',delimiter=',',usecols=[0],skiprows=53,max_rows=13)
-Alice13TeV_jetdNdphi_over10=np.loadtxt('/home/jaesung/Desktop/Dropbox/Code/WongCode/13TeV-Alice/HEPData-ins1840098-v1-csv/JETBIASED1-NTRIGDN-DPHI.csv',delimiter=',',usecols=[3],skiprows=53,max_rows=13)
+Alice13TeV_jetphi_over10=np.loadtxt('/home/jaesung/OneDrive/Code/WongCode/13TeV-Alice/HEPData-ins1840098-v1-csv/JETBIASED1-NTRIGDN-DPHI.csv',delimiter=',',usecols=[0],skiprows=53,max_rows=13)
+Alice13TeV_jetdNdphi_over10=np.loadtxt('/home/jaesung/OneDrive/Code/WongCode/13TeV-Alice/HEPData-ins1840098-v1-csv/JETBIASED1-NTRIGDN-DPHI.csv',delimiter=',',usecols=[3],skiprows=53,max_rows=13)
 
-Alice13TeV_jetdNdphi_over10_error1_stat=np.loadtxt('/home/jaesung/Desktop/Dropbox/Code/WongCode/13TeV-Alice/HEPData-ins1840098-v1-csv/JETBIASED1-NTRIGDN-DPHI.csv',delimiter=',',usecols=[4],skiprows=53,max_rows=13)
-Alice13TeV_jetdNdphi_over10_error2_stat=np.loadtxt('/home/jaesung/Desktop/Dropbox/Code/WongCode/13TeV-Alice/HEPData-ins1840098-v1-csv/JETBIASED1-NTRIGDN-DPHI.csv',delimiter=',',usecols=[5],skiprows=53,max_rows=13)
-Alice13TeV_jetdNdphi_over10_error1_sys=np.loadtxt('/home/jaesung/Desktop/Dropbox/Code/WongCode/13TeV-Alice/HEPData-ins1840098-v1-csv/JETBIASED1-NTRIGDN-DPHI.csv',delimiter=',',usecols=[6],skiprows=53,max_rows=13)
-Alice13TeV_jetdNdphi_over10_error2_sys=np.loadtxt('/home/jaesung/Desktop/Dropbox/Code/WongCode/13TeV-Alice/HEPData-ins1840098-v1-csv/JETBIASED1-NTRIGDN-DPHI.csv',delimiter=',',usecols=[7],skiprows=53,max_rows=13)
+Alice13TeV_jetdNdphi_over10_error1_stat=np.loadtxt('/home/jaesung/OneDrive/Code/WongCode/13TeV-Alice/HEPData-ins1840098-v1-csv/JETBIASED1-NTRIGDN-DPHI.csv',delimiter=',',usecols=[4],skiprows=53,max_rows=13)
+Alice13TeV_jetdNdphi_over10_error2_stat=np.loadtxt('/home/jaesung/OneDrive/Code/WongCode/13TeV-Alice/HEPData-ins1840098-v1-csv/JETBIASED1-NTRIGDN-DPHI.csv',delimiter=',',usecols=[5],skiprows=53,max_rows=13)
+Alice13TeV_jetdNdphi_over10_error1_sys=np.loadtxt('/home/jaesung/OneDrive/Code/WongCode/13TeV-Alice/HEPData-ins1840098-v1-csv/JETBIASED1-NTRIGDN-DPHI.csv',delimiter=',',usecols=[6],skiprows=53,max_rows=13)
+Alice13TeV_jetdNdphi_over10_error2_sys=np.loadtxt('/home/jaesung/OneDrive/Code/WongCode/13TeV-Alice/HEPData-ins1840098-v1-csv/JETBIASED1-NTRIGDN-DPHI.csv',delimiter=',',usecols=[7],skiprows=53,max_rows=13)
 Alice13TeV_jetdNdphi_over10_min=min(Alice13TeV_jetdNdphi_over10)
 
 Alice13TeV_jetdNdphi_over10_error1 = (Alice13TeV_jetdNdphi_over10_error1_stat**2+Alice13TeV_jetdNdphi_over10_error1_sys**2)**0.5
@@ -614,13 +617,13 @@ fig.savefig('1D_PhiCorrelation_pt_jetcut_10.png')
 
 fig.clear()
 
-Alice13TeV_jetphi_over20=np.loadtxt('/home/jaesung/Desktop/Dropbox/Code/WongCode/13TeV-Alice/HEPData-ins1840098-v1-csv/JETBIASED1-NTRIGDN-DPHI.csv',delimiter=',',usecols=[0],skiprows=91,max_rows=13)
-Alice13TeV_jetdNdphi_over20=np.loadtxt('/home/jaesung/Desktop/Dropbox/Code/WongCode/13TeV-Alice/HEPData-ins1840098-v1-csv/JETBIASED1-NTRIGDN-DPHI.csv',delimiter=',',usecols=[3],skiprows=91,max_rows=13)
+Alice13TeV_jetphi_over20=np.loadtxt('/home/jaesung/OneDrive/Code/WongCode/13TeV-Alice/HEPData-ins1840098-v1-csv/JETBIASED1-NTRIGDN-DPHI.csv',delimiter=',',usecols=[0],skiprows=91,max_rows=13)
+Alice13TeV_jetdNdphi_over20=np.loadtxt('/home/jaesung/OneDrive/Code/WongCode/13TeV-Alice/HEPData-ins1840098-v1-csv/JETBIASED1-NTRIGDN-DPHI.csv',delimiter=',',usecols=[3],skiprows=91,max_rows=13)
 
-Alice13TeV_jetdNdphi_over20_error1_stat=np.loadtxt('/home/jaesung/Desktop/Dropbox/Code/WongCode/13TeV-Alice/HEPData-ins1840098-v1-csv/JETBIASED1-NTRIGDN-DPHI.csv',delimiter=',',usecols=[4],skiprows=91,max_rows=13)
-Alice13TeV_jetdNdphi_over20_error2_stat=np.loadtxt('/home/jaesung/Desktop/Dropbox/Code/WongCode/13TeV-Alice/HEPData-ins1840098-v1-csv/JETBIASED1-NTRIGDN-DPHI.csv',delimiter=',',usecols=[5],skiprows=91,max_rows=13)
-Alice13TeV_jetdNdphi_over20_error1_sys=np.loadtxt('/home/jaesung/Desktop/Dropbox/Code/WongCode/13TeV-Alice/HEPData-ins1840098-v1-csv/JETBIASED1-NTRIGDN-DPHI.csv',delimiter=',',usecols=[6],skiprows=91,max_rows=13)
-Alice13TeV_jetdNdphi_over20_error2_sys=np.loadtxt('/home/jaesung/Desktop/Dropbox/Code/WongCode/13TeV-Alice/HEPData-ins1840098-v1-csv/JETBIASED1-NTRIGDN-DPHI.csv',delimiter=',',usecols=[7],skiprows=91,max_rows=13)
+Alice13TeV_jetdNdphi_over20_error1_stat=np.loadtxt('/home/jaesung/OneDrive/Code/WongCode/13TeV-Alice/HEPData-ins1840098-v1-csv/JETBIASED1-NTRIGDN-DPHI.csv',delimiter=',',usecols=[4],skiprows=91,max_rows=13)
+Alice13TeV_jetdNdphi_over20_error2_stat=np.loadtxt('/home/jaesung/OneDrive/Code/WongCode/13TeV-Alice/HEPData-ins1840098-v1-csv/JETBIASED1-NTRIGDN-DPHI.csv',delimiter=',',usecols=[5],skiprows=91,max_rows=13)
+Alice13TeV_jetdNdphi_over20_error1_sys=np.loadtxt('/home/jaesung/OneDrive/Code/WongCode/13TeV-Alice/HEPData-ins1840098-v1-csv/JETBIASED1-NTRIGDN-DPHI.csv',delimiter=',',usecols=[6],skiprows=91,max_rows=13)
+Alice13TeV_jetdNdphi_over20_error2_sys=np.loadtxt('/home/jaesung/OneDrive/Code/WongCode/13TeV-Alice/HEPData-ins1840098-v1-csv/JETBIASED1-NTRIGDN-DPHI.csv',delimiter=',',usecols=[7],skiprows=91,max_rows=13)
 Alice13TeV_jetdNdphi_over20_min=min(Alice13TeV_jetdNdphi_over20)
 
 Alice13TeV_jetdNdphi_over20_error1 = (Alice13TeV_jetdNdphi_over20_error1_stat**2+Alice13TeV_jetdNdphi_over20_error1_sys**2)**0.5
@@ -679,13 +682,13 @@ fig.savefig('1D_PhiCorrelation_pt_jetcut_20.png')
 
 fig.clear()
 
-Alice13TeV_Y_ridge_jet_pt=np.loadtxt('/home/jaesung/Desktop/Dropbox/Code/WongCode/13TeV-Alice/HEPData-ins1840098-v1-csv/Y^mathrm{ridge,JET}.csv',delimiter=',',usecols=[0],skiprows=12,max_rows=7)
-Alice13TeV_Y_ridge_jet=np.loadtxt('/home/jaesung/Desktop/Dropbox/Code/WongCode/13TeV-Alice/HEPData-ins1840098-v1-csv/Y^mathrm{ridge,JET}.csv',delimiter=',',usecols=[1],skiprows=12,max_rows=7)
+Alice13TeV_Y_ridge_jet_pt=np.loadtxt('/home/jaesung/OneDrive/Code/WongCode/13TeV-Alice/HEPData-ins1840098-v1-csv/Y^mathrm{ridge,JET}.csv',delimiter=',',usecols=[0],skiprows=12,max_rows=7)
+Alice13TeV_Y_ridge_jet=np.loadtxt('/home/jaesung/OneDrive/Code/WongCode/13TeV-Alice/HEPData-ins1840098-v1-csv/Y^mathrm{ridge,JET}.csv',delimiter=',',usecols=[1],skiprows=12,max_rows=7)
 
-Alice13TeV_Y_ridge_jet_error1_stat=np.loadtxt('/home/jaesung/Desktop/Dropbox/Code/WongCode/13TeV-Alice/HEPData-ins1840098-v1-csv/Y^mathrm{ridge,JET}.csv',delimiter=',',usecols=[2],skiprows=12,max_rows=7)
-Alice13TeV_Y_ridge_jet_error2_stat=np.loadtxt('/home/jaesung/Desktop/Dropbox/Code/WongCode/13TeV-Alice/HEPData-ins1840098-v1-csv/Y^mathrm{ridge,JET}.csv',delimiter=',',usecols=[3],skiprows=12,max_rows=7)
-Alice13TeV_Y_ridge_jet_error1_sys=np.loadtxt('/home/jaesung/Desktop/Dropbox/Code/WongCode/13TeV-Alice/HEPData-ins1840098-v1-csv/Y^mathrm{ridge,JET}.csv',delimiter=',',usecols=[4],skiprows=12,max_rows=7)
-Alice13TeV_Y_ridge_jet_error2_sys=np.loadtxt('/home/jaesung/Desktop/Dropbox/Code/WongCode/13TeV-Alice/HEPData-ins1840098-v1-csv/Y^mathrm{ridge,JET}.csv',delimiter=',',usecols=[5],skiprows=12,max_rows=7)
+Alice13TeV_Y_ridge_jet_error1_stat=np.loadtxt('/home/jaesung/OneDrive/Code/WongCode/13TeV-Alice/HEPData-ins1840098-v1-csv/Y^mathrm{ridge,JET}.csv',delimiter=',',usecols=[2],skiprows=12,max_rows=7)
+Alice13TeV_Y_ridge_jet_error2_stat=np.loadtxt('/home/jaesung/OneDrive/Code/WongCode/13TeV-Alice/HEPData-ins1840098-v1-csv/Y^mathrm{ridge,JET}.csv',delimiter=',',usecols=[3],skiprows=12,max_rows=7)
+Alice13TeV_Y_ridge_jet_error1_sys=np.loadtxt('/home/jaesung/OneDrive/Code/WongCode/13TeV-Alice/HEPData-ins1840098-v1-csv/Y^mathrm{ridge,JET}.csv',delimiter=',',usecols=[4],skiprows=12,max_rows=7)
+Alice13TeV_Y_ridge_jet_error2_sys=np.loadtxt('/home/jaesung/OneDrive/Code/WongCode/13TeV-Alice/HEPData-ins1840098-v1-csv/Y^mathrm{ridge,JET}.csv',delimiter=',',usecols=[5],skiprows=12,max_rows=7)
 Alice13TeV_Y_ridge_jet_min=min(Alice13TeV_Y_ridge_jet)
 
 Alice13TeV_Y_ridge_jet_error1 = (Alice13TeV_Y_ridge_jet_error1_stat**2+Alice13TeV_Y_ridge_jet_error1_sys**2)**0.5

@@ -888,11 +888,13 @@ int main()
     thread t3(func2, 2., 3., 1.6, 1.8, 2., 4., 2., 5., -1.28, 1.28, 300, 1, 0., q_1);   //1D phi correlation, pt = 2~3
     thread t4(func2, 3., 4., 1.6, 1.8, 2., 4., 2., 5., -1.28, 1.28, 300, 1, 0., q_1);   //1D phi correlation, pt = 3~4
     thread t5(func2, 1., 4., 1.6, 1.8, 2., 4., 2., 5., -1.28, 1.28, 300, 1, 0., q_1);   //1D phi correlation, pt = 1~4
+    thread t8(func2, .5, 5., 1.6, 1.8, 2., 4., 2., 5., -1.28, 1.28, 300, 1, 0., q_1);   //1D phi correlation, pt = 0.5~5
     
     t2.join();
     t3.join();
     t4.join();
     t5.join();
+    t8.join();
 
     thread t6(func2, 1., 2., 1.6, 1.8, 2., 4., 2., 5., -1.28, 1.28, 300, 1, 10., q_1);   //1D phi correlation, pt = 1~2 (jet event cut)
     thread t7(func2, 1., 2., 1.6, 1.8, 2., 4., 2., 5., -1.28, 1.28, 300, 1, 20., q_1);   //1D phi correlation, pt = 1~2 (jet event cut)
