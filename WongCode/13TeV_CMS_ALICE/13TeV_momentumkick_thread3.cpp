@@ -476,9 +476,10 @@ void func1(double ptq){
 
 void func2(double ptf_st, double ptf_end, double etaf_st, double etaf_end, double etacms_st, double etacms_end, double etaatlas_st, double etaatlas_end, double phif_st, double phif_end, int n, int check2, double ptjetcut, double q){
     
-    double ptf, etaf, phif, sum_alice, sum_cms, sum_j, etacms, etaatlas, sum_atlas;
+    double ptf, etaf, phif, sum_alice, sum_cms, sum_j, etacms, etaatlas, sum_atlas, norm;
     double dptf, dphif, detaf, detacms, detaatlas, delta_Deltaeta, delta_Deltaetacms, delta_Deltaetaatlas, ptf0, etaf0, phif0, etacms0, etaatlas0;
     int i, j, k;
+    norm = 0.;
     if(ptjetcut == 0.){
         std::string filename, pt_st, pt_end, filename2;
         filename = "phiCorrelation_pt";
@@ -536,10 +537,15 @@ void func2(double ptf_st, double ptf_end, double etaf_st, double etaf_end, doubl
             sum_alice *= 2*2/3;
             sum_cms *= 2*2/3;
             sum_atlas *= 2*2/3;
+
+            norm += sum_atlas*dphif;
             
             fout<<phif<<","<<sum_alice<<","<<sum_cms<<","<<sum_atlas<<std::endl;
             phif += dphif;
             sum_alice = sum_cms = sum_atlas = sum_j = 0.;
+        }
+        if(phif <= 1.1){
+            std::cout<<"phif : "<<phif<<"\tIntegrate result\t"<<norm<<std::endl;
         }
         fout.close();
 
@@ -888,7 +894,8 @@ int main()
     thread t3(func2, 2., 3., 1.6, 1.8, 2., 4., 2., 5., -1.28, 1.28, 300, 1, 0., q_1);   //1D phi correlation, pt = 2~3
     thread t4(func2, 3., 4., 1.6, 1.8, 2., 4., 2., 5., -1.28, 1.28, 300, 1, 0., q_1);   //1D phi correlation, pt = 3~4
     thread t5(func2, 1., 4., 1.6, 1.8, 2., 4., 2., 5., -1.28, 1.28, 300, 1, 0., q_1);   //1D phi correlation, pt = 1~4
-    thread t8(func2, .5, 5., 1.6, 1.8, 2., 4., 2., 5., -1.28, 1.28, 300, 1, 0., q_1);   //1D phi correlation, pt = 0.5~5
+    // q에 multiplicity dependence가 없는 경우
+    thread t8(func2, .5, 5., 1.6, 1.8, 2., 4., 2., 5., -1., 1., 300, 1, 0., q_1);   //1D phi correlation, pt = 0.5~5
     
     t2.join();
     t3.join();

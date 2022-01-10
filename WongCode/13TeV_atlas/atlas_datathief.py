@@ -12,8 +12,8 @@ wr.writerow(['Multiplicity','F','G','v_22'])
 
 mpl.rcParams["text.usetex"] = True
 
-def periph(phi, a, b):
-    return a*np.cos(phi)+b
+def periph(phi, a, b, c, d):
+    return a*np.cos(phi)+b*np.cos(2*phi)+c*np.cos(3*phi)+d
 
 
 def templ_276(phi, dataintegral, F, v):
@@ -59,8 +59,14 @@ periph_276_data=np.loadtxt('./atlasgraphs/Low_multiplicity.csv',delimiter=',',us
 periph_130_phi=np.loadtxt('./atlasgraphs/Low_multiplicity.csv',delimiter=',',usecols=[2],skiprows=1)
 periph_130_data=np.loadtxt('./atlasgraphs/Low_multiplicity.csv',delimiter=',',usecols=[3],skiprows=1)
 
+popt_periph_130TeV, pcov_periph_130TeV = curve_fit(periph, periph_130_phi, periph_130_data)
+popt_periph_276TeV, pcov_periph_276TeV = curve_fit(periph, periph_276_phi, periph_276_data)
+
 plt.scatter(periph_276_phi, periph_276_data, color = 'red', s=100,label=fr'$peripheral, 2.76TeV$')
 plt.scatter(periph_130_phi, periph_130_data, color = 'blue', s=100,label=fr'$peripheral, 13TeV$')
+
+plt.plot(periph_130_phi, periph(periph_130_phi, *popt_periph_130TeV), color = 'blue', linewidth=5, linestyle = '-')
+plt.plot(periph_276_phi, periph(periph_276_phi, *popt_periph_276TeV), color = 'red', linewidth=5, linestyle = '-')
 
 plt.ylabel(r'$Y(\Delta \phi)$', size = 70)
 plt.xlabel(r'$\Delta \phi$', size=70)
@@ -94,7 +100,7 @@ end2 = 2*periph_276_phi[-1]-periph_276_phi_avg[-1]
 periph_130_phi_avg = np.append(periph_130_phi_avg, end1)
 periph_276_phi_avg = np.append(periph_276_phi_avg, end2)
 
-#적분값을 구해봅시다.
+#적분값을 구해봅시다.(peripheral integrate)
 norm_276 = 0.
 norm_130 = 0.
 for i in range(len(periph_130_phi_avg)-1):
@@ -102,6 +108,70 @@ for i in range(len(periph_130_phi_avg)-1):
         norm_130 += periph_130_data[i+1]*(periph_130_phi_avg[i+1]-periph_130_phi_avg[i])
     if(-0.001<periph_276_phi_avg[i]<np.pi):
         norm_276 += periph_276_data[i+1]*(periph_276_phi_avg[i+1]-periph_276_phi_avg[i])
+
+
+phi_13TeV_90_up=np.loadtxt('./atlasgraphs/13TeV_90~.csv',delimiter=',',usecols=[0])
+data_13TeV_90_up=np.loadtxt('./atlasgraphs/13TeV_90~.csv',delimiter=',',usecols=[1])
+
+
+norm = 0.
+
+avg_13TeV_90_up=np.zeros(len(phi_13TeV_90_up)-1)
+for i in range(len(phi_13TeV_90_up)-1):
+    avg_13TeV_90_up[i]=(phi_13TeV_90_up[i]+phi_13TeV_90_up[i+1])/2.
+end = 2*phi_13TeV_90_up[-1]-avg_13TeV_90_up[-1]
+
+avg_13TeV_90_up = np.append(avg_13TeV_90_up, end)
+
+#적분값을 구해봅시다.
+norm_90_up = 0.
+for i in range(len(avg_13TeV_90_up)-1):
+    if(-0.001<avg_13TeV_90_up[i]<np.pi):
+        norm_90_up += data_13TeV_90_up[i+1]*(avg_13TeV_90_up[i+1]-avg_13TeV_90_up[i])
+
+popt_13TeV_90_up, pcov_13TeV_90_up = curve_fit(wrap_templ_130(norm_90_up), phi_13TeV_90_up, data_13TeV_90_up)
+
+plt.scatter(phi_13TeV_90_up, data_13TeV_90_up, color = 'black', s=1000, marker='o',label=fr'$Y(\Delta\phi)$')
+
+G_periph=np.zeros(len(phi_13TeV_90_up))
+G_periph0=np.zeros(len(phi_13TeV_90_up))
+ridge_periph0=np.zeros(len(phi_13TeV_90_up))
+
+wr.writerow([90,Ffit[-1],Gfit[-1],vfit[-1],'13TeV'])
+
+for i in range(len(phi_13TeV_90_up)):
+    G_periph[i] = templ_130_G_periph(phi_13TeV_90_up[i], Gfit[-1], Ffit[-1], vfit[-1], i)
+    G_periph0[i] = templ_130_G_periph0(phi_13TeV_90_up[i], Gfit[-1], Ffit[-1], vfit[-1])
+    ridge_periph0[i] = templ_130_ridge_periph0(phi_13TeV_90_up[i], Gfit[-1], Ffit[-1], vfit[-1])
+
+plt.plot(phi_13TeV_90_up, templ_130(phi_13TeV_90_up, Gfit[-1], Ffit[-1], vfit[-1]), drawstyle='steps-mid', color = 'red', linewidth=5, linestyle = '-',label=r'$Y^{templ}(\Delta\phi)$')
+
+# plt.plot(phi_13TeV_90_up, G_periph, drawstyle='steps-mid', color = 'red', linewidth=5, linestyle = '-',label=fr'$G+FY^periph(\Delta\phi)$')
+plt.scatter(phi_13TeV_90_up, G_periph, edgecolor = 'black', facecolors='none', s=1000, label=r'$G+FY^{periph} (\Delta\phi)$')
+plt.plot(phi_13TeV_90_up, G_periph0, color = 'orange', linewidth=5, linestyle = '--',label=r'$G+FY^{periph}(0)$')
+plt.plot(phi_13TeV_90_up, ridge_periph0, color = 'blue', linewidth=5, linestyle = '--',label=r'$Y^{ridge}+FY^{periph}(0)$')
+
+plt.xlim(-1.55,4.7)
+
+plt.ylabel(r'$Y(\Delta \phi)$', size = 70)
+plt.xlabel(r'$\Delta \phi$', size=70)
+
+plt.title(r'$ATLAS \,\, pp(13TeV) \,\, (90 \,\, \leq N^{rec}_{ch})$', fontsize = 75)
+
+plt.minorticks_on()
+
+plt.tick_params(axis='both',which='major',direction='in',width=2,length=30,labelsize=45, top = 'true')
+plt.tick_params(axis='both',which='minor',direction='in',width=2,length=15,labelsize=45, top = 'true')
+plt.legend(fontsize=45,framealpha=False)
+
+
+plt.grid(color='silver',linestyle=':',linewidth=3)
+
+plt.tight_layout()
+
+fig.savefig('./result/13TeV_90~.png')
+
+fig.clear()
 
 
 phi_13TeV_130_up=np.loadtxt('./atlasgraphs/13TeV_130~.csv',delimiter=',',usecols=[0])
@@ -386,7 +456,7 @@ G_periph=np.zeros(len(phi_13TeV_90_100))
 G_periph0=np.zeros(len(phi_13TeV_90_100))
 ridge_periph0=np.zeros(len(phi_13TeV_90_100))
 
-wr.writerow([105,Ffit[-1],Gfit[-1],vfit[-1],'13TeV'])
+wr.writerow([95,Ffit[-1],Gfit[-1],vfit[-1],'13TeV'])
 
 for i in range(len(phi_13TeV_90_100)):
     G_periph[i] = templ_130_G_periph(phi_13TeV_90_100[i], Gfit[-1], Ffit[-1], vfit[-1], i)
@@ -405,7 +475,7 @@ plt.xlim(-1.55,4.7)
 plt.ylabel(r'$Y(\Delta \phi)$', size = 70)
 plt.xlabel(r'$\Delta \phi$', size=70)
 
-plt.title(r'$ATLAS \,\, pp(13TeV) \,\, (90 \leq N^{rec}_{ch}<100)$', fontsize = 75)
+plt.title(r'$ATLAS \,\, pp(13TeV) \,\, (90 \,\, \leq N^{rec}_{ch}<100)$', fontsize = 75)
 
 plt.minorticks_on()
 
@@ -431,7 +501,8 @@ v22_data_multi=np.loadtxt('./atlasgraphs/v22_13TeV.csv',delimiter=',',usecols=[0
 v22_data=np.loadtxt('./atlasgraphs/v22_13TeV.csv',delimiter=',',usecols=[1])
 
 plt.scatter(v22_result_multi, v22_result, color = 'black', s=1000, label=r'$result$')
-plt.scatter(v22_data_multi, v22_data, color = 'blue', s=1000, label=r'$data\,thief$')
+plt.scatter(v22_data_multi, v22_data, facecolor = 'none', edgecolor = 'red', linewidths=5, s=1000, label=r'$data\,thief$')
+plt.scatter(v22_data_multi, v22_data, color = 'red', marker='+', linewidths=5, s=1000, label=r'$data\,thief$')
 
 plt.ylabel(r'$v_{2,2}$', size = 70)
 plt.xlabel(r'$N_{ch}^{rec}$', size=70)
@@ -458,57 +529,106 @@ fig.clear()
 G_result=np.loadtxt('./result/ridge_parameters.csv',delimiter=',',usecols=[2],skiprows=1)
 atlas_phi = np.loadtxt('/home/jaesung/OneDrive/Code/WongCode/13TeV_CMS_ALICE/phiCorrelation_pt0-5.csv',delimiter=',',usecols=[0],skiprows=1)
 atlas_result = np.loadtxt('/home/jaesung/OneDrive/Code/WongCode/13TeV_CMS_ALICE/phiCorrelation_pt0-5.csv',delimiter=',',usecols=[3],skiprows=1)
+#계산에 사용한 atlas delta phi는 모두 동일하므로 통일해도 관계없다.
+
+atlas_phi_95 = np.loadtxt('phiCorrelation_pt0-5_95.csv',delimiter=',',usecols=[0],skiprows=1)
+atlas_result_95 = np.loadtxt('phiCorrelation_pt0-5_95.csv',delimiter=',',usecols=[3],skiprows=1)
+atlas_phi_105 = np.loadtxt('phiCorrelation_pt0-5_105.csv',delimiter=',',usecols=[0],skiprows=1)
+atlas_result_105 = np.loadtxt('phiCorrelation_pt0-5_105.csv',delimiter=',',usecols=[3],skiprows=1)
+atlas_phi_115 = np.loadtxt('phiCorrelation_pt0-5_115.csv',delimiter=',',usecols=[0],skiprows=1)
+atlas_result_115 = np.loadtxt('phiCorrelation_pt0-5_115.csv',delimiter=',',usecols=[3],skiprows=1)
+atlas_phi_125 = np.loadtxt('phiCorrelation_pt0-5_125.csv',delimiter=',',usecols=[0],skiprows=1)
+atlas_result_125 = np.loadtxt('phiCorrelation_pt0-5_125.csv',delimiter=',',usecols=[3],skiprows=1)
+atlas_phi_135 = np.loadtxt('phiCorrelation_pt0-5_135.csv',delimiter=',',usecols=[0],skiprows=1)
+atlas_result_135 = np.loadtxt('phiCorrelation_pt0-5_135.csv',delimiter=',',usecols=[3],skiprows=1)
+
+
 
 def atlas_ridge(phi, G, v):          #atlas는 0.5<pt<5 이므로 지금까지 그려온 그래프와 맞지 않음.
         return G*(1+2*v*np.cos(2*phi))
 
-Deltaphi = np.arange(-1.28,1.28,0.04)
+Deltaphi = np.arange(-1.,1.,0.04)
 
-# for i in range(4):
-Multi_130_up = atlas_ridge(Deltaphi, G_result[0], v22_result[0])
-Multi_120_130 = atlas_ridge(Deltaphi, G_result[1], v22_result[1])
-Multi_110_120 = atlas_ridge(Deltaphi, G_result[2], v22_result[2])
-Multi_100_110 = atlas_ridge(Deltaphi, G_result[3], v22_result[3])
-Multi_90_100 = atlas_ridge(Deltaphi, G_result[4], v22_result[4])
+# for i in range(4):    Y^ridge, for Experiment data
+Multi_90_up = atlas_ridge(Deltaphi, G_result[0], v22_result[0])
+Multi_130_up = atlas_ridge(Deltaphi, G_result[1], v22_result[1])
+Multi_120_130 = atlas_ridge(Deltaphi, G_result[2], v22_result[2])
+Multi_110_120 = atlas_ridge(Deltaphi, G_result[3], v22_result[3])
+Multi_100_110 = atlas_ridge(Deltaphi, G_result[4], v22_result[4])
+Multi_90_100 = atlas_ridge(Deltaphi, G_result[5], v22_result[5])
 
-# print(type(Deltaphi))
-# print(type(Multi_130_up))
+# data-Czyam의 적분값 구하기.
+norm_templ_135 = 0.
+norm_templ_125 = 0.
+norm_templ_115 = 0.
+norm_templ_105 = 0.
+norm_templ_95 = 0.
 
-# print(len(Deltaphi))
-# print(len(Multi_130_up))
+for i in range(3,15):
+    norm_templ_135 += (data_13TeV_130_up[i]-min(data_13TeV_130_up))*(avg_13TeV_130_up[i]-avg_13TeV_130_up[i-1])
+    norm_templ_125 += (data_13TeV_120_130[i]-min(data_13TeV_120_130))*(avg_13TeV_120_130[i]-avg_13TeV_120_130[i-1])
+    norm_templ_115 += (data_13TeV_110_120[i]-min(data_13TeV_110_120))*(avg_13TeV_110_120[i]-avg_13TeV_110_120[i-1])
+    norm_templ_105 += (data_13TeV_100_110[i]-min(data_13TeV_100_110))*(avg_13TeV_100_110[i]-avg_13TeV_100_110[i-1])
+    norm_templ_95 += (data_13TeV_90_100[i]-min(data_13TeV_90_100))*(avg_13TeV_90_100[i]-avg_13TeV_90_100[i-1])
+    # print(data_13TeV_130_up[i], avg_13TeV_130_up[i], avg_13TeV_130_up[i-1])
 
-# print(Deltaphi)
-# print(Multi_130_up)
+# print(norm_templ_135)
+theory_norm = np.loadtxt('phiCorr_norm.csv', delimiter=',', usecols=[1])
+
+
+theory_norm[0] -= 2*min(atlas_result_135)
+theory_norm[1] -= 2*min(atlas_result_125)
+theory_norm[2] -= 2*min(atlas_result_115)
+theory_norm[3] -= 2*min(atlas_result_105)
+theory_norm[4] -= 2*min(atlas_result_95)
+
+# print(theory_norm)
+
+ratio_95 = norm_templ_95/theory_norm[4]
+ratio_105 = norm_templ_105/theory_norm[3]
+ratio_115 = norm_templ_115/theory_norm[2]
+ratio_125 = norm_templ_125/theory_norm[1]
+ratio_135 = norm_templ_135/theory_norm[0]
+
+theory_norm_95 = (atlas_result_95-min(atlas_result_95))*ratio_95
+theory_norm_105 = (atlas_result_105-min(atlas_result_105))*ratio_105
+theory_norm_115 = (atlas_result_115-min(atlas_result_115))*ratio_115
+theory_norm_125 = (atlas_result_125-min(atlas_result_125))*ratio_125
+theory_norm_135 = (atlas_result_135-min(atlas_result_135))*ratio_135
 
 fig.set_size_inches(40, 20, forward=True)
 
-plt.plot(atlas_phi, atlas_result-min(atlas_result), color = 'blue', linewidth=5, linestyle = '-',label=r'$result\quad\quad\quad\quad\quad-C_{ZYAM}$')
-
-#atlas의 Yridge를 계산한 값 -Czyam
-plt.plot(Deltaphi, Multi_130_up-min(Multi_130_up), color = 'black', linewidth=5, linestyle = '--',label=r'$130 \leq N_{ch}^{rec},\quad\quad\,\,\,\,\, -C_{ZYAM}$')
-plt.plot(Deltaphi, Multi_120_130-min(Multi_120_130), color = 'green', linewidth=5, linestyle = '--',label=r'$120 \leq N_{ch}^{rec}<130, -C_{ZYAM}$')
-plt.plot(Deltaphi, Multi_110_120-min(Multi_110_120), color = 'orange', linewidth=5, linestyle = '--',label=r'$110 \leq N_{ch}^{rec}<120, -C_{ZYAM}$')
-plt.plot(Deltaphi, Multi_100_110-min(Multi_100_110), color = 'blue', linewidth=5, linestyle = '--',label=r'$100 \leq N_{ch}^{rec}<110, -C_{ZYAM}$')
-plt.plot(Deltaphi, Multi_90_100-min(Multi_90_100), color = 'grey', linewidth=5, linestyle = '--',label=r'$90 \leq N_{ch}^{rec}<100\,, -C_{ZYAM}$')
+#단순 theory 계산값 -Czyam
+# plt.plot(atlas_phi_95, atlas_result_95-min(atlas_result_95), color = 'blue', linewidth=5, linestyle = '-',label=r'$result$')
+plt.plot(atlas_phi_95, theory_norm_95, color = 'grey', linewidth=5, linestyle = '-',label=r'$90 \,\, \leq N_{ch}^{rec}<100$')
+plt.plot(atlas_phi_105, theory_norm_105, color = 'blue', linewidth=5, linestyle = '-',label=r'$100 \leq N_{ch}^{rec}<110$')
+plt.plot(atlas_phi_115, theory_norm_115, color = 'orange', linewidth=5, linestyle = '-',label=r'$110 \leq N_{ch}^{rec}<120$')
+plt.plot(atlas_phi_125, theory_norm_125, color = 'green', linewidth=5, linestyle = '-',label=r'$120 \leq N_{ch}^{rec}<130$')
+plt.plot(atlas_phi_135, theory_norm_135, color = 'black', linewidth=5, linestyle = '-',label=r'$130 \leq N_{ch}^{rec}$')
 
 plt.legend(fontsize=45,framealpha=False,loc='upper right')
 
-#단순히 -Czyam
-plt.scatter(phi_13TeV_130_up, data_13TeV_130_up-min(data_13TeV_130_up), color = 'black', s=1000)
-plt.scatter(phi_13TeV_120_130, data_13TeV_120_130-min(data_13TeV_120_130), color = 'green', s=1000)
-plt.scatter(phi_13TeV_110_120, data_13TeV_110_120-min(data_13TeV_110_120), color = 'orange', s=1000)
-plt.scatter(phi_13TeV_100_110, data_13TeV_100_110-min(data_13TeV_100_110), color = 'blue', s=1000)
-plt.scatter(phi_13TeV_90_100, data_13TeV_90_100-min(data_13TeV_90_100), color = 'blue', s=1000)
-
-plt.plot(phi_13TeV_130_up, data_13TeV_130_up-min(data_13TeV_130_up), color = 'black', linewidth=5, linestyle = ':',label=r'$130 \leq N_{ch}^{rec},\quad\quad\,\,\,\,\, -C_{ZYAM}$')
-plt.plot(phi_13TeV_120_130, data_13TeV_120_130-min(data_13TeV_120_130), color = 'green', linewidth=5, linestyle = ':',label=r'$120 \leq N_{ch}^{rec}<130, -C_{ZYAM}$')
-plt.plot(phi_13TeV_110_120, data_13TeV_110_120-min(data_13TeV_110_120), color = 'orange', linewidth=5, linestyle = ':',label=r'$110 \leq N_{ch}^{rec}<120, -C_{ZYAM}$')
-plt.plot(phi_13TeV_100_110, data_13TeV_100_110-min(data_13TeV_100_110), color = 'blue', linewidth=5, linestyle = ':',label=r'$100 \leq N_{ch}^{rec}<110, -C_{ZYAM}$')
-plt.plot(phi_13TeV_90_100, data_13TeV_90_100-min(data_13TeV_90_100), color = 'grey', linewidth=5, linestyle = ':',label=r'$90 \leq N_{ch}^{rec}<100\, s,-C_{ZYAM}$')
+#atlas의 Yridge를 계산한 값 -Czyam
+plt.plot(Deltaphi, Multi_90_up-min(Multi_90_up), color = 'red', linewidth=5, linestyle = '--',label=r'$90 \,\, \leq N_{ch}^{rec}$')
+plt.plot(Deltaphi, Multi_130_up-min(Multi_130_up), color = 'black', linewidth=5, linestyle = '--',label=r'$130 \leq N_{ch}^{rec}$')
+plt.plot(Deltaphi, Multi_120_130-min(Multi_120_130), color = 'green', linewidth=5, linestyle = '--',label=r'$120 \leq N_{ch}^{rec}<130$')
+plt.plot(Deltaphi, Multi_110_120-min(Multi_110_120), color = 'orange', linewidth=5, linestyle = '--',label=r'$110 \leq N_{ch}^{rec}<120$')
+plt.plot(Deltaphi, Multi_100_110-min(Multi_100_110), color = 'blue', linewidth=5, linestyle = '--',label=r'$100 \leq N_{ch}^{rec}<110$')
+plt.plot(Deltaphi, Multi_90_100-min(Multi_90_100), color = 'grey', linewidth=5, linestyle = '--',label=r'$90 \,\, \leq N_{ch}^{rec}<100$')
 
 
 
-plt.ylabel(r'$Y^{ridge}$', size = 70)
+#단순히 data-Czyam
+plt.plot(phi_13TeV_90_up, data_13TeV_90_up-min(data_13TeV_90_up), marker = 'o', markersize = 15, color = 'red', linewidth=5, linestyle = ':',label=r'$90 \,\, \leq N_{ch}^{rec}$')
+plt.plot(phi_13TeV_130_up, data_13TeV_130_up-min(data_13TeV_130_up), marker = 'o', markersize = 15, color = 'black', linewidth=5, linestyle = ':',label=r'$130 \leq N_{ch}^{rec}$')
+plt.plot(phi_13TeV_120_130, data_13TeV_120_130-min(data_13TeV_120_130), marker = 'o', markersize = 15, color = 'green', linewidth=5, linestyle = ':',label=r'$120 \leq N_{ch}^{rec}<130$')
+plt.plot(phi_13TeV_110_120, data_13TeV_110_120-min(data_13TeV_110_120), marker = 'o', markersize = 15, color = 'orange', linewidth=5, linestyle = ':',label=r'$110 \leq N_{ch}^{rec}<120$')
+plt.plot(phi_13TeV_100_110, data_13TeV_100_110-min(data_13TeV_100_110), marker = 'o', markersize = 15, color = 'blue', linewidth=5, linestyle = ':',label=r'$100 \leq N_{ch}^{rec}<110$')
+plt.plot(phi_13TeV_90_100, data_13TeV_90_100-min(data_13TeV_90_100), marker = 'o', markersize = 15, color = 'grey', linewidth=5, linestyle = ':',label=r'$90 \,\, \leq N_{ch}^{rec}<100$')
+
+
+
+plt.ylabel(r'$Y^{ridge}-C_{ZYAM}$', size = 70)
 plt.xlabel(r'$\Delta\phi$', size=70)
 
 plt.minorticks_on()
@@ -529,11 +649,13 @@ plt.tight_layout()
 fig.savefig('./result/high_multi-czyam.png')
 
 fig.clear()
+
+
 plt.plot(atlas_phi, atlas_result, color = 'blue', linewidth=5, linestyle = '-',label=r'$result$')
-# plt.plot(Deltaphi, Multi_130_up, color = 'black', linewidth=5, linestyle = '--',label=r'$130 \leq N_{ch}^{rec}$')
-# plt.plot(Deltaphi, Multi_120_130, color = 'green', linewidth=5, linestyle = '--',label=r'$120 \leq N_{ch}^{rec}<130$')
-# plt.plot(Deltaphi, Multi_110_120, color = 'orange', linewidth=5, linestyle = '--',label=r'$110 \leq N_{ch}^{rec}<120$')
-# plt.plot(Deltaphi, Multi_100_110, color = 'blue', linewidth=5, linestyle = '--',label=r'$100 \leq N_{ch}^{rec}<110$')
+plt.plot(Deltaphi, Multi_130_up, color = 'black', linewidth=5, linestyle = '--',label=r'$130 \leq N_{ch}^{rec}$')
+plt.plot(Deltaphi, Multi_120_130, color = 'green', linewidth=5, linestyle = '--',label=r'$120 \leq N_{ch}^{rec}<130$')
+plt.plot(Deltaphi, Multi_110_120, color = 'orange', linewidth=5, linestyle = '--',label=r'$110 \leq N_{ch}^{rec}<120$')
+plt.plot(Deltaphi, Multi_100_110, color = 'blue', linewidth=5, linestyle = '--',label=r'$100 \leq N_{ch}^{rec}<110$')
 
 plt.ylabel(r'$Y^{ridge}$', size = 70)
 plt.xlabel(r'$\Delta\phi$', size=70)
@@ -554,5 +676,109 @@ plt.grid(color='silver',linestyle=':',linewidth=3)
 plt.tight_layout()
 
 fig.savefig('./result/high_multi_Yridge.png')
+
+fig.clear()
+
+# theory - Czyam    //    Yridge - Czyam 비교
+
+F_result_multi=np.loadtxt('./result/ridge_parameters.csv',delimiter=',',usecols=[0],skiprows=1)
+F_result=np.loadtxt('./result/ridge_parameters.csv',delimiter=',',usecols=[1],skiprows=1)
+
+#Theory Result
+# theory_90_up = atlas_result-F_result[0]*periph(atlas_phi, *popt_periph_130TeV)
+theory_130_up = theory_norm_135-F_result[1]*periph(atlas_phi_135, *popt_periph_130TeV)
+theory_120_130 = theory_norm_125-F_result[2]*periph(atlas_phi_125, *popt_periph_130TeV)
+theory_110_120 = theory_norm_115-F_result[3]*periph(atlas_phi_115, *popt_periph_130TeV)
+theory_100_110 = theory_norm_105-F_result[4]*periph(atlas_phi_105, *popt_periph_130TeV)
+theory_90_100 = theory_norm_95-F_result[5]*periph(atlas_phi_95, *popt_periph_130TeV)
+
+print(F_result)
+
+# plt.plot(atlas_phi, theory_90_up-min(theory_90_up), color = 'red', linewidth=5, linestyle = '-',label=r'$90 \,\, \leq N_{ch}^{rec}$')
+plt.plot(atlas_phi_135, theory_130_up-min(theory_130_up), color = 'black', linewidth=5, linestyle = '-',label=r'$130 \leq N_{ch}^{rec}$')
+plt.plot(atlas_phi_125, theory_120_130-min(theory_120_130), color = 'green', linewidth=5, linestyle = '-',label=r'$120 \leq N_{ch}^{rec}<130$')
+plt.plot(atlas_phi_115, theory_110_120-min(theory_110_120), color = 'orange', linewidth=5, linestyle = '-',label=r'$110 \leq N_{ch}^{rec}<120$')
+plt.plot(atlas_phi_105, theory_100_110-min(theory_100_110), color = 'blue', linewidth=5, linestyle = '-',label=r'$100 \leq N_{ch}^{rec}<110$')
+plt.plot(atlas_phi_95, theory_90_100-min(theory_90_100), color = 'grey', linewidth=5, linestyle = '-',label=r'$90 \,\, \leq N_{ch}^{rec}<100$')
+
+plt.legend(fontsize=45,framealpha=False,loc='upper right')
+
+#experiment result
+plt.plot(Deltaphi, Multi_90_up-min(Multi_90_up), color = 'red', linewidth=5, linestyle = '--',label=r'$90 \,\, \leq N_{ch}^{rec}$')
+plt.plot(Deltaphi, Multi_130_up-min(Multi_130_up), color = 'black', linewidth=5, linestyle = '--',label=r'$130 \leq N_{ch}^{rec}$')
+plt.plot(Deltaphi, Multi_120_130-min(Multi_120_130), color = 'green', linewidth=5, linestyle = '--',label=r'$120 \leq N_{ch}^{rec}<130$')
+plt.plot(Deltaphi, Multi_110_120-min(Multi_110_120), color = 'orange', linewidth=5, linestyle = '--',label=r'$110 \leq N_{ch}^{rec}<120$')
+plt.plot(Deltaphi, Multi_100_110-min(Multi_100_110), color = 'blue', linewidth=5, linestyle = '--',label=r'$100 \leq N_{ch}^{rec}<110$')
+plt.plot(Deltaphi, Multi_90_100-min(Multi_90_100), color = 'grey', linewidth=5, linestyle = '--',label=r'$90 \,\, \leq N_{ch}^{rec}<100$')
+
+
+plt.ylabel(r'$Y^{ridge}-C_{ZYAM}$', size = 70)
+plt.xlabel(r'$\Delta\phi$', size=70)
+
+plt.minorticks_on()
+
+# plt.ylim(-0.01,0.1)
+plt.xlim(-1.3,1.3)
+
+plt.tick_params(axis='both',which='major',direction='in',width=2,length=30,labelsize=45, top = 'true')
+plt.tick_params(axis='both',which='minor',direction='in',width=2,length=15,labelsize=45, top = 'true')
+# plt.legend(fontsize=45,framealpha=False,bbox_to_anchor=(1.,0.5))
+
+
+
+plt.grid(color='silver',linestyle=':',linewidth=3)
+
+plt.tight_layout()
+
+fig.savefig('./result/high_multi_Yridge_czyam.png')
+
+fig.clear()
+
+#C_zyam 제외
+
+theory_90_up = atlas_result-F_result[0]*periph(atlas_phi, *popt_periph_130TeV)
+theory_130_up = atlas_result-F_result[1]*periph(atlas_phi, *popt_periph_130TeV)
+theory_120_130 = atlas_result-F_result[2]*periph(atlas_phi, *popt_periph_130TeV)
+theory_110_120 = atlas_result-F_result[3]*periph(atlas_phi, *popt_periph_130TeV)
+theory_100_110 = atlas_result-F_result[4]*periph(atlas_phi, *popt_periph_130TeV)
+theory_90_100 = atlas_result-F_result[5]*periph(atlas_phi, *popt_periph_130TeV)
+
+plt.plot(atlas_phi, theory_90_up, color = 'red', linewidth=5, linestyle = '-',label=r'$90 \,\, \leq N_{ch}^{rec}$')
+plt.plot(atlas_phi, theory_130_up, color = 'black', linewidth=5, linestyle = '-',label=r'$130 \leq N_{ch}^{rec}$')
+plt.plot(atlas_phi, theory_120_130, color = 'green', linewidth=5, linestyle = '-',label=r'$120 \leq N_{ch}^{rec}<130$')
+plt.plot(atlas_phi, theory_110_120, color = 'orange', linewidth=5, linestyle = '-',label=r'$110 \leq N_{ch}^{rec}<120$')
+plt.plot(atlas_phi, theory_100_110, color = 'blue', linewidth=5, linestyle = '-',label=r'$100 \leq N_{ch}^{rec}<110$')
+plt.plot(atlas_phi, theory_90_100, color = 'grey', linewidth=5, linestyle = '-',label=r'$90 \,\, \leq N_{ch}^{rec}<100$')
+
+plt.legend(fontsize=45,framealpha=False)
+
+#experiment result
+# plt.plot(Deltaphi, Multi_90_up color = 'red', linewidth=5, linestyle = '--',label=r'$90 \,\, \leq N_{ch}^{rec}$')
+# plt.plot(Deltaphi, Multi_130_up, color = 'black', linewidth=5, linestyle = '--',label=r'$130 \leq N_{ch}^{rec}$')
+# plt.plot(Deltaphi, Multi_120_130, color = 'green', linewidth=5, linestyle = '--',label=r'$120 \leq N_{ch}^{rec}<130$')
+# plt.plot(Deltaphi, Multi_110_120, color = 'orange', linewidth=5, linestyle = '--',label=r'$110 \leq N_{ch}^{rec}<120$')
+# plt.plot(Deltaphi, Multi_100_110, color = 'blue', linewidth=5, linestyle = '--',label=r'$100 \leq N_{ch}^{rec}<110$')
+# plt.plot(Deltaphi, Multi_90_100, color = 'grey', linewidth=5, linestyle = '--',label=r'$90 \,\, \leq N_{ch}^{rec}<100$')
+
+
+plt.ylabel(r'$Y^{ridge}$', size = 70)
+plt.xlabel(r'$\Delta\phi$', size=70)
+
+plt.minorticks_on()
+
+# plt.ylim(-0.01,0.1)
+plt.xlim(-1.3,1.3)
+
+plt.tick_params(axis='both',which='major',direction='in',width=2,length=30,labelsize=45, top = 'true')
+plt.tick_params(axis='both',which='minor',direction='in',width=2,length=15,labelsize=45, top = 'true')
+# plt.legend(fontsize=45,framealpha=False,bbox_to_anchor=(1.,0.5))
+
+
+
+plt.grid(color='silver',linestyle=':',linewidth=3)
+
+plt.tight_layout()
+
+fig.savefig('./result/13TeV_Ytheory.png')
 
 fig.clear()
