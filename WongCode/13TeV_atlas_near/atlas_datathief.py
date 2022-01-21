@@ -506,6 +506,8 @@ v22_data=np.loadtxt('./atlasgraphs/v22_13TeV.csv',delimiter=',',usecols=[1])
 
 plt.scatter(v22_result_multi, v22_result, color = 'black', s=1000, label=r'$result$')
 plt.scatter(v22_data_multi, v22_data, facecolor = 'none', edgecolor = 'red', linewidths=5, s=1000, label=r'$data\,thief$')
+plt.legend(fontsize=45,framealpha=False)
+
 plt.scatter(v22_data_multi, v22_data, color = 'red', marker='+', linewidths=5, s=1000, label=r'$data\,thief$')
 
 plt.ylabel(r'$v_{2,2}$', size = 70)
@@ -518,7 +520,6 @@ plt.xlim(15,140)
 
 plt.tick_params(axis='both',which='major',direction='in',width=2,length=30,labelsize=45, top = 'true')
 plt.tick_params(axis='both',which='minor',direction='in',width=2,length=15,labelsize=45, top = 'true')
-plt.legend(fontsize=45,framealpha=False)
 
 
 plt.grid(color='silver',linestyle=':',linewidth=3)
@@ -613,33 +614,33 @@ plt.plot(atlas_phi_135, theory_norm_135, color = 'black', linewidth=5, linestyle
 plt.plot(atlas_phi_125, theory_norm_125, color = 'green', linewidth=5, linestyle = '-',label=r'$120 \leq N_{ch}^{rec}<130$')
 plt.plot(atlas_phi_115, theory_norm_115, color = 'orange', linewidth=5, linestyle = '-',label=r'$110 \leq N_{ch}^{rec}<120$')
 plt.plot(atlas_phi_105, theory_norm_105, color = 'blue', linewidth=5, linestyle = '-',label=r'$100 \leq N_{ch}^{rec}<110$')
-plt.plot(atlas_phi_95, theory_norm_95, color = 'grey', linewidth=5, linestyle = '-',label=r'$90 \,\, \leq N_{ch}^{rec}<100$')
+# plt.plot(atlas_phi_95, theory_norm_95, color = 'grey', linewidth=5, linestyle = '-',label=r'$90 \,\, \leq N_{ch}^{rec}<100$')
 # plt.plot(atlas_phi_135, atlas_result_135-min(atlas_result_135), color = 'black', linewidth=5, linestyle = ':',label=r'$130 \leq N_{ch}^{rec}, ratio x$')
 
 plt.legend(fontsize=45,framealpha=False,loc='upper right')
 
 #atlas의 Yridge를 계산한 값 -Czyam
-plt.plot(Deltaphi, Multi_90_up-min(Multi_90_up), color = 'red', linewidth=5, linestyle = '--',label=r'$90 \,\, \leq N_{ch}^{rec}$')
-plt.plot(Deltaphi, Multi_130_up-min(Multi_130_up), color = 'black', linewidth=5, linestyle = '--',label=r'$130 \leq N_{ch}^{rec}$')
-plt.plot(Deltaphi, Multi_120_130-min(Multi_120_130), color = 'green', linewidth=5, linestyle = '--',label=r'$120 \leq N_{ch}^{rec}<130$')
-plt.plot(Deltaphi, Multi_110_120-min(Multi_110_120), color = 'orange', linewidth=5, linestyle = '--',label=r'$110 \leq N_{ch}^{rec}<120$')
-plt.plot(Deltaphi, Multi_100_110-min(Multi_100_110), color = 'blue', linewidth=5, linestyle = '--',label=r'$100 \leq N_{ch}^{rec}<110$')
-plt.plot(Deltaphi, Multi_90_100-min(Multi_90_100), color = 'grey', linewidth=5, linestyle = '--',label=r'$90 \,\, \leq N_{ch}^{rec}<100$')
+# plt.plot(Deltaphi, Multi_90_up-min(Multi_90_up), color = 'red', linewidth=5, linestyle = '--',label=r'$90 \,\, \leq N_{ch}^{rec}$')
+# plt.plot(Deltaphi, Multi_130_up-min(Multi_130_up), color = 'black', linewidth=5, linestyle = '--',label=r'$130 \leq N_{ch}^{rec}$')
+# plt.plot(Deltaphi, Multi_120_130-min(Multi_120_130), color = 'green', linewidth=5, linestyle = '--',label=r'$120 \leq N_{ch}^{rec}<130$')
+# plt.plot(Deltaphi, Multi_110_120-min(Multi_110_120), color = 'orange', linewidth=5, linestyle = '--',label=r'$110 \leq N_{ch}^{rec}<120$')
+# plt.plot(Deltaphi, Multi_100_110-min(Multi_100_110), color = 'blue', linewidth=5, linestyle = '--',label=r'$100 \leq N_{ch}^{rec}<110$')
+# plt.plot(Deltaphi, Multi_90_100-min(Multi_90_100), color = 'grey', linewidth=5, linestyle = '--',label=r'$90 \,\, \leq N_{ch}^{rec}<100$')
 
 # print(Deltaphi)
 
 
 #단순히 data-Czyam
-plt.plot(phi_13TeV_90_up, data_13TeV_90_up-min(data_13TeV_90_up), marker = 'o', markersize = 15, color = 'red', linewidth=5, linestyle = ':',label=r'$90 \,\, \leq N_{ch}^{rec}$')
+# plt.plot(phi_13TeV_90_up, data_13TeV_90_up-min(data_13TeV_90_up), marker = 'o', markersize = 15, color = 'red', linewidth=5, linestyle = ':',label=r'$90 \,\, \leq N_{ch}^{rec}$')
 plt.plot(phi_13TeV_130_up, data_13TeV_130_up-min(data_13TeV_130_up), marker = 'o', markersize = 15, color = 'black', linewidth=5, linestyle = ':',label=r'$130 \leq N_{ch}^{rec}$')
 plt.plot(phi_13TeV_120_130, data_13TeV_120_130-min(data_13TeV_120_130), marker = 'o', markersize = 15, color = 'green', linewidth=5, linestyle = ':',label=r'$120 \leq N_{ch}^{rec}<130$')
 plt.plot(phi_13TeV_110_120, data_13TeV_110_120-min(data_13TeV_110_120), marker = 'o', markersize = 15, color = 'orange', linewidth=5, linestyle = ':',label=r'$110 \leq N_{ch}^{rec}<120$')
 plt.plot(phi_13TeV_100_110, data_13TeV_100_110-min(data_13TeV_100_110), marker = 'o', markersize = 15, color = 'blue', linewidth=5, linestyle = ':',label=r'$100 \leq N_{ch}^{rec}<110$')
-plt.plot(phi_13TeV_90_100, data_13TeV_90_100-min(data_13TeV_90_100), marker = 'o', markersize = 15, color = 'grey', linewidth=5, linestyle = ':',label=r'$90 \,\, \leq N_{ch}^{rec}<100$')
+# plt.plot(phi_13TeV_90_100, data_13TeV_90_100-min(data_13TeV_90_100), marker = 'o', markersize = 15, color = 'grey', linewidth=5, linestyle = ':',label=r'$90 \,\, \leq N_{ch}^{rec}<100$')
 
 
 
-plt.ylabel(r'$Y^{ridge}-C_{ZYAM}$', size = 70)
+plt.ylabel(r'$Y^{data}-C_{ZYAM}$', size = 70)
 plt.xlabel(r'$\Delta\phi$', size=70)
 
 plt.minorticks_on()

@@ -43,53 +43,7 @@ double Aridge;
 double constant = Njet/(Tjet*(m+Tjet)*2*M_PI);
 
 double frnk(double pt){
-
     return  xx*exp(yy*pt);
-
-    // return exp(-frnkconst*pt/(frnkconst*frnkconst+pt*pt));
-    // return exp(-frnkconst*pt/sqrt(md*md+pt*pt));
-    // return frnkconst*exp(-pt/sqrt(md*md+pt*pt));
-    // return (md*exp(-pt/sqrt(md*md+pt*pt)))/frnkconst;
-    // return exp(-md*pt/sqrt(md*md+pt*pt));
-    // return  3.5*pt-3.25;
-
-    // if(0.<=pt && pt<1.){
-    //     return xx*exp(yy*0.5);
-    // }
-    // else if(1.<=pt && pt<2.){
-    //     return xx*exp(yy*1.5);
-    // }
-    // else if(2.<=pt && pt<3.){
-    //     return xx*exp(yy*2.5);
-    // }
-    // else if(3.<=pt && pt<4.){
-    //     return xx*exp(yy*3.5);
-    // }
-    // else if(4.<=pt && pt<5.){
-    //     return xx*exp(yy*4.5);
-    // }
-    // else if(5.<=pt && pt<6.){
-    //     return xx*exp(yy*5.5);
-    // }
-    // else if(6.<=pt && pt<7.){
-    //     return xx*exp(yy*6.5);
-    // }
-    // else if(7.<=pt && pt<8.){
-    //     return xx*exp(yy*7.5);
-    // }
-    // else if(8.<=pt && pt<9.){
-    //     return xx*exp(yy*8.5);
-    // }
-    // else if(9.<=pt && pt<=11.){
-    //     return xx*exp(yy*10.);
-    // }
-    // else{
-    //     printf("\nSomething error, ptf : %f\n", pt);
-    //     exit(1);
-    //     return 0;
-    // }
-
-
 }
 
 double rapidityintit(double pt, double eta){
@@ -112,7 +66,7 @@ double lightcone(double pti, double yi){
 
 
 //Aridge를 구하기 위해 적분할 함수
-double integralAridge(double pti, double yi, int check){
+double integralAridge(double pti, double yi, int check, double Tem){
     // std::cout<<pti<<std::setw(7)<<yi<<std::setw(9)<<phii<<std::endl;       
     double x = lightcone(pti, yi);
     double squareroot=sqrt(m*m+pti*pti);
@@ -127,7 +81,7 @@ double integralAridge(double pti, double yi, int check){
         }
         else{
             // std::cout<<pti<<std::setw(20)<<yi<<std::setw(20)<<pow(1-x,a)*exp(-sqrt(m*m+pti*pti)/T)/sqrt(md*md+pti*pti)<<std::endl;
-            return pow(1-x,a)*exp(-sqrt(m*m+pti*pti)/T)/sqrt(md*md+pti*pti);
+            return pow(1-x,a)*exp(-sqrt(m*m+pti*pti)/Tem)/sqrt(md*md+pti*pti);
         }
         
     }
@@ -138,13 +92,13 @@ double integralAridge(double pti, double yi, int check){
             return 0.;
         }
         else{
-            return pti*pow(1-x,a)*exp(-sqrt(m*m+pti*pti)/T)/sqrt(md*md+pti*pti);
+            return pti*pow(1-x,a)*exp(-sqrt(m*m+pti*pti)/Tem)/sqrt(md*md+pti*pti);
         }
     }
     
 }
 //Ridge파트 적분
-double RidgeDis(double Aridge, double ptf, double etaf, double phif, int check, double q1){
+double RidgeDis(double Aridge_multi, double ptf, double etaf, double phif, int check, double q1, double Tem){
     double ptisq = ptf*ptf-2*ptf*q1*cos(phif)/cosh(etajet)+q1*q1/(cosh(etajet)*cosh(etajet));
     double pti = sqrt(ptisq);
     if(ptisq<0.0000000001){
@@ -176,7 +130,7 @@ double RidgeDis(double Aridge, double ptf, double etaf, double phif, int check, 
     }
     
     else{              
-        return (Aridge*integralAridge(pti, yi, check))*sqrt(1.-((mb*mb)/((mb*mb+ptf*ptf)*cosh(yf)*cosh(yf))))*(E/Ei);           // E/Ei 임을 명심하자.
+        return (Aridge_multi*integralAridge(pti, yi, check, Tem))*sqrt(1.-((mb*mb)/((mb*mb+ptf*ptf)*cosh(yf)*cosh(yf))))*(E/Ei);           // E/Ei 임을 명심하자.
     }//
     
 }
@@ -227,8 +181,8 @@ void func10(double arr[], double ptf, double phif, double etaf, double etacms, d
     double delta_Deltaeta = 0.4;
     double delta_Deltaetacms = 4.;
     for(i=1;i<=n_1/2;i++){
-        arr[0] += ptf*frnk(ptf)*RidgeDis(Aridge, ptf, etaf, phif, check2_1, qq)*detaf_1*dphif_1*dptff/delta_Deltaeta;
-        arr[1] += ptf*frnk(ptf)*RidgeDis(Aridge, ptf, etacms, phif, check2_1, qq)*detacms_1*dphif_1*dptff/delta_Deltaetacms;
+        arr[0] += ptf*frnk(ptf)*RidgeDis(Aridge, ptf, etaf, phif, check2_1, qq, T)*detaf_1*dphif_1*dptff/delta_Deltaeta;
+        arr[1] += ptf*frnk(ptf)*RidgeDis(Aridge, ptf, etacms, phif, check2_1, qq, T)*detacms_1*dphif_1*dptff/delta_Deltaetacms;
         arr[2] += ptf*integralNjet(ptf,etajet,phif,constant)*detajet_1*dphif_1*dptff/delta_Deltaphi;
         etaf += detaf_1;
         etacms += detacms_1;
@@ -393,8 +347,8 @@ void func1(double ptq){
             etaf_1 = etaf0_1;
             etacms_1 = etacms0_1;
             for (i_1=1;i_1<=n_1+1;i_1++){
-                sum_1_alice += ptf_1*frnk(ptf_1)*RidgeDis(Aridge, ptf_1, etaf_1, 1.28, check2_1, ptq)*detaf_1*ddptf_1/delta_Deltaeta;
-                sum_1_cms += ptf_1*frnk(ptf_1)*RidgeDis(Aridge, ptf_1, etacms_1, 1.28, check2_1, ptq)*detacms_1*ddptf_1/delta_Deltaetacms;
+                sum_1_alice += ptf_1*frnk(ptf_1)*RidgeDis(Aridge, ptf_1, etaf_1, 1.28, check2_1, ptq, T)*detaf_1*ddptf_1/delta_Deltaeta;
+                sum_1_cms += ptf_1*frnk(ptf_1)*RidgeDis(Aridge, ptf_1, etacms_1, 1.28, check2_1, ptq, T)*detacms_1*ddptf_1/delta_Deltaetacms;
                 etaf_1 += detaf_1;
                 etacms_1 += detacms_1;
             }
@@ -473,26 +427,28 @@ void func1(double ptq){
 //q값을 고정시킬 경우도 확인해볼 필요가 있음.
 double q_multi(double Multiplicity){
     if(Multiplicity==135){
-        // return 1.2;
-        return 0.6;
+        return 0.9;
+        // return 0.33;
     }
     else if(Multiplicity==125){
-        // return 1.1;
-        return 0.7;
+        return .9;
+        // return 0.33;
     }
     else if(Multiplicity==115){
-        // return 1.0;
-        return 0.8;
+        return .9;
+        // return 0.33;
     }
     else if(Multiplicity==105){
-        return 0.85;
+        return 0.9;
+        // return 0.33;
     }
     else if(Multiplicity==95){
-        // return 0.8;
-        return 0.85;
+        return 0.9;
+        // return 0.33;
     }
     else if(Multiplicity==0){
         return q_1;
+        exit(1);
     }
     else{
         std::cout<<"Run Error"<<std::endl;
@@ -502,11 +458,41 @@ double q_multi(double Multiplicity){
 
 double phi_normalization[5] = {0.};
 
+double T_multi(double Multiplicity){
+    if(Multiplicity==135){
+        return 0.65;
+        // return 1.0;
+    }
+    else if(Multiplicity==125){
+        return 0.65;
+        // return 0.8;
+    }
+    else if(Multiplicity==115){
+        return 0.65;
+        // return 0.6;
+    }
+    else if(Multiplicity==105){
+        return 0.65;
+        // return 0.4;
+    }
+    else if(Multiplicity==95){
+        // return 0.8;
+        return 0.65;
+    }
+    else if(Multiplicity==0){
+        return 0.65;
+    }
+    else{
+        std::cout<<"Run Error"<<std::endl;
+        exit(1);
+    }
+}
+
 //pt1~2, 2~3, 3~4 부터 시작해보자.
 
-void func2(double ptf_st, double ptf_end, double etaf_st, double etaf_end, double etacms_st, double etacms_end, double etaatlas_st, double etaatlas_end, double phif_st, double phif_end, int n, int check2, double ptjetcut, double q, double Multi){
+void func2(double Aridge_multi, double ptf_st, double ptf_end, double etaf_st, double etaf_end, double etacms_st, double etacms_end, double etaatlas_st, double etaatlas_end, double phif_st, double phif_end, int n, int check2, double ptjetcut, double q, double Multi){
     
-    double ptf, etaf, phif, sum_alice, sum_cms, sum_j, etacms, etaatlas, sum_atlas, multi_q, norm_dist;
+    double ptf, etaf, phif, sum_alice, sum_cms, sum_j, etacms, etaatlas, sum_atlas, multi_q, norm_dist, multi_T;
     double dptf, dphif, detaf, detacms, detaatlas, delta_Deltaeta, delta_Deltaetacms, delta_Deltaetaatlas, ptf0, etaf0, phif0, etacms0, etaatlas0;
     int i, j, k;
     norm_dist = 0.;
@@ -548,6 +534,7 @@ void func2(double ptf_st, double ptf_end, double etaf_st, double etaf_end, doubl
         delta_Deltaetaatlas = 2*(etaatlas_end-etaatlas_st);
 
         multi_q = q_multi(Multi);
+        multi_T = T_multi(Multi);
         // printf("%f\t%f\n", Multi, multi_q);
 
         for(k=1;k<=n+1;k++){
@@ -557,9 +544,9 @@ void func2(double ptf_st, double ptf_end, double etaf_st, double etaf_end, doubl
             for(i=1;i<=n+1;i++){
                 ptf = ptf0;
                 for(j=1;j<=n+1;j+=1){
-                    sum_alice += frnk(ptf)*ptf*RidgeDis(Aridge, ptf, etaf, phif, check2, q)*dptf*detaf/delta_Deltaeta;
-                    sum_cms += frnk(ptf)*ptf*RidgeDis(Aridge, ptf, etacms, phif, check2, q)*dptf*detacms/delta_Deltaetacms;
-                    sum_atlas += frnk(ptf)*ptf*RidgeDis(Aridge, ptf, etaatlas, phif, check2, multi_q)*dptf*detaatlas/delta_Deltaetaatlas;
+                    sum_alice += frnk(ptf)*ptf*RidgeDis(Aridge_multi, ptf, etaf, phif, check2, q, multi_T)*dptf*detaf/delta_Deltaeta;
+                    sum_cms += frnk(ptf)*ptf*RidgeDis(Aridge_multi, ptf, etacms, phif, check2, q, multi_T)*dptf*detacms/delta_Deltaetacms;
+                    sum_atlas += frnk(ptf)*ptf*RidgeDis(Aridge_multi, ptf, etaatlas, phif, check2, multi_q, multi_T)*dptf*detaatlas/delta_Deltaetaatlas;
                     // std::cout<<ptf<<std::setw(20)<<FRNK<<std::endl;
                     ptf += dptf;
                 }
@@ -640,8 +627,8 @@ void func2(double ptf_st, double ptf_end, double etaf_st, double etaf_end, doubl
                 ptf = ptf0;
                 for(j=1;j<=n+1;j+=1){
                     
-                    sum_alice += frnk(ptf)*ptf*RidgeDis(Aridge, ptf, etaf, phif, check2, q)*dptf*detaf/delta_Deltaeta;
-                    sum_cms += frnk(ptf)*ptf*RidgeDis(Aridge, ptf, etacms, phif, check2, q)*dptf*detacms/delta_Deltaetacms;
+                    sum_alice += frnk(ptf)*ptf*RidgeDis(Aridge, ptf, etaf, phif, check2, q, T)*dptf*detaf/delta_Deltaeta;
+                    sum_cms += frnk(ptf)*ptf*RidgeDis(Aridge, ptf, etacms, phif, check2, q, T)*dptf*detacms/delta_Deltaetacms;
                     ptf += dptf;
                 }
                 
@@ -706,7 +693,7 @@ void func3(double ptq, double ptj_st, double ptj_end){
             etaf = etaf0;
             // etacms_1 = etacms0_1;
             for (i_1=1;i_1<=n_1+1;i_1++){
-                sum_1_alice += ptf*frnk(ptf)*RidgeDis(Aridge, ptf, etaf, 1.28, check2, ptq)*detaf*dptf/delta_Deltaeta;
+                sum_1_alice += ptf*frnk(ptf)*RidgeDis(Aridge, ptf, etaf, 1.28, check2, ptq, T)*detaf*dptf/delta_Deltaeta;
                 // sum_1_cms += ptf*frnk(ptf)*RidgeDis(Aridge, ptf, etacms_1, 1.28, check2_1, ptq)*detacms_1*ddptf_1/delta_Deltaetacms;
                 etaf += detaf;
                 // etacms_1 += detacms_1;
@@ -801,6 +788,7 @@ int main()
 
 
     // std::string buffer;
+    double Aridge_multi[5] = {0.};
     double dyi, dphii, sum, totalsum, phii, yi, dpti, pti, sum2, resultsum;
     int i, j, k, nyi, npti, nphii, check2;
 
@@ -824,77 +812,90 @@ int main()
     
     double check = 0.;
     double intaridge = 0.;
+    // double Temperature = T;
+    // double Temperature = T_multi(multi);
 
     // cout<<dyi<<endl;
 
     check2 = 0;
-    for(k=1;k<=npti+1;k+=1){
-        for (i=1;i<=nyi;i+=1){
+    for (int l=0;l<5;l++){
+        double multi = -10*l+135;
+        double Temperature = T_multi(multi);
+        for(k=1;k<=npti+1;k+=1){
+            for (i=1;i<=nyi;i+=1){
 
-            yi += dyi;
-            check = intaridge;
-            intaridge = integralAridge(pti, yi, check2);
+                yi += dyi;
+                check = intaridge;
+                intaridge = integralAridge(pti, yi, check2, Temperature);
 
-            // cout<<yi<<endl;
+                // cout<<yi<<endl;
 
-            sum += intaridge;
+                sum += intaridge;
 
-            if(i == nyi){
-                // cout<<"??"<<endl;
-                sum += (integralAridge(pti, yi0, check2)-intaridge)/2.;
-                sum *= dyi;
+                if(i == nyi){
+                    // cout<<"??"<<endl;
+                    sum += (integralAridge(pti, yi0, check2, Temperature)-intaridge)/2.;
+                    sum *= dyi;
+                    break;
+                }
+                else if(i != 1 && intaridge == 0.){
+                    // cout<<"!!!"<<endl;
+                    // sum -= check;
+                    sum += (integralAridge(pti, yi0, check2, Temperature)-check)/2.;
+                    sum *= dyi;
+                    break;       
+                }
+
+            }
+            yi = 0.;
+            sum *= 2.;
+            // cout<<sum<<endl;
+            // sum -= check;
+            double checksum;
+            totalsum += sum;
+            // cout<<pti<<endl;
+            if (k==1){
+                checksum = totalsum;
+            }
+
+            else if (k==npti+1 || lightcone(pti+dpti,0.)>=1.){
+                
+                totalsum -= (sum+checksum)/2.;
+                // cout<<'2'<<endl;
+                // cout<<pti<<setw(15)<<sum<<setw(15)<<totalsum<<endl;
+                totalsum *= dpti;
                 break;
+                
             }
-            else if(i != 1 && intaridge == 0.){
-                // cout<<"!!!"<<endl;
-                // sum -= check;
-                sum += (integralAridge(pti, yi0, check2)-check)/2.;
-                sum *= dyi;
-                break;       
-            }
-
-        }
-        yi = 0.;
-        sum *= 2.;
-        // cout<<sum<<endl;
-        // sum -= check;
-        double checksum;
-        totalsum += sum;
-        // cout<<pti<<endl;
-        if (k==1){
-            checksum = totalsum;
-        }
-
-        else if (k==npti+1 || lightcone(pti+dpti,0.)>=1.){
-            
-            totalsum -= (sum+checksum)/2.;
-            // cout<<'2'<<endl;
             // cout<<pti<<setw(15)<<sum<<setw(15)<<totalsum<<endl;
-            totalsum *= dpti;
-            break;
             
+            pti += dpti;
+            sum = 0.;
+
+            // cout<<pt<<std::setw(20)<<totalsum<<endl;
         }
-        // cout<<pti<<setw(15)<<sum<<setw(15)<<totalsum<<endl;
+
+
+        totalsum *= 2*M_PI;
+
+        // cout<<lightcone(pti+dpti,0.0)<<setw(15)<<integralAridge(pti+dpti,0.)<<endl;
+
+        // fclose(fpt);
+        cout.precision(10);
+        Aridge = 1/totalsum;
+        // cout<<totalsum<<setw(15)<<Aridge<<endl;
         
-        pti += dpti;
-        sum = 0.;
-
-        // cout<<pt<<std::setw(20)<<totalsum<<endl;
+        // double Aridge = 1/resultsum;
+        cout<<multi<<setw(20)<<totalsum<<setw(20)<<Aridge<<endl;
+        Aridge_multi[l] = Aridge;
+        sum = totalsum = 0.;
+        pti = 0.0;  //적분을 pt=0부터 하는것이 옳은가? 원통좌표계에서의 적분인데?
+        yi = 0.;    //0~4 적분한 후 x2할 것.
+        double yi0 = 0.;
+        
+        double check = 0.;
+        double intaridge = 0.;
     }
-
-
-    totalsum *= 2*M_PI;
-
-    // cout<<lightcone(pti+dpti,0.0)<<setw(15)<<integralAridge(pti+dpti,0.)<<endl;
-
-    // fclose(fpt);
-    cout.precision(10);
-    Aridge = 1/totalsum;
-    // cout<<totalsum<<setw(15)<<Aridge<<endl;
-    
-    // double Aridge = 1/resultsum;
-    cout<<totalsum<<setw(20)<<Aridge<<endl;
-    
     //Aridge=0.1420386444451514
 
     // Aridge=0.1420386444451514;
@@ -944,11 +945,11 @@ int main()
     // thread t5(func2, 1., 4., 1.6, 1.8, 2., 4., 2., 5., -1.28, 1.28, 300, 1, 0., q_1, 0.);   //1D phi correlation, pt = 1~4
 
     //atlas에서는 deltaphi -1, 1 부근에서 최소값이 확인됨. 따라서 계산도 -1~1까지 계산해야 할 것.
-    thread t8(func2, .5, 5., 1.6, 1.8, 2., 4., 2., 5., -1., 1., 300, 1, 0., q_1, 95.);   //1D phi correlation, pt = 0.5~5 (+Multiplicity dependence) 90~100
-    thread t10(func2, .5, 5., 1.6, 1.8, 2., 4., 2., 5., -1., 1., 300, 1, 0., q_1, 105.);   //1D phi correlation, pt = 0.5~5 (+Multiplicity dependence)100~110
-    thread t11(func2, .5, 5., 1.6, 1.8, 2., 4., 2., 5., -1., 1., 300, 1, 0., q_1, 115.);   //1D phi correlation, pt = 0.5~5 (+Multiplicity dependence)110~120
-    thread t12(func2, .5, 5., 1.6, 1.8, 2., 4., 2., 5., -1., 1., 300, 1, 0., q_1, 125.);   //1D phi correlation, pt = 0.5~5 (+Multiplicity dependence)120~130
-    thread t13(func2, .5, 5., 1.6, 1.8, 2., 4., 2., 5., -1., 1., 300, 1, 0., q_1, 135.);   //1D phi correlation, pt = 0.5~5 (+Multiplicity dependence)130~
+    thread t8(func2, Aridge_multi[0], .5, 5., 1.6, 1.8, 2., 4., 2., 5., -1., 1., 300, 1, 0., q_1, 95.);   //1D phi correlation, pt = 0.5~5 (+Multiplicity dependence) 90~100
+    thread t10(func2, Aridge_multi[1], .5, 5., 1.6, 1.8, 2., 4., 2., 5., -1., 1., 300, 1, 0., q_1, 105.);   //1D phi correlation, pt = 0.5~5 (+Multiplicity dependence)100~110
+    thread t11(func2, Aridge_multi[2], .5, 5., 1.6, 1.8, 2., 4., 2., 5., -1., 1., 300, 1, 0., q_1, 115.);   //1D phi correlation, pt = 0.5~5 (+Multiplicity dependence)110~120
+    thread t12(func2, Aridge_multi[3], .5, 5., 1.6, 1.8, 2., 4., 2., 5., -1., 1., 300, 1, 0., q_1, 125.);   //1D phi correlation, pt = 0.5~5 (+Multiplicity dependence)120~130
+    thread t13(func2, Aridge_multi[4], .5, 5., 1.6, 1.8, 2., 4., 2., 5., -1., 1., 300, 1, 0., q_1, 135.);   //1D phi correlation, pt = 0.5~5 (+Multiplicity dependence)130~
     
     // t2.join();
     // t3.join();
@@ -976,10 +977,11 @@ int main()
     }
     fout_norm.close();
 
-    // char ch[100];
-    // std::string command = "python3 Graphs.py";
-    // strcpy(ch,command.c_str());
-    // std::system(ch);
+    char ch[100];
+    // std::string command = "python3 atlas_datathief.py";
+    std::string command = "python3 atlas_ridge.py";
+    strcpy(ch,command.c_str());
+    std::system(ch);
 
     // end = clock();
     end = time(NULL);

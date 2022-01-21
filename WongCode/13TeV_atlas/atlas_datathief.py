@@ -542,6 +542,7 @@ atlas_result_125 = np.loadtxt('phiCorrelation_pt0-5_125.csv',delimiter=',',useco
 atlas_phi_135 = np.loadtxt('phiCorrelation_pt0-5_135.csv',delimiter=',',usecols=[0],skiprows=1)
 atlas_result_135 = np.loadtxt('phiCorrelation_pt0-5_135.csv',delimiter=',',usecols=[3],skiprows=1)
 
+# print(atlas_phi_135)
 
 
 def atlas_ridge(phi, G, v):          #atlas는 0.5<pt<5 이므로 지금까지 그려온 그래프와 맞지 않음.
@@ -686,13 +687,14 @@ F_result=np.loadtxt('./result/ridge_parameters.csv',delimiter=',',usecols=[1],sk
 
 #Theory Result
 # theory_90_up = atlas_result-F_result[0]*periph(atlas_phi, *popt_periph_130TeV)
+# print(atlas_phi_135)
 theory_130_up = theory_norm_135-F_result[1]*periph(atlas_phi_135, *popt_periph_130TeV)
 theory_120_130 = theory_norm_125-F_result[2]*periph(atlas_phi_125, *popt_periph_130TeV)
 theory_110_120 = theory_norm_115-F_result[3]*periph(atlas_phi_115, *popt_periph_130TeV)
 theory_100_110 = theory_norm_105-F_result[4]*periph(atlas_phi_105, *popt_periph_130TeV)
 theory_90_100 = theory_norm_95-F_result[5]*periph(atlas_phi_95, *popt_periph_130TeV)
 
-print(F_result)
+# print(F_result)
 
 # plt.plot(atlas_phi, theory_90_up-min(theory_90_up), color = 'red', linewidth=5, linestyle = '-',label=r'$90 \,\, \leq N_{ch}^{rec}$')
 plt.plot(atlas_phi_135, theory_130_up-min(theory_130_up), color = 'black', linewidth=5, linestyle = '-',label=r'$130 \leq N_{ch}^{rec}$')
