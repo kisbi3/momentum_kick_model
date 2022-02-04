@@ -21,8 +21,8 @@ phi_13TeV_100_110=np.loadtxt('./atlasgraphs/13TeV_100~110.csv',delimiter=',',use
 data_13TeV_100_110=np.loadtxt('./atlasgraphs/13TeV_100~110.csv',delimiter=',',usecols=[1])
 phi_13TeV_90_100=np.loadtxt('./atlasgraphs/13TeV_90~100.csv',delimiter=',',usecols=[0])
 data_13TeV_90_100=np.loadtxt('./atlasgraphs/13TeV_90~100.csv',delimiter=',',usecols=[1])
-periph_130_phi=np.loadtxt('/home/jaesung/OneDrive/Code/WongCode/13TeV_atlas_near/atlasgraphs/Low_multiplicity.csv',delimiter=',',usecols=[2],skiprows=1)
-periph_130_data=np.loadtxt('/home/jaesung/OneDrive/Code/WongCode/13TeV_atlas_near/atlasgraphs/Low_multiplicity.csv',delimiter=',',usecols=[3],skiprows=1)
+periph_130_phi=np.loadtxt('./atlasgraphs/Low_multiplicity.csv',delimiter=',',usecols=[2],skiprows=1)
+periph_130_data=np.loadtxt('./atlasgraphs/Low_multiplicity.csv',delimiter=',',usecols=[3],skiprows=1)
 # print(param_F)
 
 # data 계산값들
@@ -64,7 +64,7 @@ integrate_phi = np.arange(-1., 1., 0.001)
 ridge_integrate = np.zeros(5)
 
 for j in range(5):
-    # print(4-j)
+    # print(periph_130_data)
     graph_ridge = ridge(near_side_phi, param_G[4-j], param_v[4-j])
     templ_ridge = ridge(periph_130_phi, param_G[4-j], param_v[4-j])
     graph_perip = param_F[4-j]*periph_130_data
@@ -88,6 +88,7 @@ for j in range(5):
 
 
     # axes1[j].set_ylim(min(graph_templ)-0.01, min(graph_templ)+0.07)
+    # print(graph_perip)
     axes2[j].set_ylim(min(graph_ridge)-0.01, min(graph_ridge)+0.07)
     axes3[j].set_ylim(min(graph_perip)-0.01, min(graph_perip)+0.07)
     axes1[j].set_xlim(-1.,1.)
@@ -174,6 +175,7 @@ fig1.savefig('./result/13TeV_my.png')
 
 fig1.clear()
 
+
 print(ridge_integrate)
 
 theory_norm = np.loadtxt('phiCorr_norm.csv', delimiter=',', usecols=[1])
@@ -191,9 +193,9 @@ theor_integrate[4] = np.trapz(atlas_result_135-min(atlas_result_135), x = atlas_
 # theory_norm[1] -= 2*min(atlas_result_125)
 # theory_norm[2] -= 2*min(atlas_result_115)
 # theory_norm[3] -= 2*min(atlas_result_105)
-# theory_norm[4] -= 2*min(atlas_result_095 )
+# theory_norm[4] -= 2*min(atlas_result_095)
 
-# ratio_095  = ridge_integrate[0]/theory_norm[4]
+# ratio_095 = ridge_integrate[0]/theory_norm[4]
 # ratio_105 = ridge_integrate[1]/theory_norm[3]
 # ratio_115 = ridge_integrate[2]/theory_norm[2]
 # ratio_125 = ridge_integrate[3]/theory_norm[1]
@@ -249,6 +251,111 @@ fig.savefig('./result/only_ridges.png')
 fig.clear()
 
 
+phi_13TeV_90_up=np.loadtxt('./atlasgraphs/13TeV_90~.csv',delimiter=',',usecols=[0])
+data_13TeV_90_up=np.loadtxt('./atlasgraphs/13TeV_90~.csv',delimiter=',',usecols=[1])
+atlas_phi_rezero=np.loadtxt('/home/jaesung/OneDrive/Code/WongCode/13TeV_CMS_ALICE/phiCorrelation_pt0-5.csv',delimiter=',',usecols=[0],skiprows=1)
+atlas_dat_rezero=np.loadtxt('/home/jaesung/OneDrive/Code/WongCode/13TeV_CMS_ALICE/phiCorrelation_pt0-5.csv',delimiter=',',usecols=[3],skiprows=1)
 
+plt.scatter(phi_13TeV_90_up, data_13TeV_90_up-min(data_13TeV_90_up), color = 'black', s=1000, marker='o',label=r'$Y^{data}-C_{ZYAM}$')
+plt.plot(atlas_phi_rezero, atlas_dat_rezero-min(atlas_dat_rezero), color = 'blue', linewidth=5, linestyle = '-',label=r'$Y^{theory}-C_{ZYAM}$')
+
+plt.title(r'$90 \leq N_{ch}^{rec}$', size = 70)
+plt.ylabel(r'$Y^{ridge}-C_{ZYAM}$', size = 70)
+plt.xlabel(r'$\Delta\phi$', size=70)
+
+plt.minorticks_on()
+
+plt.ylim(-0.001,0.04)
+plt.xlim(-1.,1.)
+
+plt.tick_params(axis='both',which='major',direction='in',width=2,length=30,labelsize=45, top = 'true')
+plt.tick_params(axis='both',which='minor',direction='in',width=2,length=15,labelsize=45, top = 'true')
+# plt.legend(fontsize=45,framealpha=False,bbox_to_anchor=(1.13,0.4), ncol=2)
+# plt.legend(fontsize=45,framealpha=False,loc='upper right')
+
+
+plt.grid(color='silver',linestyle=':',linewidth=3)
+
+plt.tight_layout()
+
+fig.savefig('./result/rezero_atlas.png')
+
+fig.clear()
+
+fig1, axes1 = plt.subplots(nrows=1, ncols=5,figsize=(100,20),sharey='row')
+
+axes1[0].scatter(phi_13TeV_90_100, data_13TeV_90_100-min(data_13TeV_90_100), color = 'black', s=1000, marker='o',label=r'$Y^{data}$')
+axes1[1].scatter(phi_13TeV_100_110, data_13TeV_100_110-min(data_13TeV_100_110), color = 'black', s=1000, marker='o',label=r'$Y^{data}$')
+axes1[2].scatter(phi_13TeV_110_120, data_13TeV_110_120-min(data_13TeV_110_120), color = 'black', s=1000, marker='o',label=r'$Y^{data}$')
+axes1[3].scatter(phi_13TeV_120_130, data_13TeV_120_130-min(data_13TeV_120_130), color = 'black', s=1000, marker='o',label=r'$Y^{data}$')
+axes1[4].scatter(phi_13TeV_130_up, data_13TeV_130_up-min(data_13TeV_130_up), color = 'black', s=1000, marker='o',label=r'$Y^{data}$')
+axes1[0].plot(atlas_phi_095, atlas_result_095-min(atlas_result_095), color = color_ridge[0], linewidth=5, linestyle = '-',label=r'$90 \,\, \leq N_{ch}^{rec}<100$')
+axes1[1].plot(atlas_phi_105, atlas_result_105-min(atlas_result_105), color = color_ridge[1], linewidth=5, linestyle = '-',label=r'$100 \leq N_{ch}^{rec}<110$')
+axes1[2].plot(atlas_phi_115, atlas_result_115-min(atlas_result_115), color = color_ridge[2], linewidth=5, linestyle = '-',label=r'$110 \leq N_{ch}^{rec}<120$')
+axes1[3].plot(atlas_phi_125, atlas_result_125-min(atlas_result_125), color = color_ridge[3], linewidth=5, linestyle = '-',label=r'$120 \leq N_{ch}^{rec}<130$')
+axes1[4].plot(atlas_phi_135, atlas_result_135-min(atlas_result_135), color = color_ridge[4], linewidth=5, linestyle = '-',label=r'$130 \leq N_{ch}^{rec}$')
+
+axes1[0].set_title(r'$90 \leq N^{rec}_{ch} < 100$', size = 70, pad=30)
+axes1[1].set_title(r'$100 \leq N^{rec}_{ch} < 110$', size = 70, pad=30)
+axes1[2].set_title(r'$110 \leq N^{rec}_{ch} < 120$', size = 70, pad=30)
+axes1[3].set_title(r'$120 \leq N^{rec}_{ch} < 130$', size = 70, pad=30)
+axes1[4].set_title(r'$130 \leq N^{rec}_{ch}$', size = 70, pad=30)
+
+axes1[0].set_ylabel(r'$Y^{ridge}-C_{ZYAM}$', size = 70)
+for i in range(5):
+    axes1[i].set_xlabel(r'$\Delta\phi$', size=70)
+
+    axes1[i].minorticks_on()
+
+    axes1[i].set_ylim(-0.001,0.07)
+    axes1[i].set_xlim(-1.,1.)
+
+    axes1[i].tick_params(axis='both',which='major',direction='in',width=2,length=30,labelsize=45, top = 'true')
+    axes1[i].tick_params(axis='both',which='minor',direction='in',width=2,length=15,labelsize=45, top = 'true')
+    axes1[i].grid(color='silver',linestyle=':',linewidth=3)
+
+fig1.tight_layout(h_pad = -12)
+
+fig1.savefig('./result/rezero_atlas_multi.png')
+# , transparent = True
+
+fig1.clear()
+
+axes1[0].scatter(phi_13TeV_90_100, data_13TeV_90_100-min(data_13TeV_90_100), color = 'black', s=1000, marker='o',label=r'$Y^{data}$')
+axes1[1].scatter(phi_13TeV_100_110, data_13TeV_100_110-min(data_13TeV_100_110), color = 'black', s=1000, marker='o',label=r'$Y^{data}$')
+axes1[2].scatter(phi_13TeV_110_120, data_13TeV_110_120-min(data_13TeV_110_120), color = 'black', s=1000, marker='o',label=r'$Y^{data}$')
+axes1[3].scatter(phi_13TeV_120_130, data_13TeV_120_130-min(data_13TeV_120_130), color = 'black', s=1000, marker='o',label=r'$Y^{data}$')
+axes1[4].scatter(phi_13TeV_130_up, data_13TeV_130_up-min(data_13TeV_130_up), color = 'black', s=1000, marker='o',label=r'$Y^{data}$')
+axes1[0].plot(atlas_phi_095, atlas_result_095-min(atlas_result_095), color = color_ridge[0], linewidth=5, linestyle = '-',label=r'$90 \,\, \leq N_{ch}^{rec}<100$')
+axes1[1].plot(atlas_phi_105, atlas_result_105-min(atlas_result_105), color = color_ridge[1], linewidth=5, linestyle = '-',label=r'$100 \leq N_{ch}^{rec}<110$')
+axes1[2].plot(atlas_phi_115, atlas_result_115-min(atlas_result_115), color = color_ridge[2], linewidth=5, linestyle = '-',label=r'$110 \leq N_{ch}^{rec}<120$')
+axes1[3].plot(atlas_phi_125, atlas_result_125-min(atlas_result_125), color = color_ridge[3], linewidth=5, linestyle = '-',label=r'$120 \leq N_{ch}^{rec}<130$')
+axes1[4].plot(atlas_phi_135, atlas_result_135-min(atlas_result_135), color = color_ridge[4], linewidth=5, linestyle = '-',label=r'$130 \leq N_{ch}^{rec}$')
+
+axes1[0].set_title(r'$90 \leq N^{rec}_{ch} < 100$', size = 70, pad=30)
+axes1[1].set_title(r'$100 \leq N^{rec}_{ch} < 110$', size = 70, pad=30)
+axes1[2].set_title(r'$110 \leq N^{rec}_{ch} < 120$', size = 70, pad=30)
+axes1[3].set_title(r'$120 \leq N^{rec}_{ch} < 130$', size = 70, pad=30)
+axes1[4].set_title(r'$130 \leq N^{rec}_{ch}$', size = 70, pad=30)
+
+axes1[0].set_ylabel(r'$Y^{ridge}-C_{ZYAM}$', size = 70)
+for i in range(5):
+    axes1[i].set_xlabel(r'$\Delta\phi$', size=70)
+
+    axes1[i].minorticks_on()
+
+    axes1[i].set_ylim(-0.001,0.06)
+    axes1[i].set_xlim(-1.,1.)
+
+    axes1[i].tick_params(axis='both',which='major',direction='in',width=2,length=30,labelsize=45, top = 'true')
+    axes1[i].tick_params(axis='both',which='minor',direction='in',width=2,length=15,labelsize=45, top = 'true')
+    axes1[i].grid(color='silver',linestyle=':',linewidth=3)
+
+fig1.tight_layout(h_pad = -12)
+
+# fig1.savefig('./result/rezero_atlas_q.png')
+# , transparent = True
+
+fig1.clear()
 
 

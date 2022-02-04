@@ -46,50 +46,6 @@ double frnk(double pt){
 
     return  xx*exp(yy*pt);
 
-    // return exp(-frnkconst*pt/(frnkconst*frnkconst+pt*pt));
-    // return exp(-frnkconst*pt/sqrt(md*md+pt*pt));
-    // return frnkconst*exp(-pt/sqrt(md*md+pt*pt));
-    // return (md*exp(-pt/sqrt(md*md+pt*pt)))/frnkconst;
-    // return exp(-md*pt/sqrt(md*md+pt*pt));
-    // return  3.5*pt-3.25;
-
-    // if(0.<=pt && pt<1.){
-    //     return xx*exp(yy*0.5);
-    // }
-    // else if(1.<=pt && pt<2.){
-    //     return xx*exp(yy*1.5);
-    // }
-    // else if(2.<=pt && pt<3.){
-    //     return xx*exp(yy*2.5);
-    // }
-    // else if(3.<=pt && pt<4.){
-    //     return xx*exp(yy*3.5);
-    // }
-    // else if(4.<=pt && pt<5.){
-    //     return xx*exp(yy*4.5);
-    // }
-    // else if(5.<=pt && pt<6.){
-    //     return xx*exp(yy*5.5);
-    // }
-    // else if(6.<=pt && pt<7.){
-    //     return xx*exp(yy*6.5);
-    // }
-    // else if(7.<=pt && pt<8.){
-    //     return xx*exp(yy*7.5);
-    // }
-    // else if(8.<=pt && pt<9.){
-    //     return xx*exp(yy*8.5);
-    // }
-    // else if(9.<=pt && pt<=11.){
-    //     return xx*exp(yy*10.);
-    // }
-    // else{
-    //     printf("\nSomething error, ptf : %f\n", pt);
-    //     exit(1);
-    //     return 0;
-    // }
-
-
 }
 
 double rapidityintit(double pt, double eta){
@@ -914,7 +870,7 @@ int main()
 
 
     char ch[100];
-    std::string command = "python3 Graphs.py";
+    std::string command = "python3 Graphs_paper.py";
     strcpy(ch,command.c_str());
     std::system(ch);
 

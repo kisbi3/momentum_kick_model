@@ -102,6 +102,7 @@ double RidgeDis(double Aridge_multi, double ptf, double etaf, double phif, int c
     double ptisq = ptf*ptf-2*ptf*q1*cos(phif)/cosh(etajet)+q1*q1/(cosh(etajet)*cosh(etajet));
     double pti = sqrt(ptisq);
     if(ptisq<0.0000000001){
+
         pti = 0.;
     }
     // std::cout<<pti<<std::endl;
@@ -493,25 +494,38 @@ double T_multi(double Multiplicity){
 }
 
 //pt1~2, 2~3, 3~4 부터 시작해보자.
-void alice(double detect_arr[], double ptf, double Aridge_multi, double etaf, double phif, double check2, double q, double multi_T, double dptf, double detaf, double delta_Deltaeta, int n){
-    for(int j=1;j<=n+1;j+=1){
-        detect_arr[0] += frnk(ptf)*ptf*RidgeDis(Aridge_multi, ptf, etaf, phif, check2, q, multi_T)*dptf*detaf/delta_Deltaeta;
-        ptf += dptf;
+void alice(double detect_arr[], double ptf0, double Aridge_multi, double etaf, double phif, double check2, double q, double multi_T, double dptf, double detaf, double delta_Deltaeta, int n){
+    for(int i=1;i<=n+1;i++){
+        double ptf = ptf0;
+        for(int j=1;j<=n+1;j+=1){
+            detect_arr[0] += frnk(ptf)*ptf*RidgeDis(Aridge_multi, ptf, etaf, phif, check2, q, multi_T)*dptf*detaf/delta_Deltaeta;
+            ptf += dptf;
+        }
+        etaf += detaf;
     }
 }
 
-void cms(double detect_arr[], double ptf, double Aridge_multi, double etaf, double phif, double check2, double q, double multi_T, double dptf, double detaf, double delta_Deltaeta, int n){
-    for(int j=1;j<=n+1;j+=1){
-        detect_arr[1] += frnk(ptf)*ptf*RidgeDis(Aridge_multi, ptf, etaf, phif, check2, q, multi_T)*dptf*detaf/delta_Deltaeta;
-        ptf += dptf;
+void cms(double detect_arr[], double ptf0, double Aridge_multi, double etaf, double phif, double check2, double q, double multi_T, double dptf, double detaf, double delta_Deltaeta, int n){
+    for(int i=1;i<=n+1;i++){
+        double ptf = ptf0;
+        for(int j=1;j<=n+1;j+=1){
+            detect_arr[1] += frnk(ptf)*ptf*RidgeDis(Aridge_multi, ptf, etaf, phif, check2, q, multi_T)*dptf*detaf/delta_Deltaeta;
+            ptf += dptf;
+        }
+        etaf += detaf;
     }
 }
 
-void atlas(double detect_arr[], double ptf, double Aridge_multi, double etaf, double phif, double check2, double q, double multi_T, double dptf, double detaf, double delta_Deltaeta, int n){
-    for(int j=1;j<=n+1;j+=1){
-        detect_arr[2] += frnk(ptf)*ptf*RidgeDis(Aridge_multi, ptf, etaf, phif, check2, q, multi_T)*dptf*detaf/delta_Deltaeta;
-        ptf += dptf;
+void atlas(double detect_arr[], double ptf0, double Aridge_multi, double etaf, double phif, double check2, double q, double multi_T, double dptf, double detaf, double delta_Deltaeta, int n){
+    for(int i=1;i<=n+1;i++){
+        double ptf = ptf0;
+        for(int j=1;j<=n+1;j+=1){
+            detect_arr[2] += frnk(ptf)*ptf*RidgeDis(Aridge_multi, ptf, etaf, phif, check2, q, multi_T)*dptf*detaf/delta_Deltaeta;
+            ptf += dptf;
+        }
+        etaf += detaf;
     }
+
 }
 
 void func2(double Aridge_multi, double ptf_st, double ptf_end, double etaf_st, double etaf_end, double etacms_st, double etacms_end, double etaatlas_st, double etaatlas_end, double phif_st, double phif_end, int n, int check2, double ptjetcut, double q, double Multi){
@@ -567,8 +581,9 @@ void func2(double Aridge_multi, double ptf_st, double ptf_end, double etaf_st, d
             etacms = etacms0;
             etaf = etaf0;
             etaatlas = etaatlas0;
-            for(i=1;i<=n+1;i++){
-                ptf = ptf0;
+            // for(i=1;i<=n+1;i++){
+            //     ptf = ptf0;
+
                 // for(j=1;j<=n+1;j+=1){
                 //     // std::thread t1(alice, detect_arr, ptf, Aridge_multi, etaf, phif, check2, q, multi_T, dptf, detaf, delta_Deltaeta, n);
                 //     // std::thread t2(cms, detect_arr, ptf, Aridge_multi, etacms, phif, check2, q, multi_T, dptf, detacms, delta_Deltaetacms, n);
@@ -582,16 +597,17 @@ void func2(double Aridge_multi, double ptf_st, double ptf_end, double etaf_st, d
                 //     // t3.join();
                 //     ptf += dptf;
                 // }
-                std::thread t1(alice, detect_arr, ptf, Aridge_multi, etaf, phif, check2, q, multi_T, dptf, detaf, delta_Deltaeta, n);
-                std::thread t2(cms, detect_arr, ptf, Aridge_multi, etacms, phif, check2, q, multi_T, dptf, detacms, delta_Deltaetacms, n);
-                std::thread t3(atlas, detect_arr, ptf, Aridge_multi, etaatlas, phif, check2, multi_q, multi_T, dptf, detaatlas, delta_Deltaetaatlas, n);
-                t1.join();
-                t2.join();
-                t3.join();   
-                etaf += detaf;
-                etacms += detacms;
-                etaatlas += detaatlas;
-            }
+            std::thread t1(alice, detect_arr, ptf0, Aridge_multi, etaf, phif, check2, q, multi_T, dptf, detaf, delta_Deltaeta, n);
+            std::thread t2(cms, detect_arr, ptf0, Aridge_multi, etacms, phif, check2, q, multi_T, dptf, detacms, delta_Deltaetacms, n);
+            std::thread t3(atlas, detect_arr, ptf0, Aridge_multi, etaatlas, phif, check2, multi_q, multi_T, dptf, detaatlas, delta_Deltaetaatlas, n);
+            t1.join();
+            t2.join();
+            t3.join();   
+                // etaf += detaf;
+                // etacms += detacms;
+                // etaatlas += detaatlas;
+            // }
+            
             // sum_alice *= 2*2/3;
             // sum_cms *= 2*2/3;
             // sum_atlas *= 2*2/3;

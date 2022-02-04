@@ -15,10 +15,10 @@
 //Ridge parameters
 double a = .5;    //fall off parameter
 double T = .65;    //Temperature, GeV
-double q_1 = .9;    //GeV
+// double q_1 = .9;    //GeV
 double m = 0.13957018;  //m == mpi
 double mb = m; //mb==mpi, GeV
-double md = 1.;   //GeV
+// double md = 1.;   //GeV
 double sqrSnn = 13000.;
 double mp = 0.938272046; //Proton mass, GeV
 
@@ -66,7 +66,7 @@ double lightcone(double pti, double yi){
 
 
 //Aridge를 구하기 위해 적분할 함수
-double integralAridge(double pti, double yi, int check, double Tem){
+double integralAridge(double pti, double yi, int check, double Tem, double md){
     // std::cout<<pti<<std::setw(7)<<yi<<std::setw(9)<<phii<<std::endl;       
     double x = lightcone(pti, yi);
     double squareroot=sqrt(m*m+pti*pti);
@@ -130,7 +130,7 @@ double RidgeDis(double Aridge_multi, double ptf, double etaf, double phif, int c
     }
     
     else{              
-        return (Aridge_multi*integralAridge(pti, yi, check, Tem))*sqrt(1.-((mb*mb)/((mb*mb+ptf*ptf)*cosh(yf)*cosh(yf))))*(E/Ei);           // E/Ei 임을 명심하자.
+        return (Aridge_multi*integralAridge(pti, yi, check, Tem, q1))*sqrt(1.-((mb*mb)/((mb*mb+ptf*ptf)*cosh(yf)*cosh(yf))))*(E/Ei);           // E/Ei 임을 명심하자.
     }//
     
 }
@@ -442,7 +442,7 @@ double q_multi(double Multiplicity){
         // return 0.15;
     }
     else if(Multiplicity==105){
-        return 0.95;
+        return 1.0;
         // return 0.15;
     }
     else if(Multiplicity==95){
@@ -450,7 +450,7 @@ double q_multi(double Multiplicity){
         // return 0.15;
     }
     else if(Multiplicity==0){
-        return q_1;
+        return 111;
         exit(1);
     }
     else{
@@ -493,25 +493,38 @@ double T_multi(double Multiplicity){
 }
 
 //pt1~2, 2~3, 3~4 부터 시작해보자.
-void alice(double detect_arr[], double ptf, double Aridge_multi, double etaf, double phif, double check2, double q, double multi_T, double dptf, double detaf, double delta_Deltaeta, int n){
-    for(int j=1;j<=n+1;j+=1){
-        detect_arr[0] += frnk(ptf)*ptf*RidgeDis(Aridge_multi, ptf, etaf, phif, check2, q, multi_T)*dptf*detaf/delta_Deltaeta;
-        ptf += dptf;
+void alice(double detect_arr[], double ptf0, double Aridge_multi, double etaf, double phif, double check2, double q, double multi_T, double dptf, double detaf, double delta_Deltaeta, int n){
+    for(int i=1;i<=n+1;i++){
+        double ptf = ptf0;
+        for(int j=1;j<=n+1;j+=1){
+            detect_arr[0] += frnk(ptf)*ptf*RidgeDis(Aridge_multi, ptf, etaf, phif, check2, q, multi_T)*dptf*detaf/delta_Deltaeta;
+            ptf += dptf;
+        }
+        etaf += detaf;
     }
 }
 
-void cms(double detect_arr[], double ptf, double Aridge_multi, double etaf, double phif, double check2, double q, double multi_T, double dptf, double detaf, double delta_Deltaeta, int n){
-    for(int j=1;j<=n+1;j+=1){
-        detect_arr[1] += frnk(ptf)*ptf*RidgeDis(Aridge_multi, ptf, etaf, phif, check2, q, multi_T)*dptf*detaf/delta_Deltaeta;
-        ptf += dptf;
+void cms(double detect_arr[], double ptf0, double Aridge_multi, double etaf, double phif, double check2, double q, double multi_T, double dptf, double detaf, double delta_Deltaeta, int n){
+    for(int i=1;i<=n+1;i++){
+        double ptf = ptf0;
+        for(int j=1;j<=n+1;j+=1){
+            detect_arr[1] += frnk(ptf)*ptf*RidgeDis(Aridge_multi, ptf, etaf, phif, check2, q, multi_T)*dptf*detaf/delta_Deltaeta;
+            ptf += dptf;
+        }
+        etaf += detaf;
     }
 }
 
-void atlas(double detect_arr[], double ptf, double Aridge_multi, double etaf, double phif, double check2, double q, double multi_T, double dptf, double detaf, double delta_Deltaeta, int n){
-    for(int j=1;j<=n+1;j+=1){
-        detect_arr[2] += frnk(ptf)*ptf*RidgeDis(Aridge_multi, ptf, etaf, phif, check2, q, multi_T)*dptf*detaf/delta_Deltaeta;
-        ptf += dptf;
+void atlas(double detect_arr[], double ptf0, double Aridge_multi, double etaf, double phif, double check2, double q, double multi_T, double dptf, double detaf, double delta_Deltaeta, int n){
+    for(int i=1;i<=n+1;i++){
+        double ptf = ptf0;
+        for(int j=1;j<=n+1;j+=1){
+            detect_arr[2] += frnk(ptf)*ptf*RidgeDis(Aridge_multi, ptf, etaf, phif, check2, q, multi_T)*dptf*detaf/delta_Deltaeta;
+            ptf += dptf;
+        }
+        etaf += detaf;
     }
+
 }
 
 void func2(double Aridge_multi, double ptf_st, double ptf_end, double etaf_st, double etaf_end, double etacms_st, double etacms_end, double etaatlas_st, double etaatlas_end, double phif_st, double phif_end, int n, int check2, double ptjetcut, double q, double Multi){
@@ -521,16 +534,19 @@ void func2(double Aridge_multi, double ptf_st, double ptf_end, double etaf_st, d
     int i, j, k;
     norm_dist = 0.;
     if(ptjetcut == 0.){
-        std::string filename, pt_st, pt_end, filename2, Multiplicity;
-        filename = "phiCorrelation_pt";
+        std::string filename, pt_st, pt_end, filename2, Multiplicity, qqq;
+        filename = "./phiCorr_q/phiCorrelation_pt";
         pt_st = std::to_string(int(ptf_st));
         pt_end = std::to_string(int(ptf_end));
         Multiplicity = std::to_string(int(Multi));
+        qqq = std::to_string(q);
         filename.append(pt_st);
         filename += "-";
         filename.append(pt_end);
-        filename += "_";
-        filename.append(Multiplicity);
+        // filename += "_";
+        // filename.append(Multiplicity);
+        filename += "_q";
+        filename.append(qqq);
         filename2 = filename;
         std::cout<<filename2<<std::setw(7)<<"start"<<std::endl;
         filename.append(".csv");
@@ -567,8 +583,9 @@ void func2(double Aridge_multi, double ptf_st, double ptf_end, double etaf_st, d
             etacms = etacms0;
             etaf = etaf0;
             etaatlas = etaatlas0;
-            for(i=1;i<=n+1;i++){
-                ptf = ptf0;
+            // for(i=1;i<=n+1;i++){
+            //     ptf = ptf0;
+
                 // for(j=1;j<=n+1;j+=1){
                 //     // std::thread t1(alice, detect_arr, ptf, Aridge_multi, etaf, phif, check2, q, multi_T, dptf, detaf, delta_Deltaeta, n);
                 //     // std::thread t2(cms, detect_arr, ptf, Aridge_multi, etacms, phif, check2, q, multi_T, dptf, detacms, delta_Deltaetacms, n);
@@ -582,16 +599,20 @@ void func2(double Aridge_multi, double ptf_st, double ptf_end, double etaf_st, d
                 //     // t3.join();
                 //     ptf += dptf;
                 // }
-                std::thread t1(alice, detect_arr, ptf, Aridge_multi, etaf, phif, check2, q, multi_T, dptf, detaf, delta_Deltaeta, n);
-                std::thread t2(cms, detect_arr, ptf, Aridge_multi, etacms, phif, check2, q, multi_T, dptf, detacms, delta_Deltaetacms, n);
-                std::thread t3(atlas, detect_arr, ptf, Aridge_multi, etaatlas, phif, check2, multi_q, multi_T, dptf, detaatlas, delta_Deltaetaatlas, n);
-                t1.join();
-                t2.join();
-                t3.join();   
-                etaf += detaf;
-                etacms += detacms;
-                etaatlas += detaatlas;
-            }
+            //multi_q인 경우 multiplicity를 입력받아 출력하는 q
+            //multi_T인 경우 multiplicity를 입력받아 출력하는 T
+            //그냥 q, T인 경우 상관없이 main의 thread에서 입력받은 갑.
+            std::thread t1(alice, detect_arr, ptf0, Aridge_multi, etaf, phif, check2, q, multi_T, dptf, detaf, delta_Deltaeta, n);
+            std::thread t2(cms, detect_arr, ptf0, Aridge_multi, etacms, phif, check2, q, multi_T, dptf, detacms, delta_Deltaetacms, n);
+            std::thread t3(atlas, detect_arr, ptf0, Aridge_multi, etaatlas, phif, check2, q, multi_T, dptf, detaatlas, delta_Deltaetaatlas, n);
+            t1.join();
+            t2.join();
+            t3.join();   
+                // etaf += detaf;
+                // etacms += detacms;
+                // etaatlas += detaatlas;
+            // }
+            
             // sum_alice *= 2*2/3;
             // sum_cms *= 2*2/3;
             // sum_atlas *= 2*2/3;
@@ -834,6 +855,7 @@ int main()
 
     // std::string buffer;
     double Aridge_multi[5] = {0.};
+    double Aridge_q[13] = {0.};
     double dyi, dphii, sum, totalsum, phii, yi, dpti, pti, sum2, resultsum;
     int i, j, k, nyi, npti, nphii, check2;
 
@@ -863,16 +885,18 @@ int main()
     // cout<<dyi<<endl;
 
     check2 = 0;
-    cout<<"Multiplicity\tIntegral\tAridge"<<endl;
-    for (int l=0;l<5;l++){
-        double multi = -10*l+135;
-        double Temperature = T_multi(multi);
+    cout<<"q_value\t\tIntegral\tAridge"<<endl;
+    for (int l=0;l<13;l++){
+        // double multi = -10*l+135;
+        // double Temperature = T_multi(multi);
+        // double qq = q_multi(multi);
+        double qq = 0.8+0.05*l;
         for(k=1;k<=npti+1;k+=1){
             for (i=1;i<=nyi;i+=1){
 
                 yi += dyi;
                 check = intaridge;
-                intaridge = integralAridge(pti, yi, check2, Temperature);
+                intaridge = integralAridge(pti, yi, check2, T, qq);
 
                 // cout<<yi<<endl;
 
@@ -880,14 +904,14 @@ int main()
 
                 if(i == nyi){
                     // cout<<"??"<<endl;
-                    sum += (integralAridge(pti, yi0, check2, Temperature)-intaridge)/2.;
+                    sum += (integralAridge(pti, yi0, check2, T, qq)-intaridge)/2.;
                     sum *= dyi;
                     break;
                 }
                 else if(i != 1 && intaridge == 0.){
                     // cout<<"!!!"<<endl;
                     // sum -= check;
-                    sum += (integralAridge(pti, yi0, check2, Temperature)-check)/2.;
+                    sum += (integralAridge(pti, yi0, check2, T, qq)-check)/2.;
                     sum *= dyi;
                     break;       
                 }
@@ -932,8 +956,9 @@ int main()
         // cout<<totalsum<<setw(15)<<Aridge<<endl;
         
         // double Aridge = 1/resultsum;
-        cout<<multi<<setw(20)<<totalsum<<setw(20)<<Aridge<<endl;
-        Aridge_multi[l] = Aridge;
+        cout<<qq<<setw(20)<<totalsum<<setw(20)<<Aridge<<endl;
+        // Aridge_multi[l] = Aridge;
+        Aridge_q[l] = Aridge;
         sum = totalsum = 0.;
         pti = 0.0;  //적분을 pt=0부터 하는것이 옳은가? 원통좌표계에서의 적분인데?
         yi = 0.;    //0~4 적분한 후 x2할 것.
@@ -955,10 +980,10 @@ int main()
 
     fout<<"a,"<<a<<endl;
     fout<<"T,"<<T<<endl;
-    fout<<"q,"<<q_1<<endl;
+    // fout<<"q,"<<q<<endl;     //multiplicity dependence 이므로 삭제
     fout<<"pion mass,"<<m<<endl;
     fout<<"beam mass,"<<mb<<endl;
-    fout<<"m_d,"<<md<<endl;
+    // fout<<"m_d,"<<md<<endl;
     fout<<"sqrtSnn,"<<sqrSnn<<endl;
     fout<<"A_Ridge,"<<Aridge<<endl;
     fout<<"f_R<N_k>=,"<<xx<<"exp("<<yy<<"*pT)"<<endl;
@@ -991,22 +1016,34 @@ int main()
     // thread t5(func2, 1., 4., 1.6, 1.8, 2., 4., 2., 5., -1.28, 1.28, 300, 1, 0., q_1, 0.);   //1D phi correlation, pt = 1~4
 // double Aridge_multi, double ptf_st, double ptf_end, double etaf_st, double etaf_end, double etacms_st, double etacms_end, double etaatlas_st, double etaatlas_end, double phif_st, double phif_end, int n, int check2, double ptjetcut, double q, double Multi){
     //atlas에서는 deltaphi -1, 1 부근에서 최소값이 확인됨. 따라서 계산도 -1~1까지 계산해야 할 것.
-    thread t8(func2, Aridge_multi[4], .5, 5., 1.6, 1.8, 2., 4., 2., 5., -1., 1., 300, 1, 0., q_1, 95.);   //1D phi correlation, pt = 0.5~5 (+Multiplicity dependence) 90~100
-    thread t10(func2, Aridge_multi[3], .5, 5., 1.6, 1.8, 2., 4., 2., 5., -1., 1., 300, 1, 0., q_1, 105.);   //1D phi correlation, pt = 0.5~5 (+Multiplicity dependence)100~110
-    thread t11(func2, Aridge_multi[2], .5, 5., 1.6, 1.8, 2., 4., 2., 5., -1., 1., 300, 1, 0., q_1, 115.);   //1D phi correlation, pt = 0.5~5 (+Multiplicity dependence)110~120
-    thread t12(func2, Aridge_multi[1], .5, 5., 1.6, 1.8, 2., 4., 2., 5., -1., 1., 300, 1, 0., q_1, 125.);   //1D phi correlation, pt = 0.5~5 (+Multiplicity dependence)120~130
-    thread t13(func2, Aridge_multi[0], .5, 5., 1.6, 1.8, 2., 4., 2., 5., -1., 1., 300, 1, 0., q_1, 135.);   //1D phi correlation, pt = 0.5~5 (+Multiplicity dependence)130~
-    
-    // t2.join();
-    // t3.join();
-    // t4.join();
-    // t5.join();
-    t8.join();
+    //multiplicity에 의존하는 값이 아닌 그냥 0.8~1.4까지 0.1간격으로 계산해서 출력해야 함.
+    thread t01(func2, Aridge_q[ 0], .5, 5., 1.6, 1.8, 2., 4., 2., 5., -1., 1., 300, 1, 0., 0.80, 95.);   //1D phi correlation, pt = 0.5~5 q = 0.8
+    thread t02(func2, Aridge_q[ 1], .5, 5., 1.6, 1.8, 2., 4., 2., 5., -1., 1., 300, 1, 0., 0.85, 95.);   //1D phi correlation, pt = 0.5~5 q = 0.85
+    thread t03(func2, Aridge_q[ 2], .5, 5., 1.6, 1.8, 2., 4., 2., 5., -1., 1., 300, 1, 0., 0.90, 95.);   //1D phi correlation, pt = 0.5~5 q = 0.9
+    thread t04(func2, Aridge_q[ 3], .5, 5., 1.6, 1.8, 2., 4., 2., 5., -1., 1., 300, 1, 0., 0.95, 95.);   //1D phi correlation, pt = 0.5~5 q = 0.95
+    thread t05(func2, Aridge_q[ 4], .5, 5., 1.6, 1.8, 2., 4., 2., 5., -1., 1., 300, 1, 0., 1.00, 95.);   //1D phi correlation, pt = 0.5~5 q = 1.0
+    thread t06(func2, Aridge_q[ 5], .5, 5., 1.6, 1.8, 2., 4., 2., 5., -1., 1., 300, 1, 0., 1.05, 95.);   //1D phi correlation, pt = 0.5~5 q = 1.05
+    thread t07(func2, Aridge_q[ 6], .5, 5., 1.6, 1.8, 2., 4., 2., 5., -1., 1., 300, 1, 0., 1.10, 95.);   //1D phi correlation, pt = 0.5~5 q = 1.1
+    thread t08(func2, Aridge_q[ 7], .5, 5., 1.6, 1.8, 2., 4., 2., 5., -1., 1., 300, 1, 0., 1.15, 95.);   //1D phi correlation, pt = 0.5~5 q = 1.1
+    thread t09(func2, Aridge_q[ 8], .5, 5., 1.6, 1.8, 2., 4., 2., 5., -1., 1., 300, 1, 0., 1.20, 95.);   //1D phi correlation, pt = 0.5~5 q = 1.2 
+    thread t10(func2, Aridge_q[ 9], .5, 5., 1.6, 1.8, 2., 4., 2., 5., -1., 1., 300, 1, 0., 1.25, 95.);   //1D phi correlation, pt = 0.5~5 q = 1.2
+    thread t11(func2, Aridge_q[10], .5, 5., 1.6, 1.8, 2., 4., 2., 5., -1., 1., 300, 1, 0., 1.30, 95.);   //1D phi correlation, pt = 0.5~5 q = 1.2
+    thread t12(func2, Aridge_q[11], .5, 5., 1.6, 1.8, 2., 4., 2., 5., -1., 1., 300, 1, 0., 1.35, 95.);   //1D phi correlation, pt = 0.5~5 q = 1.2 
+    thread t13(func2, Aridge_q[12], .5, 5., 1.6, 1.8, 2., 4., 2., 5., -1., 1., 300, 1, 0., 1.40, 95.);   //1D phi correlation, pt = 0.5~5 q = 1.2 
+
+    t01.join();
+    t02.join();
+    t03.join();
+    t04.join();
+    t05.join();
+    t06.join();
+    t07.join();
+    t08.join();
+    t09.join();
     t10.join();
     t11.join();
     t12.join();
     t13.join();
-
     // thread t6(func2, 1., 2., 1.6, 1.8, 2., 4., 2., 5., -1.28, 1.28, 300, 1, 10., q_1, 0.);   //1D phi correlation, pt = 1~2 (jet event cut)
     // thread t7(func2, 1., 2., 1.6, 1.8, 2., 4., 2., 5., -1.28, 1.28, 300, 1, 20., q_1, 0.);   //1D phi correlation, pt = 1~2 (jet event cut)
 
@@ -1028,7 +1065,8 @@ int main()
     
     char ch[100];
     // std::string command = "python3 atlas_datathief.py";
-    std::string command = "python3 atlas_ridge.py";
+    cout<<"Drawing Graph Start"<<endl;
+    std::string command = "python3 atlas_ridge_q.py";
     strcpy(ch,command.c_str());
     std::system(ch);
 
